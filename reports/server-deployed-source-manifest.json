@@ -1,0 +1,45 @@
+{
+  "classification": "REAL_LOCAL_TO_DEPLOYED_SOURCE_AND_BUILT_ASSET_SHA256_COMPARISON",
+  "status": "passed",
+  "tested_at": "2026-10-10T00:51:54.393Z",
+  "base_backend_business_revision": "474088c",
+  "configuration_template_revision": "97be1fc",
+  "source_and_asset_files": [
+    {
+      "sha256": "b8a6caae31ecefbd4c21a4073dfeb6fa83d48725795ee7589d6078513e722ea8",
+      "path": "frontend/src/App.vue"
+    },
+    {
+      "sha256": "d135527e7f8337a6f4c776e301333d4c5034d5abd32a5044e1a86b2595eed902",
+      "path": "frontend/src/main.ts"
+    },
+    {
+      "sha256": "f55c913fd88e2b45c26d7a4d100b0d0075ca9f7567689c1103f4379efc1e9b28",
+      "path": "frontend/src/phase-c-i18n.ts"
+    },
+    {
+      "sha256": "9604d356d0309d91128eea9bf7df17bf8ce20adea5d9180c74c7762b862cc960",
+      "path": "frontend/src/responsive.css"
+    },
+    {
+      "sha256": "11ea624f4e2fba6624f3328ed236c87a1438c52dc8866eed7241ea889992b069",
+      "path": "frontend/src/components/Admin.vue"
+    },
+    {
+      "sha256": "8a4caca8276996ea657b998afd00bc89352843d04e4b3c5523f273059cb85275",
+      "path": "frontend/src/components/Icon.vue"
+    },
+    {
+      "sha256": "278fbd49378ae5b190ad8086bcb3a218b0727a45a1e2f94d15ab89fc8588de74",
+      "path": "public/app.html"
+    },
+    {
+      "sha256": "0b6b25062212bf76dde955f30ad9bb81b663125985f54dc655edd7d43ed46293",
+      "path": "public/assets/index-DWlnvILI.js"
+    },
+    {
+      "sha256": "138aacb0c3a3e7b4a1099ccb7525df0d9e6958ea99f68a45f984dcf1c65723f6",
+      "path": "public/assets/index-6nDD7F1h.css"
+    }
+  ]
+}

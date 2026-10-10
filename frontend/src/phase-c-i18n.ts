@@ -1,4 +1,10 @@
 const entries: Record<string, [string, string, string]> = {
+  appCompact: ["课堂同传", "Live captions", "Субтитри"],
+  playbackDetails: [
+    "回放与保存说明",
+    "Playback and storage details",
+    "Відтворення та зберігання",
+  ],
   restoreTerm: ["恢复术语", "Restore term", "Відновити термін"],
   termDeletionState: [
     "术语删除状态",

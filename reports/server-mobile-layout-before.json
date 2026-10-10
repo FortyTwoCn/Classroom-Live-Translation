@@ -1,0 +1,51 @@
+{
+  "classification": "REAL_PUBLIC_RESPONSIVE_UI_BROWSER_EMULATION",
+  "tested_at": "2026-10-10T00:44:39.266Z",
+  "physical_device": false,
+  "new_model_call": false,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "checks": [
+    {
+      "label": "guest-home",
+      "width": 390,
+      "locale": "zh-CN",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 16,
+        "y": 0,
+        "width": 358,
+        "height": 217.6875,
+        "centerY": 108.84375
+      },
+      "language": {
+        "x": 16,
+        "y": 68.890625,
+        "width": 129,
+        "height": 44,
+        "centerY": 90.890625
+      },
+      "identity": {
+        "x": 16,
+        "y": 122.890625,
+        "width": 358,
+        "height": 24,
+        "centerY": 134.890625
+      },
+      "login": {
+        "x": 16,
+        "y": 156.890625,
+        "width": 64,
+        "height": 44.796875,
+        "centerY": 179.2890625
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    }
+  ],
+  "status": "observed_before_change",
+  "jsErrors": []
+}

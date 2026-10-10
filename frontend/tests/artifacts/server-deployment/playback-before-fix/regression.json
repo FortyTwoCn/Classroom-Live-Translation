@@ -1,0 +1,18 @@
+{
+  "classification": "REAL_PUBLIC_OSS_ARCHIVED_QWEN_SUBTITLE_PLAYBACK_REGRESSION",
+  "tested_at": "2026-10-10T00:35:51.154Z",
+  "real_oss": true,
+  "stored_real_model_output": true,
+  "new_model_call": false,
+  "synthetic_audio": true,
+  "real_microphone": false,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "lesson_id": 1,
+  "status": "failed",
+  "error": "expect(locator).toHaveCount(expected) failed\n\nLocator:  locator('.subtitle-unit')\nExpected: 2\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"toHaveCount\" locator('.subtitle-unit') with timeout 5000ms\n  - waiting for locator('.subtitle-unit')\n    14 × locator resolved to 0 elements\n       - unexpected value \"0\"\n",
+  "subtitle_count_after": 0,
+  "empty_playback_window_samples": [
+    0
+  ]
+}

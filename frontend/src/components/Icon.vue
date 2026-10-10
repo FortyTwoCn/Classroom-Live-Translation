@@ -1,6 +1,6 @@
 <script setup lang="ts">
 defineProps<{
-  name: "qr" | "edit" | "history" | "screen" | "export" | "person";
+  name: "qr" | "edit" | "history" | "screen" | "export" | "person" | "close";
 }>();
 </script>
 <template>
@@ -31,6 +31,7 @@ defineProps<{
       v-else-if="name === 'export'"
       d="M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6"
     />
+    <path v-else-if="name === 'close'" d="m6 6 12 12M18 6 6 18" />
     <template v-else>
       <circle cx="12" cy="7" r="4" />
       <path d="M4 21v-2a8 8 0 0 1 16 0v2" />

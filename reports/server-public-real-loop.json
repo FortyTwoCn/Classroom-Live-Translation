@@ -1,0 +1,96 @@
+{
+  "classification": "PUBLIC_ESA_HTTPS_WSS_REAL_LINUX_PHP_POSTGRESQL_QWEN_OSS_SYNTHETIC_SPEECH",
+  "status": "passed",
+  "testedAt": "2026-10-10T00:33:29.205Z",
+  "elapsedSeconds": 360.79,
+  "browser": "154.0.4258.62",
+  "clients": 3,
+  "real_model": true,
+  "real_oss": true,
+  "synthetic_audio": true,
+  "real_microphone": false,
+  "real_physical_device": false,
+  "realPhp": true,
+  "realWorkerman": true,
+  "realPostgreSql": true,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "authenticatedThroughUi": true,
+  "runLabel": "public-esa-attempt1",
+  "publicChecks": {
+    "human_admin_login": true,
+    "server_enforces_first_password_change": true,
+    "secure_http_only_same_site_cookie": true,
+    "fixed_90_day_expiry_policy": true,
+    "api_not_cached": true,
+    "wss_hold_seconds": 330.106,
+    "wss_connections": [
+      {
+        "opens": 1,
+        "closes": 0,
+        "heartbeats": 71,
+        "urls": [
+          "wss:"
+        ]
+      },
+      {
+        "opens": 1,
+        "closes": 0,
+        "heartbeats": 70,
+        "urls": [
+          "wss:"
+        ]
+      },
+      {
+        "opens": 1,
+        "closes": 0,
+        "heartbeats": 70,
+        "urls": [
+          "wss:"
+        ]
+      }
+    ]
+  },
+  "public_trusted_certificate": true,
+  "origin": "https://t.xuanknow.cn",
+  "course_id": 1,
+  "lesson_id": 1,
+  "speechFixtureDurationSeconds": 16.9648125,
+  "audioPackets": 175,
+  "partialTailPackets": 1,
+  "mediaSamples": 278570,
+  "allPacketsDurablyAcknowledged": true,
+  "allTracksStopped": true,
+  "microphoneRequests": 1,
+  "recorderReadies": [
+    {
+      "epoch": 1,
+      "next_sequence": 0
+    }
+  ],
+  "rotationEvents": [],
+  "epochUnchanged": true,
+  "packetSequenceContiguous": true,
+  "completedSourceUnits": 1,
+  "completedTranslationUnits": 1,
+  "viewerIdsAndTextsMatchDatabase": true,
+  "viewerMicrophoneRequests": 0,
+  "archiveStatus": "playable",
+  "privatePlaybackAuthorized": true,
+  "browserAudioPlaybackPassed": true,
+  "playbackMutedDuringTest": true,
+  "playbackDurationSeconds": 17.411,
+  "signedRangeHttpStatus": 206,
+  "signedRangeBytes": 1024,
+  "jsErrors": [],
+  "requestErrors": [],
+  "expectedMediaCancellations": 1,
+  "limitations": [
+    "Synthetic speech source replaces physical microphone input",
+    "No physical Android/iOS device coverage",
+    "No 90-minute or 100-viewer capacity validation",
+    "ESA strict origin certificate hostname validation remains unverified"
+  ],
+  "verification_course_disabled": true,
+  "guest_share_revoked": true
+}

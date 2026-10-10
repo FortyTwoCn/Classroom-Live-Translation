@@ -1,0 +1,113 @@
+{
+    "test_kind": "public_deployment_real_model_real_oss_database_readback",
+    "lesson_id": 1,
+    "status": "ended",
+    "translation_status": "finished",
+    "media_samples": 278570,
+    "model_sessions": [
+        {
+            "id": "2f5260bf-65cd-4132-a122-a45330a07120",
+            "purpose": "initial",
+            "epoch": 1,
+            "base_sample": 0,
+            "sent_samples": 278570,
+            "sent_samples_complete": true,
+            "status": "finished",
+            "created_at": "2026-10-10 00:27:36.850321+00",
+            "ended_at": "2026-10-10 00:27:55+00",
+            "approximate_boundary": false
+        }
+    ],
+    "model_sent_samples": 278570,
+    "no_duplicate_audio_forwarding": true,
+    "forwarding_counter_scope": "Local QwenSession sendAudio sample counts and contiguous peer bases; provider exactly-once receipt is not verified.",
+    "model_audio_peer_coverage_contiguous": true,
+    "audio_segments": {
+        "count": 175,
+        "samples": 278570,
+        "first_sample": 0,
+        "last_sample": 278570,
+        "epoch_count": 1,
+        "gaps_or_overlaps": 0
+    },
+    "audio_chunks": [
+        {
+            "storage_state": "uploaded",
+            "n": 2,
+            "samples": 278570
+        }
+    ],
+    "subtitle_status_counts": [
+        {
+            "kind": "source",
+            "status": "completed",
+            "n": 1
+        },
+        {
+            "kind": "translation",
+            "status": "completed",
+            "n": 1
+        }
+    ],
+    "retained_interrupted_unit_count": 0,
+    "official_usage": [
+        {
+            "model_session_id": "2f5260bf-65cd-4132-a122-a45330a07120",
+            "response_id": "resp_BUG7Y27BUOHzApQSvGqje",
+            "status": "completed",
+            "official": true,
+            "usage": {
+                "input_tokens": 173,
+                "total_tokens": 223,
+                "output_tokens": 50,
+                "input_tokens_details": {
+                    "text_tokens": 47,
+                    "audio_tokens": 126
+                },
+                "output_tokens_details": {
+                    "text_tokens": 50
+                }
+            }
+        }
+    ],
+    "rotation_events": [],
+    "archive": {
+        "status": "playable",
+        "samples": 278570,
+        "bytes": 123250,
+        "sha256": "d3d9d703e6a9fd2397de91749eccd37ba00a5ca2c64322c5f4e8a6fd3054f298",
+        "object_key_sha256": "b167bc76b83239707de4eeab66ac26a1c9ed2da1dea4d104daa2bee76a4f907b"
+    },
+    "physical_microphone_verified": false,
+    "physical_device_verified": false,
+    "translation_split_quality_verified": false,
+    "tested_at": "2026-10-10T00:49:44+00:00",
+    "production": {
+        "environment": "production",
+        "debug": false,
+        "database": "clt",
+        "database_username": "clt",
+        "postgresql_version": "18.0",
+        "php_version": "8.5.11",
+        "migrations": 11,
+        "temporary_account_disabled": true,
+        "temporary_active_devices": 0,
+        "temporary_sessions": 0,
+        "temporary_ws_tickets": 0,
+        "human_admin_enabled": true,
+        "human_admin_force_first_change": true,
+        "course_disabled": true,
+        "share_revoked": true,
+        "active_model_sessions": 0,
+        "active_lessons": 0,
+        "pending_jobs": 0,
+        "failed_jobs": 0,
+        "recording_issues": 0,
+        "storage_private_mode": "700",
+        "env_mode": "640",
+        "cache_store": "database",
+        "queue_connection": "database",
+        "session_driver": "database",
+        "no_public_storage_symlink": true
+    }
+}

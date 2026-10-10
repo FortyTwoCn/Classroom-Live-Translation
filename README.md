@@ -4,7 +4,9 @@
 
 阶段交付：[A：真实服务闭环](reports/PHASE-A.md)、[B：完整产品](reports/PHASE-B.md)、[C：恢复与课堂体验](reports/PHASE-C.md)。设计见[架构](docs/architecture.md)、[账户与导入](docs/accounts.md)、[录音权交接](docs/recorder-handoffs.md)、[校对、分享与导出](docs/B-content-sharing-exports.md)、[设置与恢复](docs/C-settings-recovery.md)、[术语与用量](docs/C-glossary-usage-qwen.md)。
 
-服务器部署另见[宝塔部署记录](docs/server-deployment.md)：代码及生产依赖已安装到211.159.166.184，独立PHP-FPM/Nginx/真实北京模型和OSS探测通过。用户明早填写clt数据库密码后继续迁移和应用/WSS验证；当前网站维护模式，五个后台服务停止，不将准备完成报告为上线验收通过。
+服务器部署另见[宝塔部署记录](docs/server-deployment.md)：2026-10-10已部署到211.159.166.184，网址为 https://t.xuanknow.cn 。PostgreSQL `clt` 的11个迁移已执行，独立PHP-FPM和五个后台服务已启动并设置开机启动。管理员登录ID为`000000000000`，使用用户指定的密码，首次登录强制改密；密码不进入公开文档。
+
+追加的全局手机排版已发布：390px首页顶部从约218px压缩到57px，语言/身份/登录保持同行，账户操作集中在入口内，课堂/后台工具横向滑动、面板和弹窗紧凑。三语言和320–1280px共85组公网视口检查通过，物理手机仍未验证。
 
 ## 当前验证
 
@@ -20,7 +22,8 @@
 | 进程/数据恢复 | 强杀并重启实际网关、旧epoch拒绝、禁用账户撤销通过；独立新库完整行校验、历史OSS恢复及实际FFmpeg重建通过 |
 | 本地部署 | 六进程启动、11迁移、空业务库无自动模型会话通过；原生Nginx自签HTTPS/WSS、Secure Cookie及三客户端通过 |
 | 长课与100观看者 | 最终源码60秒/100客户端烟测通过；90分钟收音及字幕一致性通过，初次归档180秒等待超时，单独恢复258秒后通过。详情见[C报告](reports/PHASE-C.md)及[长测说明](docs/load-testing.md)，provider/S3明确模拟，观看者是Node WS客户端 |
-| 外部验收 | 物理麦克风、Android/iPhone/iPad/Safari、真实供应商90分钟/100真人、公网受信任证书、Docker/Linux部署、异地主密钥恢复 **未验证** |
+| 公网部署 | 原生Debian/Bao塔、PHP8.5.11、PG18.0、六服务及实际服务重启通过；公网三端真实模型/OSS闭环、330秒原连接WSS、原声播放通过；回放字幕空窗修复已实际回归，音源为合成英语。见[部署记录](docs/server-deployment.md) |
+| 外部验收 | 物理麦克风、Android/iPhone/iPad/Safari、真实供应商90分钟/100真人、Docker镜像、ESA严格回源证书校验、异地主密钥恢复 **未验证** |
 
 原始结果在[reports](reports)、[前端测试说明](frontend/TEST-RESULTS.md)及带分类的截图目录。模拟、真实模型、真实OSS分别记录。费用未配置或usage缺失显示未知。
 

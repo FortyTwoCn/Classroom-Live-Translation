@@ -349,7 +349,7 @@ onUnmounted(() => {
         </button>
       </div>
       <div class="table-wrap">
-        <table>
+        <table class="user-table">
           <thead>
             <tr>
               <th>{{ t("personName") }}</th>

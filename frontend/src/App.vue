@@ -46,6 +46,7 @@ const connection = ref("idle"),
   busy = ref(false),
   errorCode = ref("");
 const showLogin = ref(false),
+  showHeaderMenu = ref(false),
   showCreate = ref<"course" | "lesson" | null>(null),
   showEnd = ref(false);
 const studentId = ref(""),
@@ -1101,7 +1102,7 @@ async function loadAtPlaybackTime() {
     const result = await api.request<{ units: Unit[] }>(
       `/api/lessons/${lesson.value.id}/subtitles?at_sample=${sample}`,
     );
-    if (generation !== viewGeneration) return;
+    if (generation !== viewGeneration || result.units.length === 0) return;
     units.value = mergeUnits(units.value, result.units);
     historyUnits.value = mergeUnits(historyUnits.value || [], result.units);
     if (playbackFollow.value) {
@@ -1260,12 +1261,21 @@ onUnmounted(() => {
 <template>
   <div
     class="app-shell"
-    :class="{ 'large-mode': largeMode }"
+    :class="{ 'large-mode': largeMode, 'has-lesson': !!lesson }"
     :style="{ '--caption-size': `${fontSize}px` }"
   >
     <header class="site-header">
-      <button v-if="!largeMode" class="brand" @click="navigate('/courses')">
-        {{ t("app") }}</button
+      <button
+        v-if="!largeMode"
+        class="brand"
+        :aria-label="t('app')"
+        :title="t('app')"
+        @click="navigate('/courses')"
+      >
+        <span class="brand-full">{{ t("app") }}</span>
+        <span class="brand-compact" aria-hidden="true">{{
+          t("appCompact")
+        }}</span></button
       ><strong v-else class="immersive-title">{{ lesson?.name }}</strong>
       <div class="header-actions">
         <button
@@ -1289,20 +1299,40 @@ onUnmounted(() => {
             <option value="en">English</option>
             <option value="uk">Українська</option>
           </select></label
-        ><button v-if="largeMode" @click="toggleLarge">
-          {{ t("exitLarge") }}</button
+        ><button
+          v-if="largeMode"
+          class="header-exit"
+          :aria-label="t('exitLarge')"
+          :title="t('exitLarge')"
+          @click="toggleLarge"
+        >
+          <Icon name="close" /><span>{{ t("exitLarge") }}</span></button
         ><template v-else
-          ><span class="identity">{{ user?.name || t("guest") }}</span
-          ><button
-            v-if="user?.role === 'admin' && permitted"
-            @click="navigate('/admin')"
+          ><span class="identity" :title="user?.name || t('guest')">{{
+            user?.name || t("guest")
+          }}</span>
+          <div v-if="user" class="desktop-account-actions">
+            <button
+              v-if="user?.role === 'admin' && permitted"
+              @click="navigate('/admin')"
+            >
+              {{ t("admin") }}</button
+            ><button v-if="permitted" @click="showAccount = true">
+              {{ t("account") }}</button
+            ><button v-if="user" @click="logout" :disabled="busy">
+              {{ t("logout") }}
+            </button>
+          </div>
+          <button
+            v-if="user"
+            class="icon-button mobile-account-trigger"
+            :aria-label="t('account')"
+            :title="t('account')"
+            @click="showHeaderMenu = true"
           >
-            {{ t("admin") }}</button
-          ><button v-if="permitted" @click="showAccount = true">
-            {{ t("account") }}</button
-          ><button v-if="user" @click="logout" :disabled="busy">
-            {{ t("logout") }}</button
-          ><button v-else @click="showLogin = true">
+            <Icon name="person" />
+          </button>
+          <button v-else class="header-login" @click="showLogin = true">
             {{ t("login") }}
           </button></template
         >
@@ -1416,18 +1446,21 @@ onUnmounted(() => {
               t(`archive_${lesson.archive_status || "pending"}`)
             }}</span>
           </div>
-          <p class="muted">{{ t("playbackHelp") }}</p>
-          <p class="muted">
-            {{
-              t(
-                publicSettings.retention_days
-                  ? "retentionNotice"
-                  : "retentionForever",
-                { days: publicSettings.retention_days },
-              )
-            }}
-          </p>
-          <p class="muted">{{ t("playbackLocateHelp") }}</p>
+          <details class="playback-details">
+            <summary>{{ t("playbackDetails") }}</summary>
+            <p class="muted">{{ t("playbackHelp") }}</p>
+            <p class="muted">
+              {{
+                t(
+                  publicSettings.retention_days
+                    ? "retentionNotice"
+                    : "retentionForever",
+                  { days: publicSettings.retention_days },
+                )
+              }}
+            </p>
+            <p class="muted">{{ t("playbackLocateHelp") }}</p>
+          </details>
           <a
             v-if="
               permitted &&
@@ -1942,6 +1975,43 @@ onUnmounted(() => {
         </button>
       </template>
     </main>
+
+    <Modal
+      v-if="showHeaderMenu && user && !user.must_change_password"
+      :title="t('account')"
+      @close="showHeaderMenu = false"
+    >
+      <p class="account-menu-name">{{ user.name }}</p>
+      <nav class="account-menu" :aria-label="t('account')">
+        <button
+          v-if="user.role === 'admin' && permitted"
+          @click="
+            showHeaderMenu = false;
+            navigate('/admin');
+          "
+        >
+          {{ t("admin") }}
+        </button>
+        <button
+          v-if="permitted"
+          @click="
+            showHeaderMenu = false;
+            showAccount = true;
+          "
+        >
+          {{ t("account") }}
+        </button>
+        <button
+          :disabled="busy"
+          @click="
+            showHeaderMenu = false;
+            logout();
+          "
+        >
+          {{ t("logout") }}
+        </button>
+      </nav>
+    </Modal>
 
     <Modal
       v-if="showLogin || user?.must_change_password || showCreate || showEnd"

@@ -1,0 +1,11 @@
+{
+  "classification": "REAL_PUBLIC_RESPONSIVE_UI_BROWSER_EMULATION",
+  "tested_at": "2026-10-10T00:43:18.572Z",
+  "physical_device": false,
+  "new_model_call": false,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "checks": [],
+  "status": "failed",
+  "error": "page.waitForFunction: Timeout 30000ms exceeded."
+}

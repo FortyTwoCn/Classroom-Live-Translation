@@ -1,0 +1,11 @@
+{
+  "classification": "REAL_PUBLIC_BUILD_ASSET_HTTP",
+  "tested_at": "2026-10-10T00:49:54.1624584Z",
+  "status": "passed",
+  "asset_path": "/assets/index-DWlnvILI.js",
+  "http_status": 200,
+  "content_type": "application/javascript",
+  "cache_control": "public, max-age=31536000, immutable",
+  "site_cache": "MISS",
+  "sha256": "0b6b25062212bf76dde955f30ad9bb81b663125985f54dc655edd7d43ed46293"
+}

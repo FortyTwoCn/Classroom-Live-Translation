@@ -1,0 +1,79 @@
+{
+  "classification": "REAL_PUBLIC_HTTPS_HTTP_READ_ONLY",
+  "tested_at": "2026-10-10T00:29:52.1125962Z",
+  "status": "passed",
+  "trusted_tls_without_bypass": true,
+  "note": "Nonexistent /storage/... path returns the SPA HTML shell (200), never the private fixture file; no public storage symlink exists.",
+  "checks": [
+    {
+      "url": "https://t.xuanknow.cn/",
+      "status": 200,
+      "cache_control": "no-store, private",
+      "site_cache": "DYNAMIC",
+      "content_type": "text/html; charset=utf-8",
+      "hsts": "max-age=15552000; preload max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": true
+    },
+    {
+      "url": "https://t.xuanknow.cn/up",
+      "status": 200,
+      "cache_control": "no-store, private",
+      "site_cache": "DYNAMIC",
+      "content_type": "text/html; charset=utf-8",
+      "hsts": "max-age=15552000; preload max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": false
+    },
+    {
+      "url": "https://esa.t.xuanknow.cn/",
+      "status": 200,
+      "cache_control": "no-store, private",
+      "site_cache": "",
+      "content_type": "text/html; charset=utf-8",
+      "hsts": "max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": true
+    },
+    {
+      "url": "https://esa.t.xuanknow.cn/up",
+      "status": 200,
+      "cache_control": "no-store, private",
+      "site_cache": "",
+      "content_type": "text/html; charset=utf-8",
+      "hsts": "max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": false
+    },
+    {
+      "url": "https://t.xuanknow.cn/.env",
+      "status": 403,
+      "cache_control": "no-store, private",
+      "site_cache": "DYNAMIC",
+      "content_type": "text/html",
+      "hsts": "max-age=15552000; preload max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": false
+    },
+    {
+      "url": "https://t.xuanknow.cn/.git/config",
+      "status": 403,
+      "cache_control": "no-store, private",
+      "site_cache": "DYNAMIC",
+      "content_type": "text/html",
+      "hsts": "max-age=15552000; preload max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": false
+    },
+    {
+      "url": "https://t.xuanknow.cn/storage/deployment-probes/fixture-20261010.json",
+      "status": 200,
+      "cache_control": "no-store, private",
+      "site_cache": "DYNAMIC",
+      "content_type": "text/html; charset=utf-8",
+      "hsts": "max-age=15552000; preload max-age=31536000",
+      "private_body_exposed": false,
+      "spa_html_fallback": true
+    }
+  ]
+}

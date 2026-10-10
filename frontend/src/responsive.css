@@ -1,0 +1,389 @@
+/* Shared spacing and mobile reading layout. Touch controls remain at least 44px. */
+.brand-compact,
+.mobile-account-trigger {
+  display: none;
+}
+.desktop-account-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.account-menu {
+  display: grid;
+  gap: 8px;
+}
+.account-menu button {
+  text-align: left;
+}
+.account-menu-name {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+.header-exit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.playback-details {
+  margin: 8px 0 12px;
+}
+.playback-details summary {
+  cursor: pointer;
+  color: #52717e;
+  font-size: 13px;
+  padding: 8px 0;
+}
+.playback-details p {
+  margin: 6px 0;
+}
+.title-row > div {
+  min-width: 0;
+}
+.title-row h1 {
+  overflow-wrap: anywhere;
+}
+.modal-title h2 {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    padding: 0 12px calc(16px + env(safe-area-inset-bottom));
+  }
+  .site-header,
+  .large-mode .site-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    min-height: 57px;
+  }
+  .brand {
+    min-width: 0;
+    padding: 6px 0;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .brand-full {
+    display: none;
+  }
+  .brand-compact {
+    display: inline;
+  }
+  .header-actions,
+  .large-mode .header-actions {
+    width: auto;
+    min-width: 0;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+  .header-actions .language-label {
+    order: initial;
+    flex: 0 0 auto;
+  }
+  .header-actions select {
+    width: 108px;
+    padding: 6px;
+    font-size: 13px;
+  }
+  .header-actions .identity {
+    order: initial;
+    flex: 0 1 auto;
+    flex-basis: auto;
+    max-width: 72px;
+    min-width: 0;
+    font-size: 12px;
+    text-align: left;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .header-actions > button:not(.qr-trigger) {
+    order: initial;
+  }
+  .header-login {
+    flex: 0 0 auto;
+    padding: 6px 8px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  .desktop-account-actions {
+    display: none;
+  }
+  .mobile-account-trigger {
+    display: inline-flex;
+  }
+  .has-lesson:not(.large-mode) .site-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .has-lesson:not(.large-mode) .brand {
+    display: none;
+  }
+  .has-lesson:not(.large-mode) .header-actions {
+    justify-content: flex-end;
+  }
+  .header-exit {
+    width: 44px;
+    height: 44px;
+    padding: 8px;
+    justify-content: center;
+    flex: 0 0 44px;
+  }
+  .header-exit span {
+    display: none;
+  }
+  .large-mode .immersive-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  main {
+    padding-top: 12px;
+  }
+  h1 {
+    font-size: 24px;
+  }
+  h2 {
+    font-size: 18px;
+  }
+  .title-row {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .state-pill {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+  .lesson-meta {
+    margin-bottom: 12px;
+  }
+  .lesson-meta > div {
+    padding: 8px 10px;
+  }
+  .lesson-meta span,
+  .lesson-meta small {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .lesson-meta strong {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .lesson-meta .duration {
+    font-size: 20px;
+  }
+  .panel,
+  .large-mode .subtitle-panel {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+  .section-header {
+    gap: 8px;
+  }
+  .section-header > label {
+    min-width: 0;
+  }
+  .section-header select {
+    font-size: 14px;
+    padding: 6px;
+  }
+  .muted {
+    font-size: 13px;
+    line-height: 1.45;
+    margin: 8px 0;
+  }
+  .caption-note {
+    font-size: 11px;
+  }
+  .lesson-tools,
+  .admin > .tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    max-width: 100%;
+    gap: 6px;
+    margin: 10px 0 12px;
+    padding: 2px 0;
+  }
+  .lesson-tools button,
+  .admin > .tabs button {
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 6px 10px;
+    white-space: nowrap;
+  }
+  .lesson-tools > label {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .lesson-tools > label select {
+    width: auto;
+  }
+  .admin-tools {
+    margin-bottom: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .inline-actions {
+    gap: 6px;
+  }
+  .inline-actions button {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+  .table-wrap .inline-actions {
+    flex-wrap: nowrap;
+    width: max-content;
+  }
+  .table-wrap .inline-actions button,
+  .table-wrap th,
+  .user-table td:nth-child(2) {
+    white-space: nowrap;
+  }
+  .search-form {
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .search-form input {
+    min-width: 0;
+  }
+  .search-form button {
+    flex: 0 0 auto;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .subtitle-unit {
+    padding: 12px 2px;
+  }
+  .subtitle-unit p {
+    line-height: 1.55;
+  }
+  .subtitle-unit.source p {
+    font-size: 16px;
+  }
+  .unit-meta {
+    gap: 6px;
+    font-size: 11px;
+  }
+  .unit-meta .icon-button {
+    width: 44px;
+    min-width: 44px;
+    padding: 10px;
+  }
+  .captions {
+    min-height: 220px;
+    max-height: 56dvh;
+    padding-right: 2px;
+    scrollbar-gutter: auto;
+  }
+  .large-mode .captions {
+    height: 65dvh;
+    max-height: 65dvh;
+  }
+  .large-mode .lesson-meta > div {
+    padding: 6px;
+  }
+  .large-mode .lesson-tools {
+    margin: 6px 0 8px;
+  }
+  .empty-state {
+    padding: 28px 12px;
+  }
+  .card-grid {
+    gap: 10px;
+  }
+  .course-card {
+    padding: 14px;
+  }
+  .course-card h2 {
+    margin: 8px 0 5px;
+  }
+  .course-card p {
+    margin: 6px 0;
+  }
+  .filter-bar {
+    margin: 12px 0;
+    gap: 8px;
+  }
+  .pagination {
+    margin: 14px 0;
+    gap: 6px;
+  }
+  .modal {
+    padding: 14px;
+    max-height: calc(100dvh - 24px - env(safe-area-inset-bottom));
+  }
+  .modal-title {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .modal-title select {
+    width: 108px;
+    margin: 0;
+    padding: 6px;
+    font-size: 13px;
+  }
+  .modal form > label:not(.consent),
+  .modal > label {
+    margin: 12px 0;
+  }
+  .modal input:not([type="checkbox"]),
+  .modal textarea {
+    font-size: 16px;
+  }
+  .dialog-actions {
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .dialog-actions button {
+    padding: 6px 10px;
+  }
+  .qr-canvas {
+    width: min(280px, 100%);
+    margin: 8px auto;
+  }
+  .settings-form {
+    margin: 12px 0;
+    gap: 10px;
+  }
+  .settings-form fieldset {
+    padding: 12px;
+  }
+  .usage-grid {
+    gap: 8px;
+  }
+  .usage-grid > div {
+    padding: 10px;
+  }
+  .price-row {
+    padding: 10px 0;
+    gap: 8px;
+  }
+  .connection-test {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+  .playback audio {
+    margin-top: 10px;
+  }
+  .playback-details {
+    margin: 4px 0 8px;
+  }
+  .handoff-panel {
+    margin-bottom: 12px;
+  }
+}

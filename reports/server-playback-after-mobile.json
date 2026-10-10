@@ -1,0 +1,22 @@
+{
+  "classification": "REAL_PUBLIC_OSS_ARCHIVED_QWEN_SUBTITLE_PLAYBACK_REGRESSION",
+  "tested_at": "2026-10-10T00:49:09.025Z",
+  "real_oss": true,
+  "stored_real_model_output": true,
+  "new_model_call": false,
+  "synthetic_audio": true,
+  "real_microphone": false,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "lesson_id": 1,
+  "status": "passed",
+  "subtitle_count_before": 2,
+  "subtitle_count_after": 2,
+  "empty_playback_window_samples": [
+    2
+  ],
+  "visible_texts_unchanged": true,
+  "microphone_requests": 0,
+  "jsErrors": [],
+  "verification_course_disabled": true
+}

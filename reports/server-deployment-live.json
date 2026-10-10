@@ -1,0 +1,132 @@
+{
+  "classification": "REAL_PRODUCTION_DEPLOYMENT_WITH_SYNTHETIC_SPEECH",
+  "status": "passed_deployment_scope",
+  "tested_at": "2026-10-10T00:50:59.2679616Z",
+  "public_url": "https://t.xuanknow.cn",
+  "origin_url": "https://esa.t.xuanknow.cn",
+  "server": "211.159.166.184",
+  "project_directory": "/www/wwwroot/t.xuanknow.cn",
+  "document_root": "/www/wwwroot/t.xuanknow.cn/public",
+  "base_business_revision": "474088c",
+  "deployment_template_revision": "97be1fc",
+  "additional_business_change": "Preserve subtitles on empty playback windows; compact global responsive header, account menu, toolbar, modal, playback details and admin table layout",
+  "migrations": 11,
+  "services": [
+    "clt-fpm",
+    "clt-gateway",
+    "clt-recordings",
+    "clt-archives",
+    "clt-product",
+    "clt-scheduler"
+  ],
+  "all_services_active": true,
+  "all_services_enabled": true,
+  "controlled_application_service_restart_passed": true,
+  "no_model_session_auto_started_after_restart": true,
+  "full_server_reboot_verified": false,
+  "production": {
+    "environment": "production",
+    "debug": false,
+    "database": "clt",
+    "database_username": "clt",
+    "postgresql_version": "18.0",
+    "php_version": "8.5.11",
+    "migrations": 11,
+    "temporary_account_disabled": true,
+    "temporary_active_devices": 0,
+    "temporary_sessions": 0,
+    "temporary_ws_tickets": 0,
+    "human_admin_enabled": true,
+    "human_admin_force_first_change": true,
+    "course_disabled": true,
+    "share_revoked": true,
+    "active_model_sessions": 0,
+    "active_lessons": 0,
+    "pending_jobs": 0,
+    "failed_jobs": 0,
+    "recording_issues": 0,
+    "storage_private_mode": "700",
+    "env_mode": "640",
+    "cache_store": "database",
+    "queue_connection": "database",
+    "session_driver": "database",
+    "no_public_storage_symlink": true
+  },
+  "admin_login_id": "000000000000",
+  "admin_password_plaintext_in_report": false,
+  "public_loop": {
+    "media_samples": 278570,
+    "real_model": true,
+    "clients": 3,
+    "real_oss": true,
+    "archive_bytes": 123250,
+    "wss_hold_seconds": 330.106,
+    "source": "synthetic English speech, actual AudioWorklet",
+    "report": "server-public-real-loop.json",
+    "connections_reopened": 0
+  },
+  "playback_regression": {
+    "original_protocol_suite_report_retained": true,
+    "new_model_call": false,
+    "passed_after": "server-playback-after-fix.json",
+    "failed_before": "server-playback-before-fix.json",
+    "full_330_second_suite_rerun_after_display_fix": false,
+    "current_asset": "server-assets-live.json"
+  },
+  "simulated_tests": {
+    "long_test": "90-minute mock provider/S3 attempt failed initial archive wait; independent recovery passed; final-source 60-second/100-Node-viewer mock smoke passed",
+    "backend": "231 tests / 1303 assertions; explicit external fixtures",
+    "executed_against_production": false,
+    "historical_phase_reports_retained": true
+  },
+  "frontend_checks": {
+    "status": "passed",
+    "unit_tests": 24,
+    "production_build": "passed",
+    "strict_typescript": "passed",
+    "public_browser": "Edge 154.0.4258.62"
+  },
+  "backup": {
+    "environment_file": ".env.production",
+    "database_dump_bytes": 242369,
+    "same_host_only": true,
+    "final_database_file": "clt.after-mobile-layout.dump",
+    "archive_table_of_contents_verified": true,
+    "restore_into_new_production_database_verified": false,
+    "directory": "/www/server/clt-deploy-private/20261010-resume",
+    "mode": "600 root:root"
+  },
+  "unverified": [
+    "Physical microphone / classroom noise / hardware unplug / background or lock-screen behavior",
+    "Physical Android / iPhone / iPad / desktop Safari",
+    "Real Qwen + OSS continuous 90-minute classroom and 100 human browsers",
+    "Actual elapsed 90-day login lifetime",
+    "ESA strict origin certificate hostname validation; origin SAN covers esa hostname but observed SNI is main hostname",
+    "Docker image build",
+    "Whole-server reboot",
+    "Off-host encryption master-key and complete host-loss recovery"
+  ],
+  "responsive_layout": {
+    "at_390_header_after_pixels": 57,
+    "physical_device_verified": false,
+    "report": "server-mobile-layout.json",
+    "at_390_header_before_pixels": 217.6875,
+    "widths": [
+      320,
+      360,
+      390,
+      430,
+      768,
+      1280
+    ],
+    "checks": 85,
+    "new_model_call": false,
+    "locales": [
+      "zh-CN",
+      "en",
+      "uk"
+    ]
+  },
+  "final_playback_regression": "server-playback-after-mobile.json",
+  "deployed_secret_scan": "server-secret-scan.json"
+}

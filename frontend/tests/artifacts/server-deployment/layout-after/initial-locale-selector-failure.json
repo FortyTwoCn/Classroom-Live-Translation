@@ -1,0 +1,1749 @@
+{
+  "classification": "REAL_PUBLIC_RESPONSIVE_UI_BROWSER_EMULATION",
+  "tested_at": "2026-10-10T00:45:00.447Z",
+  "physical_device": false,
+  "new_model_call": false,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "checks": [
+    {
+      "label": "guest-home",
+      "width": 320,
+      "locale": "zh-CN",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 118,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 232,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 262,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 320,
+      "locale": "en",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 90.953125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 204.953125,
+        "y": 19.59375,
+        "width": 33.15625,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 244.109375,
+        "y": 6,
+        "width": 63.890625,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 320,
+      "locale": "uk",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 98.125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 212.125,
+        "y": 19.59375,
+        "width": 27.375,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 245.5,
+        "y": 6,
+        "width": 62.5,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 360,
+      "locale": "zh-CN",
+      "page_width": 360,
+      "document_width": 360,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 336,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 158,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 272,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 302,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 360,
+      "locale": "en",
+      "page_width": 360,
+      "document_width": 360,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 336,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 130.953125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 244.953125,
+        "y": 19.59375,
+        "width": 33.15625,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 284.109375,
+        "y": 6,
+        "width": 63.890625,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 360,
+      "locale": "uk",
+      "page_width": 360,
+      "document_width": 360,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 336,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 138.125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 252.125,
+        "y": 19.59375,
+        "width": 27.375,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 285.5,
+        "y": 6,
+        "width": 62.5,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 390,
+      "locale": "zh-CN",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 188,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 302,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 332,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 390,
+      "locale": "en",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 160.953125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 274.953125,
+        "y": 19.59375,
+        "width": 33.15625,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 314.109375,
+        "y": 6,
+        "width": 63.890625,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 390,
+      "locale": "uk",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 168.125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 282.125,
+        "y": 19.59375,
+        "width": 27.375,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 315.5,
+        "y": 6,
+        "width": 62.5,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 430,
+      "locale": "zh-CN",
+      "page_width": 430,
+      "document_width": 430,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 406,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 228,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 342,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 372,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 430,
+      "locale": "en",
+      "page_width": 430,
+      "document_width": 430,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 406,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 200.953125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 314.953125,
+        "y": 19.59375,
+        "width": 33.15625,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 354.109375,
+        "y": 6,
+        "width": 63.890625,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 430,
+      "locale": "uk",
+      "page_width": 430,
+      "document_width": 430,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 406,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 208.125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 322.125,
+        "y": 19.59375,
+        "width": 27.375,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 355.5,
+        "y": 6,
+        "width": 62.5,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 768,
+      "locale": "zh-CN",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 566,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 680,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 710,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 768,
+      "locale": "en",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 538.953125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 652.953125,
+        "y": 19.59375,
+        "width": 33.15625,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 692.109375,
+        "y": 6,
+        "width": 63.890625,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 768,
+      "locale": "uk",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 546.125,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 660.125,
+        "y": 19.59375,
+        "width": 27.375,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 693.5,
+        "y": 6,
+        "width": 62.5,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 1280,
+      "locale": "zh-CN",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 957,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 1096,
+        "y": 31.09375,
+        "width": 32,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": {
+        "x": 1138,
+        "y": 21.09375,
+        "width": 64,
+        "height": 44.796875,
+        "centerY": 43.4921875
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 1280,
+      "locale": "en",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 924.359375,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 1063.359375,
+        "y": 31.09375,
+        "width": 44.203125,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": {
+        "x": 1117.5625,
+        "y": 21.09375,
+        "width": 84.4375,
+        "height": 44.796875,
+        "centerY": 43.4921875
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "guest-home",
+      "width": 1280,
+      "locale": "uk",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 933.65625,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 1072.65625,
+        "y": 31.09375,
+        "width": 36.5,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": {
+        "x": 1119.15625,
+        "y": 21.09375,
+        "width": 82.84375,
+        "height": 44.796875,
+        "centerY": 43.4921875
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "login-dialog",
+      "width": 390,
+      "locale": "zh-CN",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 188,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 302,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 332,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 320,
+      "locale": "zh-CN",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 118,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 232,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 262,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 320,
+      "locale": "en",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 72,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 186,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 320,
+      "locale": "uk",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 72,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 186,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 390,
+      "locale": "zh-CN",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 142,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 256,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 390,
+      "locale": "en",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 142,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 256,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 390,
+      "locale": "uk",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 142,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 256,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 768,
+      "locale": "zh-CN",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 520,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 634,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 768,
+      "locale": "en",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 520,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 634,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 768,
+      "locale": "uk",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 520,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 634,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 1280,
+      "locale": "zh-CN",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 569,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 708,
+        "y": 31.09375,
+        "width": 128,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": null,
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 1280,
+      "locale": "en",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 387.1875,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 526.1875,
+        "y": 31.09375,
+        "width": 128,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": null,
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "member-home",
+      "width": 1280,
+      "locale": "uk",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 99.796875,
+        "centerY": 49.8984375
+      },
+      "language": {
+        "x": 935,
+        "y": 0,
+        "width": 129,
+        "height": 44,
+        "centerY": 22
+      },
+      "identity": {
+        "x": 1074,
+        "y": 9.59375,
+        "width": 128,
+        "height": 24.796875,
+        "centerY": 21.9921875
+      },
+      "login": null,
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 320,
+      "locale": "zh-CN",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 118,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 232,
+        "y": 19.59375,
+        "width": 24,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 262,
+        "y": 6,
+        "width": 46,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 320,
+      "locale": "en",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 72,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 186,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 320,
+      "locale": "uk",
+      "page_width": 320,
+      "document_width": 320,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 296,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 72,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 186,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 264,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 390,
+      "locale": "zh-CN",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 142,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 256,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 390,
+      "locale": "en",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 142,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 256,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 390,
+      "locale": "uk",
+      "page_width": 390,
+      "document_width": 390,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 366,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 142,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 256,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 334,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 768,
+      "locale": "zh-CN",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 520,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 634,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 768,
+      "locale": "en",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 520,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 634,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 768,
+      "locale": "uk",
+      "page_width": 768,
+      "document_width": 768,
+      "header": {
+        "x": 12,
+        "y": 0,
+        "width": 744,
+        "height": 57,
+        "centerY": 28.5
+      },
+      "language": {
+        "x": 520,
+        "y": 6,
+        "width": 108,
+        "height": 44,
+        "centerY": 28
+      },
+      "identity": {
+        "x": 634,
+        "y": 19.59375,
+        "width": 72,
+        "height": 16.796875,
+        "centerY": 27.9921875
+      },
+      "login": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "account": {
+        "x": 712,
+        "y": 6,
+        "width": 44,
+        "height": 44,
+        "centerY": 28
+      },
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 1280,
+      "locale": "zh-CN",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 569,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 708,
+        "y": 31.09375,
+        "width": 128,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": null,
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 1280,
+      "locale": "en",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 88,
+        "centerY": 44
+      },
+      "language": {
+        "x": 387.1875,
+        "y": 21.484375,
+        "width": 129,
+        "height": 44,
+        "centerY": 43.484375
+      },
+      "identity": {
+        "x": 526.1875,
+        "y": 31.09375,
+        "width": 128,
+        "height": 24.796875,
+        "centerY": 43.4921875
+      },
+      "login": null,
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    },
+    {
+      "label": "lesson-list",
+      "width": 1280,
+      "locale": "uk",
+      "page_width": 1280,
+      "document_width": 1280,
+      "header": {
+        "x": 78,
+        "y": 0,
+        "width": 1124,
+        "height": 99.796875,
+        "centerY": 49.8984375
+      },
+      "language": {
+        "x": 935,
+        "y": 0,
+        "width": 129,
+        "height": 44,
+        "centerY": 22
+      },
+      "identity": {
+        "x": 1074,
+        "y": 9.59375,
+        "width": 128,
+        "height": 24.796875,
+        "centerY": 21.9921875
+      },
+      "login": null,
+      "account": null,
+      "qr": null,
+      "subtitle_panel": null,
+      "microphones": 0
+    }
+  ],
+  "status": "failed",
+  "error": "expect(locator).toBeVisible() failed\n\nLocator: getByText('课堂已连接', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText('课堂已连接', { exact: true }) with timeout 5000ms\n  - waiting for getByText('课堂已连接', { exact: true })\n"
+}

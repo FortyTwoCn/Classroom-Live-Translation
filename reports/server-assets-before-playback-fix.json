@@ -1,0 +1,10 @@
+{
+  "classification": "REAL_PUBLIC_BUILD_ASSET_HTTP",
+  "tested_at": "2026-10-10T00:33:09.6167884Z",
+  "status": "passed",
+  "asset_path": "/assets/index-DuKktbzz.js",
+  "http_status": 200,
+  "content_type": "application/javascript",
+  "cache_control": "public, max-age=31536000, immutable",
+  "site_cache": "MISS"
+}
