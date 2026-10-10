@@ -66,5 +66,14 @@ final class SubtitleFormatterTest extends TestCase
         return [['id'=>1,'kind'=>'source','item_id'=>'asr','source_item_id'=>'asr','mapping'=>'source_identity','text'=>($version==='current'?'Edited English':'English original').' <script>']+$common,
             ['id'=>2,'kind'=>'translation','item_id'=>'different-provider-item','source_item_id'=>'asr','mapping'=>'explicit_previous_item_id','text'=>'你好 Привіт <script>']+$common];
     }
+    public function test_blank_snapshot_rows_never_generate_empty_export_segments():void
+    {
+        $rows=$this->rows('original');$rows[0]['text']="\u{200B}\u{3000}";
+        $result=(new SubtitleFormatter)->render($rows,['format'=>'txt','layout'=>'bilingual','text_version'=>'original'],$this->metadata());
+        self::assertSame(1,$result['counts']['skipped_empty']);
+        self::assertSame(1,$result['counts']['selected_units']);
+        self::assertSame(1,$result['counts']['exported_segments']);
+        self::assertStringContainsString('你好 Привіт',$result['contents']);
+    }
     private function metadata():array{return ['course_name'=>'Course 中文','lesson_name'=>'Урок','lesson_created_at'=>'2026-10-09T10:00:00Z','source_language'=>'en','target_language'=>'zh','exported_at'=>'2026-10-09T11:00:00Z','media_samples'=>48000];}
 }

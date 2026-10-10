@@ -1,0 +1,17 @@
+{
+    "status": "passed",
+    "classification": "REAL_PRODUCTION_PHP_POSTGRESQL_WITH_SIMULATED_PROVIDER_EVENTS",
+    "provider_events_simulated": true,
+    "new_real_qwen_call": false,
+    "real_oss_request": false,
+    "physical_microphone": false,
+    "fixture_transaction_rolled_back": true,
+    "existing_subtitle_units": 32,
+    "checks": [
+        "empty_source_and_translation_never_persist_or_broadcast",
+        "blank_final_retracts_unconfirmed_draft_with_tombstone",
+        "independent_nonempty_source_and_translation_retained",
+        "late_blank_does_not_erase_confirmed_or_corrected_text",
+        "actual_pg18_and_php85_agree_on_unicode_blank_text"
+    ]
+}

@@ -1,0 +1,131 @@
+{
+  "status": "passed",
+  "tested_at": "2026-10-10T01:20:10.373Z",
+  "classification": "REAL_DEPLOYMENT_READ_ONLY_VERIFICATION",
+  "new_real_qwen_call": false,
+  "real_oss_request": false,
+  "services_active": 6,
+  "source_hash_comparisons": [
+    {
+      "file": "app/Content/SubtitleText.php",
+      "sha256": "4159d4ca8f68576248b09c128de8111d6010cc3fb5e78cdee0db8795f396602b",
+      "matches": true
+    },
+    {
+      "file": "app/Content/SubtitleService.php",
+      "sha256": "ebd5c64756c16d6ea4800c401a2dadfe87540d8a95b34f384e18f2b8b293d678",
+      "matches": true
+    },
+    {
+      "file": "app/Exports/ExportService.php",
+      "sha256": "49fd467c47fedffc052a1737047ace14a8f1b4f2be3db532ebbc02cbaca5ba29",
+      "matches": true
+    },
+    {
+      "file": "app/Exports/SubtitleFormatter.php",
+      "sha256": "b4f70e642e3b0c28211333c7c636eaf16bfc605bc1f4a6a91d7025056b1457b3",
+      "matches": true
+    },
+    {
+      "file": "app/Realtime/Gateway.php",
+      "sha256": "67bb632e4c8d66a9e3713ad1f82e92f3722599f3bc46c719ff021d8d5bf587d0",
+      "matches": true
+    },
+    {
+      "file": "routes/web.php",
+      "sha256": "6f3fb9b4746b8210ce9b88de38b95d4b21b811b72488323072fe96fcd6a5e2c9",
+      "matches": true
+    },
+    {
+      "file": "routes/reliability.php",
+      "sha256": "0aaadb9f3b74d97ee4e49a6ccc95f8d3ec64e6e7af9814c55fc56fcf4f1abcba",
+      "matches": true
+    },
+    {
+      "file": "frontend/src/App.vue",
+      "sha256": "39be24d5e5697d81c14bf95cd8c215a2cdbb45a5af0f37d57fa55af7212bb66a",
+      "matches": true
+    },
+    {
+      "file": "frontend/src/recovery.ts",
+      "sha256": "ccdf250c14905b8112f0cc8d959668947e444c26e9ce39c954ec093c8fd5d75b",
+      "matches": true
+    },
+    {
+      "file": "frontend/tests/unit/phase-c.test.ts",
+      "sha256": "1b56e536b90cd504765c6c8ed72966e6027a8fcb6a1c01ac8de511d83d2e1935",
+      "matches": true
+    },
+    {
+      "file": "tests/Feature/EmptySubtitleTest.php",
+      "sha256": "5ab81b408cbde69e06ae8cc9c26a8b844b433bce214cb913adfc739a3a9023db",
+      "matches": true
+    },
+    {
+      "file": "tests/Unit/SubtitleFormatterTest.php",
+      "sha256": "f6ac0feff7a093ddc6d7bdb9a371ae6cf0ce1c4774c1418b4dfc1e37ba3007a2",
+      "matches": true
+    },
+    {
+      "file": "public/app.html",
+      "sha256": "974710c0a4cd36e9c1dab5d547a13aff8a19f748186a7976dc551185ca20bc70",
+      "matches": true
+    },
+    {
+      "file": "public/assets/index-B83qZf1i.js",
+      "sha256": "fd358774641e2693ad06980a37e49b4052a1c7bb5c84515e6c0a9bdfbfd65ccc",
+      "matches": true
+    },
+    {
+      "file": "public/assets/index-6nDD7F1h.css",
+      "sha256": "138aacb0c3a3e7b4a1099ccb7525df0d9e6958ea99f68a45f984dcf1c65723f6",
+      "matches": true
+    },
+    {
+      "file": "public/assets/worklet-DW9mpDH7.js",
+      "sha256": "166c6e691f178b0b7749fa03b3866b3bae7c3f0a0cc37931731468dec7f0f2f9",
+      "matches": true
+    }
+  ],
+  "database": {
+    "recording_lessons": 0,
+    "model_states": [
+      {
+        "status": "finished",
+        "count": 2
+      }
+    ],
+    "subtitle_units": 32,
+    "ascii_blank_units": 10,
+    "visible_units": 22,
+    "visible_lesson_ids": [
+      1,
+      2
+    ],
+    "blank_lesson_ids": [
+      2
+    ]
+  },
+  "backup": {
+    "bytes": 295779,
+    "permissions": "600",
+    "location": "root-private same-server backup; off-server restore not tested"
+  },
+  "http": [
+    {
+      "url": "https://t.xuanknow.cn/up",
+      "status": 200,
+      "cache_control": "no-store, private"
+    },
+    {
+      "url": "https://esa.t.xuanknow.cn/up",
+      "status": 200,
+      "cache_control": "no-store, private"
+    },
+    {
+      "url": "https://t.xuanknow.cn/assets/index-B83qZf1i.js",
+      "status": 200,
+      "cache_control": "public, max-age=31536000, immutable"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 final class SubtitleService {
  public function adminList(object $admin,array $filters):array {
-  Access::admin($admin);$query=DB::table('subtitle_units as s')->join('lessons as l','l.id','=','s.lesson_id')->join('courses as c','c.id','=','l.course_id');
+  Access::admin($admin);$query=SubtitleText::visible(DB::table('subtitle_units as s')->join('lessons as l','l.id','=','s.lesson_id')->join('courses as c','c.id','=','l.course_id'),'COALESCE(s.current_text,s.original_text)');
   if(!empty($filters['course_id']))$query->where('l.course_id',$filters['course_id']);if(!empty($filters['lesson_id']))$query->where('s.lesson_id',$filters['lesson_id']);
   if(($filters['kind']??'all')!=='all')$query->where('s.kind',$filters['kind']);
   if(($filters['edited']??'all')==='yes')$query->where('s.version','>',1);elseif(($filters['edited']??'all')==='no')$query->where('s.version',1);
@@ -20,7 +20,7 @@ final class SubtitleService {
   return DB::transaction(function()use($lessonId,$user,$changes,$key,$hash,$sessionId){DB::table('lessons')->where('id',$lessonId)->lockForUpdate()->first();$user=MutationActor::lock($user);$lesson=Access::lesson($lessonId,$user,$sessionId);if($lesson->editing_frozen)throw new Failure('subtitle_editing_frozen',423);
    $batch=DB::table('subtitle_revision_batches')->where('id',$key)->first();if($batch){if((int)$batch->actor_id!==(int)$user->id||$batch->request_hash!==$hash||(int)$batch->lesson_id!==$lessonId)throw new Failure('idempotency_conflict',409);return json_decode($batch->result,true,flags:JSON_THROW_ON_ERROR);}
    $ids=array_column($changes,'unit_id');if(count(array_unique($ids))!==count($ids))throw new Failure('invalid_revision');$units=DB::table('subtitle_units')->where('lesson_id',$lessonId)->whereIn('id',$ids)->orderBy('id')->lockForUpdate()->get()->keyBy('id');$conflicts=[];
-   foreach($changes as $change){$unit=$units->get($change['unit_id']);if(!$unit||$unit->deleted_at)throw new Failure('subtitle_unavailable',404);if($unit->status!=='completed')throw new Failure('subtitle_not_completed',409);if((int)$unit->version!==(int)$change['expected_version'])$conflicts[]=Access::unit($unit);if(!is_string($change['text'])||trim($change['text'])===''||mb_strlen($change['text'])>20000)throw new Failure('subtitle_text_invalid');}
+   foreach($changes as $change){$unit=$units->get($change['unit_id']);if(!$unit||$unit->deleted_at)throw new Failure('subtitle_unavailable',404);if($unit->status!=='completed')throw new Failure('subtitle_not_completed',409);if((int)$unit->version!==(int)$change['expected_version'])$conflicts[]=Access::unit($unit);if(!is_string($change['text'])||!SubtitleText::hasContent($change['text'])||mb_strlen($change['text'])>20000)throw new Failure('subtitle_text_invalid');}
    if($conflicts)throw new Failure('subtitle_version_conflict',409,['latest_units'=>$conflicts]);
    DB::table('subtitle_revision_batches')->insert(['id'=>$key,'lesson_id'=>$lessonId,'actor_id'=>$user->id,'request_hash'=>$hash,'result'=>'{}']);$saved=[];
    foreach($changes as $change){$unit=$units->get($change['unit_id']);$before=$unit->current_text??$unit->original_text;$restored=$change['restored_revision_id']??null;

@@ -33,7 +33,7 @@ import {
   displayDate,
   clockSeconds,
 } from "./public-settings";
-import { mergeUnits, activeUnits, timedUnit } from "./recovery";
+import { mergeUnits, activeUnits, timedUnit, hasSubtitleText } from "./recovery";
 
 const user = ref<User | null>(null),
   courses = ref<Course[]>([]),
@@ -163,7 +163,7 @@ const canEnd = computed(
 );
 const displayedUnits = computed(() =>
   (subtitleMatches.value || historyUnits.value || units.value.slice(-500))
-    .filter((unit) => !unit.deleted_at)
+    .filter((unit) => !unit.deleted_at && hasSubtitleText(unit.text))
     .filter(
       (unit) =>
         selectedView.value === "both" || unit.kind === selectedView.value,
@@ -172,7 +172,7 @@ const displayedUnits = computed(() =>
 const hasExportable = computed(() =>
   units.value.some(
     (unit) =>
-      unit.status === "completed" && unit.text.trim() && !unit.deleted_at,
+      unit.status === "completed" && hasSubtitleText(unit.text) && !unit.deleted_at,
   ),
 );
 const microphoneRunning = computed(
@@ -451,7 +451,7 @@ function applySnapshot(snapshot: Snapshot) {
 }
 function upsertUnit(unit: Unit) {
   const index = units.value.findIndex((existing) => existing.id === unit.id);
-  if (unit.deleted_at) {
+  if (unit.deleted_at || !hasSubtitleText(unit.text)) {
     if (index !== -1) units.value.splice(index, 1);
     for (const collection of [historyUnits, subtitleMatches])
       if (collection.value)

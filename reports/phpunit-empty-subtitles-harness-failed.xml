@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\phpunit.xml" tests="7" assertions="48" errors="0" failures="1" skipped="0" time="3.238870">
+    <testsuite name="PostgreSQL" tests="7" assertions="48" errors="0" failures="1" skipped="0" time="3.238870">
+      <testsuite name="Tests\Feature\EmptySubtitleTest" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" tests="7" assertions="48" errors="0" failures="1" skipped="0" time="3.238870">
+        <testcase name="test_empty_provider_events_create_no_caption_or_shared_caption_event" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="42" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="4" time="1.009568"/>
+        <testcase name="test_blank_final_result_retracts_only_an_unfinished_draft_and_emits_a_tombstone" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="57" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="6" time="0.186398"/>
+        <testcase name="test_blank_late_metadata_preserves_confirmed_text_and_manual_correction" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="72" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="5" time="0.155321"/>
+        <testcase name="test_legacy_blank_rows_do_not_consume_pages_snapshots_time_lookup_or_admin_totals" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="84" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="13" time="1.564207">
+          <failure type="PHPUnit\Framework\ExpectationFailedException">Tests\Feature\EmptySubtitleTest::test_legacy_blank_rows_do_not_consume_pages_snapshots_time_lookup_or_admin_totals&#13;
+Expected response status code [200] but received 422.
+Failed asserting that 422 is identical to 200.
+&#13;
+C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\vendor\laravel\framework\src\Illuminate\Testing\TestResponseAssert.php:46
+C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\vendor\laravel\framework\src\Illuminate\Testing\TestResponse.php:183
+C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\vendor\laravel\framework\src\Illuminate\Testing\Concerns\AssertsStatusCodes.php:16
+C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php:95</failure>
+        </testcase>
+        <testcase name="test_unicode_blank_text_cannot_be_saved_by_manual_revision" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="102" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="3" time="0.092741"/>
+        <testcase name="test_exports_skip_blank_source_but_keep_independent_nonempty_translation" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="110" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="6" time="0.182073"/>
+        <testcase name="test_php_and_postgresql_agree_on_blank_and_visible_unicode_text" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\EmptySubtitleTest.php" line="125" class="Tests\Feature\EmptySubtitleTest" classname="Tests.Feature.EmptySubtitleTest" assertions="11" time="0.048561"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

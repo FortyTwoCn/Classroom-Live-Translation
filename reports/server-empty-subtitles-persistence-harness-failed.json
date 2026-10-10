@@ -1,0 +1,11 @@
+{
+  "status": "failed",
+  "classification": "PRODUCTION_DB_TEST_HARNESS_FAILURE",
+  "reason": "Temporary transaction fixture omitted the required users.role field; corrected before retry.",
+  "provider_events_simulated": true,
+  "new_real_qwen_call": false,
+  "real_oss_request": false,
+  "fixture_transaction_rolled_back": true,
+  "existing_business_records_modified": false,
+  "retry_report": "server-empty-subtitles-persistence.json"
+}

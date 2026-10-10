@@ -1,5 +1,10 @@
 import { describe, it, expect, vi, afterEach } from "vitest";
-import { mergeUnits, activeUnits, timedUnit } from "../../src/recovery";
+import {
+  mergeUnits,
+  activeUnits,
+  timedUnit,
+  hasSubtitleText,
+} from "../../src/recovery";
 import {
   displayDate,
   publicSettings,
@@ -20,6 +25,35 @@ const unit = (id: number, extra: Partial<Unit> = {}): Unit => ({
   ...extra,
 });
 describe("historical recovery and playback evidence", () => {
+  it("rejects empty and invisible captions while retaining punctuation, zero and multilingual text", () => {
+    for (const text of [
+      "",
+      " \t\r\n",
+      "\u00a0\u3000",
+      "\u200b\u200f\ufeff",
+      "\u180e\u2060\u202e",
+    ])
+      expect(hasSubtitleText(text)).toBe(false);
+    for (const text of ["0", "，", " 中文 ", "ЇЄҐ", " hello "])
+      expect(hasSubtitleText(text)).toBe(true);
+  });
+  it("removes blank cached and replayed captions without deleting unrelated historical content", () => {
+    const result = mergeUnits(
+      [unit(1), unit(2, { text: "\u3000" }), unit(3)],
+      [
+        unit(1, { text: "\u200b" }),
+        unit(4, { text: "" }),
+        unit(5, { kind: "translation", text: "译文" }),
+      ],
+    );
+    expect(result.map((item) => item.id)).toEqual([3, 5]);
+    expect(
+      activeUnits(
+        [unit(1, { text: "" }), unit(2, { deleted_at: "2026-10-10" }), unit(3)],
+        1,
+      ).map((item) => item.id),
+    ).toEqual([3]);
+  });
   it("keeps snapshot-excluded historical units while applying explicit updates and tombstones", () => {
     const result = mergeUnits(
       [unit(1), unit(2), unit(3)],

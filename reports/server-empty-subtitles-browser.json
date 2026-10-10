@@ -1,0 +1,33 @@
+{
+  "classification": "REAL_PUBLIC_HTTP_WSS_BROWSER_READ_ONLY",
+  "tested_at": "2026-10-10T01:18:27.274Z",
+  "new_real_qwen_call": false,
+  "real_oss_request": false,
+  "physical_device": false,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "lesson_id": 2,
+  "checks": [
+    {
+      "client": 1,
+      "api_visible_units": 20,
+      "history_visible_units": 20,
+      "history_total": 20,
+      "websocket_visible_units": 20,
+      "displayed_units": 20,
+      "blank_units": 0,
+      "microphone_requests": 0
+    },
+    {
+      "client": 2,
+      "api_visible_units": 20,
+      "history_visible_units": 20,
+      "history_total": 20,
+      "websocket_visible_units": 20,
+      "displayed_units": 20,
+      "blank_units": 0,
+      "microphone_requests": 0
+    }
+  ],
+  "status": "passed"
+}

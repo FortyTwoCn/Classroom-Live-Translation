@@ -22,6 +22,7 @@ final class SubtitleFormatter
         foreach ($rows as $index => $row) {
             $unit = is_array($row) ? $row : (array)$row;
             ++$report['snapshot_units'];
+            if (!\App\Content\SubtitleText::hasContent($unit['text'] ?? '')) { ++$report['skipped_empty']; continue; }
             $source = $unit['kind'] === 'source' ? ($unit['item_id'] ?? null) : ($unit['source_item_id'] ?? null);
             $associated = $unit['kind'] === 'source' || ($unit['mapping'] ?? '') === 'explicit_previous_item_id';
             $key = $source !== null && $associated

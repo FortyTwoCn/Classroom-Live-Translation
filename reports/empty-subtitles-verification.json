@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "classification": "EMPTY_SUBTITLE_FIX_VERIFICATION",
+  "backend": {"tests": 239, "assertions": 1358, "database": "real PostgreSQL 17", "provider_events": "explicit fixtures", "report": "phpunit-empty-subtitles-final.xml"},
+  "frontend": {"unit_tests": 26, "strict_types": "passed", "production_build": "passed"},
+  "production_persistence": {"checks": 5, "database": "real PostgreSQL 18", "provider_events": "simulated", "fixture_transaction": "rolled back", "report": "server-empty-subtitles-persistence.json"},
+  "public_browser": {"clients": 2, "viewport": "390x844", "visible_units_per_client": 20, "blank_units_per_client": 0, "http_and_websocket_mocked": false, "report": "server-empty-subtitles-browser.json"},
+  "deployment": {"matching_files": 16, "active_services": 6, "existing_rows_before_and_after": 32, "existing_blank_rows_retained": 10, "report": "server-empty-subtitles-deployment.json"},
+  "real_qwen_new_request": "not retested",
+  "real_oss_specific_probe": "not retested",
+  "physical_microphone_and_mobile_device": "unverified",
+  "failures_retained": ["phpunit-empty-subtitles-harness-failed.xml", "server-empty-subtitles-persistence-harness-failed.json"],
+  "notes": "The initial search fixture used invalid whitespace-only input; corrected before the full passing regression. The production fixture initially omitted the required user role; rolled back and corrected. Existing historical blank database rows are filtered without being purged."
+}

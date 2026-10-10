@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Exports;
 
 use App\Domain\{Access,Failure};
+use App\Content\SubtitleText;
 use App\Jobs\BuildSubtitleExport;
 use Illuminate\Support\Facades\{DB,Log};
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ final class ExportService
             if(DB::table('subtitle_exports')->where('owner_id',$user->id)->where('created_at','>',now()->subMinute())->count()>=5)throw new Failure('export_rate_limit',429);
             $base=DB::table('subtitle_units')->where('lesson_id',$lessonId)->whereNull('deleted_at');
             $textExpression=$options['text_version']==='original'?'original_text':'COALESCE(current_text,original_text)';
-            $selected=(clone $base)->where('status','completed')->whereRaw("btrim($textExpression,chr(9)||chr(10)||chr(11)||chr(12)||chr(13)||' ')<>''");
+            $selected=SubtitleText::visible((clone $base)->where('status','completed'),$textExpression);
             if($options['layout']!=='bilingual')$selected->where('kind',$options['layout']);
             if(!$selected->exists())throw new Failure('export_no_content',409);
             $sourceLanguages=(clone $base)->where('status','completed')->where('kind','source')->whereNotNull('language')->distinct()->pluck('language')->all();
@@ -34,7 +35,7 @@ final class ExportService
                 'source_language'=>count($sourceLanguages)===1?$sourceLanguages[0]:'unknown','target_language'=>$lesson->target_language,
                 'exported_at'=>now()->toIso8601String(),'media_samples'=>(int)$lesson->media_samples,
                 'skipped_incomplete'=>(clone $base)->where('status','!=','completed')->count(),
-                'skipped_empty'=>(clone $base)->where('status','completed')->whereRaw("btrim($textExpression,chr(9)||chr(10)||chr(11)||chr(12)||chr(13)||' ')=''")->count()];
+                'skipped_empty'=>(clone $base)->where('status','completed')->whereRaw($textExpression.' !~ ?',[SubtitleText::NON_BLANK])->count()];
             $id=(string)Str::uuid();
             DB::table('subtitle_exports')->insert(['id'=>$id,'lesson_id'=>$lessonId,'owner_id'=>$user->id,'idempotency_key'=>$options['idempotency_key'],
                 'request_hash'=>$hash,'status'=>'queued','format'=>$options['format'],'layout'=>$options['layout'],'text_version'=>$options['text_version'],
@@ -44,8 +45,8 @@ final class ExportService
 INSERT INTO subtitle_export_rows(export_id,ordinal,payload)
 SELECT ?,row_number() OVER(ORDER BY COALESCE(start_sample,9223372036854775807),id),
 jsonb_build_object('id',id,'kind',kind,'model_session_id',model_session_id,'item_id',item_id,'source_item_id',source_item_id,'mapping',mapping,'content_index',content_index,'language',language,'start_sample',start_sample,'end_sample',end_sample,'timing_precision',timing_precision,'version',version,'text',CASE WHEN ?='original' THEN original_text ELSE COALESCE(current_text,original_text) END)
-FROM subtitle_units WHERE lesson_id=? AND status='completed' AND deleted_at IS NULL AND btrim(CASE WHEN ?='original' THEN original_text ELSE COALESCE(current_text,original_text) END,chr(9)||chr(10)||chr(11)||chr(12)||chr(13)||' ')<>''
-SQL,[$id,$options['text_version'],$lessonId,$options['text_version']]);
+FROM subtitle_units WHERE lesson_id=? AND status='completed' AND deleted_at IS NULL AND (CASE WHEN ?='original' THEN original_text ELSE COALESCE(current_text,original_text) END) ~ ?
+SQL,[$id,$options['text_version'],$lessonId,$options['text_version'],SubtitleText::NON_BLANK]);
             $capacity=DB::table('subtitle_export_rows')->where('export_id',$id)->selectRaw("count(*) AS units,COALESCE(sum(octet_length(payload->>'text')),0) AS bytes")->first();
             if((int)$capacity->units>20000||(int)$capacity->bytes>8388608)throw new Failure('export_snapshot_limit',413,['max_units'=>20000,'max_text_bytes'=>8388608]);
             DB::table('subtitle_exports')->where('id',$id)->update(['snapshot_count'=>(int)$capacity->units]);

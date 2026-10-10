@@ -60,7 +60,7 @@ final class Gateway {
    $ticket=DB::transaction(function()use($msg){$t=DB::table('ws_tickets')->where('hash',hash('sha256',(string)($msg['ticket']??'')))->lockForUpdate()->first();if(!$t||$t->consumed_at||strtotime($t->expires_at)<time())throw new Failure('invalid_ticket',401);DB::table('ws_tickets')->where('hash',$t->hash)->update(['consumed_at'=>now()]);return $t;});
    $this->clients[$key]=['connection'=>$c,'lesson_id'=>(int)$ticket->lesson_id,'user_id'=>$ticket->user_id===null?null:(int)$ticket->user_id,'session_id'=>$ticket->session_id,'heartbeat'=>time(),'command_window'=>microtime(true),'commands'=>0];
    $u=$this->actor($c);
-   $snapshot=DB::transaction(function()use($ticket,$u){DB::table('lessons')->where('id',$ticket->lesson_id)->lockForUpdate()->first();$l=Access::lesson((int)$ticket->lesson_id,$u,$ticket->session_id);$units=DB::table('subtitle_units')->where('lesson_id',$l->id)->whereNull('deleted_at')->orderByDesc('id')->limit(200)->get()->reverse()->values()->map(fn($a)=>Access::unit($a))->all();$last=(int)DB::table('lesson_events')->where('lesson_id',$l->id)->max('seq');return ['type'=>'snapshot','lesson'=>Access::publicLesson($l),'units'=>$units,'last_seq'=>$last];});
+   $snapshot=DB::transaction(function()use($ticket,$u){DB::table('lessons')->where('id',$ticket->lesson_id)->lockForUpdate()->first();$l=Access::lesson((int)$ticket->lesson_id,$u,$ticket->session_id);$units=\App\Content\SubtitleText::visible(DB::table('subtitle_units')->where('lesson_id',$l->id)->whereNull('deleted_at'))->orderByDesc('id')->limit(200)->get()->reverse()->values()->map(fn($a)=>Access::unit($a))->all();$last=(int)DB::table('lesson_events')->where('lesson_id',$l->id)->max('seq');return ['type'=>'snapshot','lesson'=>Access::publicLesson($l),'units'=>$units,'last_seq'=>$last];});
    $recovery=\App\Reliability\Recovery::replay((int)$ticket->lesson_id,max(0,(int)($msg['last_seq']??0)),$snapshot['last_seq']);$snapshot['missed_events']=$recovery['missed_events'];unset($recovery['missed_events']);$snapshot['recovery']=$recovery;
    $c->context->authorized=true;$this->send($c,$snapshot);return;
   }
@@ -170,6 +170,17 @@ final class Gateway {
    if($eid&&DB::table('provider_events')->insertOrIgnore(['session_id'=>$sid,'event_id'=>$eid.'|'.$unitId])===0)return;
    $old=DB::table('subtitle_units')->where(['model_session_id'=>$sid,'provider_unit_id'=>$unitId])->lockForUpdate()->first();
    if($old&&$old->status==='completed'&&($event['status']??'')!=='completed')return;
+   if(!\App\Content\SubtitleText::hasContent($event['text']??'')){
+    // Empty provider placeholders never become subtitle records. If a final result
+    // retracts an unfinished draft, remove it and notify every client by tombstone.
+    if(!$old)return;
+    if($old->status!=='completed'){
+     if(($event['status']??'streaming')!=='streaming'){$old->deleted_at=now();Access::event($id,'subtitle.updated',['unit'=>Access::unit($old)]);DB::table('subtitle_units')->where('id',$old->id)->delete();}
+     return;
+    }
+    // Late timing metadata must not erase a confirmed result or manual correction.
+    if(!\App\Content\SubtitleText::hasContent($old->current_text??$old->original_text))return;
+   }
    $data=['lesson_id'=>$id,'model_session_id'=>$sid,'provider_unit_id'=>$unitId,'kind'=>$event['kind'],'item_id'=>$event['item_id']??null,'response_id'=>$event['response_id']??null,'source_item_id'=>$event['source_item_id']??null,'content_index'=>$event['content_index']??0,'original_text'=>$event['text']??'','status'=>$event['status'],'language'=>$event['language']??null,'start_sample'=>isset($event['start_ms'])?$base+$event['start_ms']*16:null,'end_sample'=>isset($event['end_ms'])?$base+$event['end_ms']*16:null,'timing_precision'=>$event['timing_precision']??'unavailable','mapping'=>$event['mapping']??'unavailable','updated_at'=>now()];
    if($old){if($old->status==='completed')$data['original_text']=$old->original_text;DB::table('subtitle_units')->where('id',$old->id)->update($data);$uid=$old->id;}else{$uid=DB::table('subtitle_units')->insertGetId($data);}
    $unit=Access::unit(DB::table('subtitle_units')->find($uid));Access::event($id,'subtitle.updated',['unit'=>$unit]);
