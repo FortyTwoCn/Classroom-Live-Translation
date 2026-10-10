@@ -1,0 +1,64 @@
+{
+    "test_kind": "real_model_phrases",
+    "started_at": "2026-10-09T11:49:33+00:00",
+    "status": "PARTIAL",
+    "supplier_maximum_claimed": false,
+    "application_caps": {
+        "count": 1000,
+        "term_bytes": 1000,
+        "session_update_bytes": 65536
+    },
+    "budget": {
+        "max_calls": 1,
+        "max_elapsed_seconds": 180,
+        "min_start_interval_seconds": 6.3
+    },
+    "device_capture_verified": false,
+    "language_quality_verified": false,
+    "transcript_storage": "counts_and_matching_booleans_only",
+    "cases": [
+        {
+            "name": "target_bytes_64",
+            "status": "FAIL",
+            "phrase_count": 1,
+            "source_max_bytes": 7,
+            "target_max_bytes": 64,
+            "checks": {
+                "configuration_accepted": true,
+                "echo_match": true,
+                "source_recognized": false,
+                "preferred_translation_observed": false,
+                "all_audio_sent": false,
+                "session_finished": false,
+                "translation_nonempty": false,
+                "no_unfinished_response": false
+            },
+            "source_final_count": 0,
+            "translation_final_count": 0,
+            "usage": [],
+            "errors": [
+                {
+                    "code": "COMMON_ERROR"
+                },
+                {
+                    "code": "COMMON_ERROR"
+                }
+            ],
+            "session_update_bytes": 240,
+            "requested_hash": "9e94a6219398e5455b8e74e42a9def16d5ea6995cfe74969e6eb75abe4f1495c",
+            "response_status_counts": {
+                "in_progress": 1
+            }
+        }
+    ],
+    "model": "qwen3.8-livetranslate-flash-realtime",
+    "region": "cn-beijing",
+    "input_samples": 140400,
+    "input_sha256": "873dcb82edafd06995ea49adaba88e141ad164b6cee12dab425bab65c20b9036",
+    "target_language": "zh",
+    "probe_plan": "target_length_followup",
+    "calls": 1,
+    "elapsed_seconds": 3.847,
+    "finished_at": "2026-10-09T11:49:37+00:00",
+    "scope": "Only listed values and this speech fixture were tested; no supplier maximum inferred."
+}

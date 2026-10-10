@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\FinalConcurrencyTest" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" tests="4" assertions="58" errors="0" failures="0" skipped="0" time="2.767343">
+    <testcase name="test_cleanup_during_zero_timed_export_cannot_resurrect_expired_task" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" line="16" class="Tests\Feature\FinalConcurrencyTest" classname="Tests.Feature.FinalConcurrencyTest" assertions="4" time="0.189949"/>
+    <testcase name="test_actual_start_and_settings_save_serialize_on_two_postgres_processes" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" line="27" class="Tests\Feature\FinalConcurrencyTest" classname="Tests.Feature.FinalConcurrencyTest" assertions="7" time="2.383437"/>
+    <testcase name="test_real_worker_exports_after_six_shared_mutex_releases_without_failure" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" line="42" class="Tests\Feature\FinalConcurrencyTest" classname="Tests.Feature.FinalConcurrencyTest" assertions="24" time="0.110422"/>
+    <testcase name="test_real_worker_purges_after_six_shared_mutex_releases_without_failure" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" line="51" class="Tests\Feature\FinalConcurrencyTest" classname="Tests.Feature.FinalConcurrencyTest" assertions="23" time="0.083535"/>
+  </testsuite>
+</testsuites>

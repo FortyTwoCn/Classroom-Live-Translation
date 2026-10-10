@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { api, ApiError, errorCode, type Course, type Lesson } from "../api";
 import { t } from "../i18n";
 import Modal from "./Modal.vue";
+import { loadAdminCourseOptions } from "../admin-courses";
 const emit = defineEmits<{ navigate: [path: string] }>();
 const courses = ref<Course[]>([]),
   lessons = ref<Array<Lesson & { deleted_at?: string }>>([]),
@@ -23,14 +24,20 @@ const confirmation = ref<{
   } | null>(null),
   reauth = ref(false),
   password = ref("");
+const confirmName = ref("");
+let purgeTimer: number | undefined;
 let pending: (() => Promise<void>) | null = null;
+function cancelConfirmation() {
+  confirmation.value = null;
+  confirmName.value = "";
+}
 async function load(reset = false) {
   if (reset) page.value = 1;
   try {
     const query = new URLSearchParams({
-      course_id: courseId.value,
-      search: search.value,
-      status: status.value,
+      ...(courseId.value ? { course_id: courseId.value } : {}),
+      ...(search.value ? { search: search.value } : {}),
+      ...(status.value !== "all" ? { status: status.value } : {}),
       deleted: deleted.value ? "1" : "0",
       sort: sort.value,
       direction: direction.value,
@@ -47,6 +54,13 @@ async function load(reset = false) {
     total.value = Array.isArray(response.lessons)
       ? response.total || response.lessons.length
       : response.lessons.total;
+    if (purgeTimer) clearTimeout(purgeTimer);
+    if (
+      lessons.value.some((item) =>
+        ["queued", "processing"].includes(item.purge_status || ""),
+      )
+    )
+      purgeTimer = window.setTimeout(() => load(), 2000);
   } catch (e) {
     error.value = errorCode(e);
   }
@@ -72,10 +86,16 @@ async function execute() {
   await run(async () => {
     await api.request(
       `/api/admin/lessons/${action.item.id}${action.operation ? `/${action.operation}` : ""}`,
-      { confirmed: true },
+      {
+        confirmed: true,
+        ...(action.operation === "purge"
+          ? { confirm_name: confirmName.value }
+          : {}),
+      },
       action.method,
     );
     confirmation.value = null;
+    confirmName.value = "";
     await load();
   });
 }
@@ -91,13 +111,14 @@ async function authorize() {
 }
 onMounted(async () => {
   try {
-    courses.value = (
-      await api.request<{ courses: { data: Course[] } }>("/api/admin/courses")
-    ).courses.data;
+    courses.value = await loadAdminCourseOptions();
   } catch (e) {
     error.value = errorCode(e);
   }
   await load();
+});
+onUnmounted(() => {
+  if (purgeTimer) clearTimeout(purgeTimer);
 });
 </script>
 <template>
@@ -156,6 +177,9 @@ onMounted(async () => {
           {{ t(`archive_${item.archive_status}`) }}
         </p>
         <p>{{ t("recorder") }}: {{ item.recorder_name || t("notAssigned") }}</p>
+        <p v-if="item.purge_status" role="status">
+          {{ t(`purge_${item.purge_status}`) }}
+        </p>
         <div class="inline-actions">
           <button
             @click="emit('navigate', `/lessons/${item.id}`)"
@@ -164,12 +188,26 @@ onMounted(async () => {
             {{ t("openLesson") }}</button
           ><button
             v-if="item.deleted_at"
+            :disabled="!!item.purge_status"
             @click="
               confirmation = { item, operation: 'restore', method: 'POST' }
             "
           >
             {{ t("restoreLesson") }}</button
-          ><template v-else
+          ><button
+            v-if="
+              item.deleted_at &&
+              item.status === 'ended' &&
+              (!item.purge_status || item.purge_status === 'failed')
+            "
+            class="danger"
+            @click="
+              confirmation = { item, operation: 'purge', method: 'POST' };
+              confirmName = '';
+            "
+          >
+            {{ t("purgeLesson") }}</button
+          ><template v-if="!item.deleted_at"
             ><button
               v-if="item.status !== 'ended'"
               @click="confirmation = { item, operation: 'end', method: 'POST' }"
@@ -222,22 +260,38 @@ onMounted(async () => {
     v-if="confirmation"
     :title="
       t(
-        confirmation.operation === 'restore'
-          ? 'restoreLesson'
-          : confirmation.operation === 'end'
-            ? 'end'
-            : confirmation.operation === 'retry-archive'
-              ? 'retryArchive'
-              : 'deleteLesson',
+        confirmation.operation === 'purge'
+          ? 'purgeLesson'
+          : confirmation.operation === 'restore'
+            ? 'restoreLesson'
+            : confirmation.operation === 'end'
+              ? 'end'
+              : confirmation.operation === 'retry-archive'
+                ? 'retryArchive'
+                : 'deleteLesson',
       )
     "
-    @close="confirmation = null"
+    @close="cancelConfirmation"
     ><p>{{ confirmation.item.name }}</p>
     <p>{{ t("confirmAction") }}</p>
+    <template v-if="confirmation.operation === 'purge'"
+      ><p>{{ t("purgeHelp") }}</p>
+      <label
+        >{{ t("confirmLessonName")
+        }}<input v-model="confirmName" autocomplete="off" required /></label
+    ></template>
     <p v-if="error" class="alert">{{ t(`error_${error}`) }}</p>
     <div class="dialog-actions">
-      <button @click="confirmation = null">{{ t("cancel") }}</button
-      ><button class="danger" @click="execute" :disabled="busy">
+      <button @click="cancelConfirmation">{{ t("cancel") }}</button
+      ><button
+        class="danger"
+        @click="execute"
+        :disabled="
+          busy ||
+          (confirmation.operation === 'purge' &&
+            confirmName !== confirmation.item.name)
+        "
+      >
         {{ t("confirm") }}
       </button>
     </div></Modal

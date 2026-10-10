@@ -1,0 +1,123 @@
+{
+  "classification": "ACTUAL_PHP_WEBSOCKET_POSTGRESQL_AUDIOWORKLET_SYNTHETIC_TONE_MOCK_QWEN",
+  "status": "passed",
+  "testedAt": "2026-10-09T13:13:55.200Z",
+  "realPhp": true,
+  "realPostgreSql": true,
+  "webSocketMocks": false,
+  "httpMocks": false,
+  "real_model": false,
+  "real_oss": false,
+  "synthetic_audio": true,
+  "real_microphone": false,
+  "lessonId": 1474,
+  "checks": [
+    {
+      "name": "actual AudioWorklet microphone-ended event stops tracks, pauses actual Gateway and persists unknown audio range",
+      "status": "passed"
+    },
+    {
+      "name": "explicit resume creates a new stream; AudioContext suspension pauses and persists a second actual capture issue",
+      "status": "passed"
+    },
+    {
+      "name": "manual end retains both persisted uncertain ranges without restarting microphone or claiming archive playback",
+      "status": "passed"
+    }
+  ],
+  "issues": [
+    {
+      "id": 13,
+      "reason": "microphone_ended",
+      "epoch": 1,
+      "start_sample": 9600,
+      "end_sample": null,
+      "last_ack_sequence": 5,
+      "next_sequence": 6,
+      "estimated_lost_ms": null
+    },
+    {
+      "id": 14,
+      "reason": "context_suspended",
+      "epoch": 2,
+      "start_sample": 20800,
+      "end_sample": null,
+      "last_ack_sequence": 5,
+      "next_sequence": 7,
+      "estimated_lost_ms": null
+    }
+  ],
+  "capture": {
+    "calls": 2,
+    "packets": [
+      {
+        "epoch": 1,
+        "sequence": 0,
+        "samples": 1600
+      },
+      {
+        "epoch": 1,
+        "sequence": 1,
+        "samples": 1600
+      },
+      {
+        "epoch": 1,
+        "sequence": 2,
+        "samples": 1600
+      },
+      {
+        "epoch": 1,
+        "sequence": 3,
+        "samples": 1600
+      },
+      {
+        "epoch": 1,
+        "sequence": 4,
+        "samples": 1600
+      },
+      {
+        "epoch": 1,
+        "sequence": 5,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 0,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 1,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 2,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 3,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 4,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 5,
+        "samples": 1600
+      },
+      {
+        "epoch": 2,
+        "sequence": 6,
+        "samples": 1600
+      }
+    ],
+    "acks": 13,
+    "tracksStopped": true
+  },
+  "jsErrors": []
+}

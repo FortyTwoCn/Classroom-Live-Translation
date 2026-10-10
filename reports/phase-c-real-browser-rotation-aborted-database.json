@@ -1,0 +1,74 @@
+{
+    "test_kind": "real_model_real_oss_database_readback",
+    "lesson_id": 2,
+    "status": "paused",
+    "translation_status": "finished",
+    "media_samples": 393600,
+    "model_sessions": [
+        {
+            "id": "58e43e4a-97c3-41bc-bde1-ff2ac3b56489",
+            "purpose": "initial",
+            "epoch": 1,
+            "base_sample": 0,
+            "sent_samples": 393600,
+            "status": "finished",
+            "created_at": "2026-10-09 12:36:49.6126+00",
+            "ended_at": "2026-10-09 12:37:15+00",
+            "approximate_boundary": false
+        }
+    ],
+    "model_sent_samples": 393600,
+    "no_duplicate_audio_forwarding": true,
+    "audio_segments": {
+        "count": 246,
+        "samples": 393600,
+        "first_sample": 0,
+        "last_sample": 393600,
+        "epoch_count": 1,
+        "gaps_or_overlaps": 0
+    },
+    "audio_chunks": [
+        {
+            "storage_state": "uploaded",
+            "n": 3,
+            "samples": 393600
+        }
+    ],
+    "subtitle_status_counts": [
+        {
+            "kind": "source",
+            "status": "completed",
+            "n": 1
+        },
+        {
+            "kind": "translation",
+            "status": "completed",
+            "n": 1
+        }
+    ],
+    "official_usage": [
+        {
+            "model_session_id": "58e43e4a-97c3-41bc-bde1-ff2ac3b56489",
+            "response_id": "resp_O2MR2zRGKsXwhcPJmuMCb",
+            "status": "completed",
+            "official": true,
+            "usage": {
+                "input_tokens": 180,
+                "total_tokens": 227,
+                "output_tokens": 47,
+                "input_tokens_details": {
+                    "text_tokens": 47,
+                    "audio_tokens": 133
+                },
+                "output_tokens_details": {
+                    "text_tokens": 47
+                }
+            }
+        }
+    ],
+    "rotation_events": [],
+    "archive": null,
+    "physical_microphone_verified": false,
+    "physical_device_verified": false,
+    "translation_split_quality_verified": false
+}

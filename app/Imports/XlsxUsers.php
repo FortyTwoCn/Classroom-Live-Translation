@@ -16,8 +16,8 @@ final class XlsxUsers {
   $writer->addRow(new Row([new StringCell('Іван 示例'),new StringCell('000123456',$text)]));$writer->close();return $path;
  }
  public function parse(string $file):array {
-  $this->preflight($file);$dir=storage_path('app/imports');if(!is_dir($dir))mkdir($dir,0700,true);$reader=new Reader(new Options(SHOULD_PRESERVE_EMPTY_ROWS:true,tempFolder:$dir));$rows=[];$seen=[];$columns=null;$n=0;
-  try{$reader->open($file);foreach($reader->getSheetIterator()as$sheet){foreach($sheet->getRowIterator()as$row){if(++$n>2001)throw new Failure('import_row_limit',422,['max'=>2000]);$cells=$row->cells;
+  $limits=\App\Settings\Settings::policies();$this->preflight($file,(int)$limits['max_import_bytes']);$maxRows=(int)$limits['max_import_rows'];$dir=storage_path('app/imports');if(!is_dir($dir))mkdir($dir,0700,true);$reader=new Reader(new Options(SHOULD_PRESERVE_EMPTY_ROWS:true,tempFolder:$dir));$rows=[];$seen=[];$columns=null;$n=0;
+  try{$reader->open($file);foreach($reader->getSheetIterator()as$sheet){foreach($sheet->getRowIterator()as$row){if(++$n>$maxRows+1)throw new Failure('import_row_limit',422,['max'=>$maxRows]);$cells=$row->cells;
    if($row->getNumCells()>20)throw new Failure('import_column_limit',422);
    if($n===1){$columns=$this->headers($cells);continue;}if($row->isEmpty())continue;
    $nameCell=$cells[$columns['name']]??null;$idCell=$cells[$columns['student_id']]??null;
@@ -36,8 +36,8 @@ final class XlsxUsers {
   foreach($cells as$i=>$cell){if(!$cell instanceof StringCell)continue;$key=$aliases[mb_strtolower(mb_trim($cell->getValue()))]??null;if($key){if(isset($found[$key]))throw new Failure('import_header_duplicate',422);$found[$key]=$i;}}
   if(!isset($found['name'],$found['student_id']))throw new Failure('import_headers_missing',422);return $found;
  }
- private function preflight(string $file):void {
-  if(!is_file($file)||filesize($file)>4194304)throw new Failure('import_file_size',422);
+ private function preflight(string $file,int $maxBytes):void {
+  if(!is_file($file)||filesize($file)>$maxBytes)throw new Failure('import_file_size',422,['max_bytes'=>$maxBytes]);
   $zip=new ZipArchive();if($zip->open($file)!==true)throw new Failure('import_xlsx_invalid',422);
   try{if($zip->numFiles>2000||$zip->locateName('[Content_Types].xml')===false||$zip->locateName('xl/workbook.xml')===false)throw new Failure('import_xlsx_invalid',422);$total=0;
    for($i=0;$i<$zip->numFiles;$i++){$s=$zip->statIndex($i);$name=$s['name'];$total+=$s['size'];if($s['size']>8388608||$total>33554432||($s['size']>1048576&&$s['size']/max(1,$s['comp_size'])>100))throw new Failure('import_zip_limits',422);

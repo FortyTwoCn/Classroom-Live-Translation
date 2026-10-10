@@ -1,0 +1,73 @@
+{
+    "classification": "REAL_OSS_DATABASE_QUEUE_ENCRYPTED_SETTINGS_TESTCONNECTION_SUBPROCESS",
+    "status": "passed",
+    "job_class": "App\\Jobs\\TestConnection",
+    "real_oss": true,
+    "real_model": false,
+    "physical_microphone_verified": false,
+    "cloud_key_scope": "two newly generated _connection-tests keys only",
+    "owner_admin_verified": true,
+    "stored_encrypted_configuration": true,
+    "queued_before_worker": 1,
+    "worker_exit_code": 0,
+    "probe_report": {
+        "steps": [
+            {
+                "step": "put",
+                "status": "passed",
+                "elapsed_ms": 277
+            },
+            {
+                "step": "get",
+                "status": "passed",
+                "elapsed_ms": 52
+            },
+            {
+                "step": "head",
+                "status": "passed",
+                "elapsed_ms": 72
+            },
+            {
+                "step": "signed_get",
+                "status": "passed",
+                "elapsed_ms": 195
+            },
+            {
+                "step": "range",
+                "status": "passed",
+                "elapsed_ms": 57
+            },
+            {
+                "step": "private",
+                "status": "passed",
+                "elapsed_ms": 70
+            },
+            {
+                "step": "multipart_put_head",
+                "status": "passed",
+                "elapsed_ms": 1757
+            },
+            {
+                "step": "multipart_get",
+                "status": "passed",
+                "elapsed_ms": 4711
+            },
+            {
+                "step": "delete",
+                "status": "passed",
+                "elapsed_ms": 146
+            },
+            {
+                "step": "deleted_absent",
+                "status": "passed",
+                "elapsed_ms": 412
+            }
+        ],
+        "status": "passed",
+        "classification": "real_oss_s3"
+    },
+    "failure_code": null,
+    "queued_after_worker": 0,
+    "synthetic_database_retained": true,
+    "elapsed_seconds": 8.636
+}

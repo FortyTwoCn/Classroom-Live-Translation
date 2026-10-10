@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { displayDate } from "../public-settings";
 import { onMounted, ref } from "vue";
 import { api, errorCode } from "../api";
 import { t } from "../i18n";
@@ -91,7 +92,7 @@ onMounted(load);
       </p>
       <p v-if="device.last_used_at" class="muted">
         {{ t("lastUsed") }}:
-        {{ new Date(device.last_used_at).toLocaleString() }}
+        {{ displayDate(device.last_used_at) }}
       </p>
       <button @click="revoke(device)" :disabled="busy">
         {{ t("revokeDevice") }}

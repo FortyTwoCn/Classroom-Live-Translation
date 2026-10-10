@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-10-09T22:29:11.0242679+08:00",
+  "health_status": 200,
+  "gateway_listener": true,
+  "real_model_call": false,
+  "status": "passed",
+  "physical_microphone": false,
+  "database_state": {
+    "database": "classroom",
+    "migrations": 11,
+    "users": 0,
+    "courses": 0,
+    "lessons": 0,
+    "model_sessions": 0,
+    "queue_jobs": 0,
+    "failed_jobs": 0,
+    "main_storage_isolated": true
+  },
+  "administrator_created": false,
+  "services": [
+    {
+      "service": "uploads",
+      "running": true
+    },
+    {
+      "service": "archives",
+      "running": true
+    },
+    {
+      "service": "http",
+      "running": true
+    },
+    {
+      "service": "scheduler",
+      "running": true
+    },
+    {
+      "service": "gateway",
+      "running": true
+    },
+    {
+      "service": "products",
+      "running": true
+    }
+  ],
+  "http_status": 200,
+  "classification": "REAL_LOCAL_SIX_PROCESS_STARTUP_PHP_POSTGRESQL_NO_PROVIDER_AUDIO",
+  "real_oss_call": false,
+  "public_deployment": false,
+  "production_assets_loaded": true
+}

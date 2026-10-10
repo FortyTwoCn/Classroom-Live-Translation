@@ -169,6 +169,46 @@ final class QwenSessionTest extends TestCase
         self::assertStringNotContainsString('private-value', json_encode($errors));
     }
 
+    public function test_rotation_observation_tracks_ready_audio_count_and_pending_provider_work():void
+    {
+        $checks=[];
+        $this->server->onMessage=static function(TcpConnection $connection,string $json):void{
+            $command=json_decode($json,true);
+            if($command['type']==='session.update')$connection->send(json_encode(['type'=>'session.updated','session'=>$command['session']]));
+            elseif($command['type']==='input_audio_buffer.append'){
+                $connection->send(json_encode(['type'=>'input_audio_buffer.speech_started','item_id'=>'s','audio_start_ms'=>0]));
+                $connection->send(json_encode(['type'=>'conversation.item.input_audio_transcription.delta','item_id'=>'s','delta'=>'air']));
+                $connection->send(json_encode(['type'=>'conversation.item.input_audio_transcription.completed','item_id'=>'s','transcript'=>'airfoil']));
+                $connection->send(json_encode(['type'=>'input_audio_buffer.speech_stopped','item_id'=>'s','audio_end_ms'=>100]));
+            }elseif($command['type']==='session.finish')$connection->send(json_encode(['type'=>'session.finished']));
+        };
+        $this->session=new QwenSession($this->config(),'zh',function(array $event)use(&$checks):void{
+            if(($event['type']??'')==='subtitle.upsert'){
+                $checks[$event['status']]=$this->session->canRotateAtBoundary();
+                if($event['status']==='completed')Timer::add(0.01,function():void{$this->session->finish();self::assertFalse($this->session->canRotateAtBoundary());},[],false);
+            }
+        },function(string $state)use(&$checks):void{
+            if($state==='ready'){$checks['ready']=$this->session->canRotateAtBoundary();$this->session->sendAudio(str_repeat("\0",3200));}
+            if($state==='finished')$this->loop->stop();
+        });
+        self::assertFalse($this->session->canRotateAtBoundary());self::assertSame(0.0,$this->session->elapsedSeconds());$this->session->connect();
+        Timer::add(3,fn()=>$this->loop->stop(),[],false);$this->loop->run();
+        self::assertTrue($checks['ready']);self::assertFalse($checks['streaming']);self::assertTrue($checks['completed']);
+        self::assertSame(1600,$this->session->sentSamplesCount());self::assertGreaterThan(0,$this->session->elapsedSeconds());self::assertFalse($this->session->canRotateAtBoundary());
+    }
+
+    public function test_phrase_echo_mismatch_fails_before_audio_is_allowed():void
+    {
+        $failure=null;$commands=[];
+        $this->server->onMessage=static function(TcpConnection $connection,string $json)use(&$commands):void{
+            $command=json_decode($json,true);$commands[]=$command['type'];$session=$command['session'];unset($session['translation']['corpus']);$connection->send(json_encode(['type'=>'session.updated','session'=>$session]));
+        };
+        $config=QwenConfig::fromArray(['api_key'=>'test-only','workspace_id'=>'test','region'=>'cn-beijing','endpoint'=>$this->endpoint,'allow_test_endpoint'=>true,'phrases'=>['airfoil'=>'翼型']],true);
+        $this->session=new QwenSession($config,'zh',static function():void{},function(string $state,array $details)use(&$failure):void{if($state==='failed'){$failure=$details;$this->loop->stop();}});
+        $this->session->connect();Timer::add(3,fn()=>$this->loop->stop(),[],false);$this->loop->run();
+        self::assertSame('provider_phrases_configuration_mismatch',$failure['code']);self::assertSame(['session.update'],$commands);self::assertFalse($this->session->isReady());self::assertSame(0,$this->session->sentSamplesCount());
+    }
+
     private function config(): QwenConfig
     {
         return QwenConfig::fromArray(['api_key'=>'test-key-not-real','workspace_id'=>'test','region'=>'cn-beijing','endpoint'=>$this->endpoint,'allow_test_endpoint'=>true,'finish_timeout'=>1,'connect_timeout'=>1], true);

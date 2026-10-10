@@ -12,6 +12,8 @@
     "test:real-services": "node tests/e2e/actual-browser-real-services.mjs",
     "test:phase-b": "node tests/e2e/actual-phase-b.mjs",
     "test:phase-b-audio": "node tests/e2e/actual-phase-b-audio.mjs",
+    "test:phase-c": "node tests/e2e/actual-phase-c.mjs",
+    "test:phase-c-capture": "node tests/e2e/actual-phase-c-capture.mjs",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {

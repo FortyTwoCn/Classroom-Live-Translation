@@ -1,0 +1,12 @@
+<anonymous_script>:1
+﻿{"student_id":"test-5daa00966a44","lesson_id":1}
+^
+
+SyntaxError: Unexpected token '﻿', "﻿{"student"... is not valid JSON
+    at JSON.parse (<anonymous>)
+    at file:///C:/Users/Lenovo/Documents/Codex/2026-10-09/php-postgresql-oss-s3-qwen3-8/outputs/classroom-live-translation/tests/e2e/recovery.mjs:5:20
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+
+Node.js v24.19.0

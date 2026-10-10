@@ -26,6 +26,7 @@ final class QwenSession
     private readonly array $update;
     private ?string $sessionId = null;
     private array $controlEvents = [];
+    private ?float $connectedAt = null;
 
     public function __construct(private readonly QwenConfig $config, private readonly string $language, callable $onEvent, callable $onState)
     {
@@ -81,6 +82,7 @@ final class QwenSession
             }
         };
         $this->transition('connecting');
+        $this->connectedAt = hrtime(true) / 1_000_000_000;
         $this->deadline = Timer::add($this->config->connectTimeout, function (): void {
             $this->fail('connect_configuration_timeout');
         }, [], false);
@@ -143,6 +145,17 @@ final class QwenSession
         return $this->sentSamples;
     }
 
+    public function sentSamplesCount(): int { return $this->sentSamples; }
+
+    /** Monotonic elapsed connection time, including setup and tail drain. */
+    public function elapsedSeconds(): float
+    {
+        return $this->connectedAt === null ? 0.0 : max(0.0, hrtime(true) / 1_000_000_000 - $this->connectedAt);
+    }
+
+    /** Packet-boundary cutover is owned by Gateway. Provider event arrival can lag audio. */
+    public function canRotateAtBoundary(): bool { return $this->isReady() && !$this->events->hasPendingWork(); }
+
     private function receive(string $message): void
     {
         if (in_array($this->state, ['failed','closed','finished'], true)) {
@@ -190,8 +203,15 @@ final class QwenSession
                     $this->fail('provider_input_format_mismatch');
                     return;
                 }
+                $expectedPhrases = (array) ($this->update['session']['translation']['corpus']['phrases'] ?? []);
+                $actualPhrases = $session['translation']['corpus']['phrases'] ?? [];
+                if (is_array($actualPhrases)) { ksort($actualPhrases); ksort($expectedPhrases); }
+                if (!is_array($actualPhrases) || $actualPhrases !== $expectedPhrases) {
+                    $this->fail('provider_phrases_configuration_mismatch');
+                    return;
+                }
                 $this->cancelDeadline();
-                $this->transition('ready', ['session_id' => $this->sessionId, 'sample_rate' => 16000, 'channels' => 1, 'bits' => 16]);
+                $this->transition('ready', ['session_id' => $this->sessionId, 'sample_rate' => 16000, 'channels' => 1, 'bits' => 16, 'phrases_echo_match' => true, 'phrases_count' => count($expectedPhrases)]);
             }
             foreach ($this->events->normalize($event) as $normalized) {
                 $this->dispatchEvent($normalized + ['provider_event_type' => $type]);
@@ -224,7 +244,7 @@ final class QwenSession
             throw new LogicException('QWEN_CONNECTION_CLOSED');
         }
         $event['event_id'] = 'evt_'.bin2hex(random_bytes(12));
-        if ($this->connection->send(json_encode($event, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR)) === false) {
+        if ($this->connection->send(json_encode($event, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR)) === false) {
             $this->fail('upstream_send_failed');
             throw new LogicException('QWEN_SEND_FAILED');
         }

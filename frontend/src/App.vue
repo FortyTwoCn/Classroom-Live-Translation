@@ -10,6 +10,7 @@ import {
   type Snapshot,
   type Participant,
   type Handoff,
+  type CaptureIssue,
 } from "./api";
 import { locale, setLocale, t, type Locale } from "./i18n";
 import { LessonSocket, type WireMessage } from "./realtime";
@@ -24,6 +25,15 @@ import AccountDialog from "./components/AccountDialog.vue";
 import HandoffPanel from "./components/HandoffPanel.vue";
 import Admin from "./components/Admin.vue";
 import LessonAdmin from "./components/LessonAdmin.vue";
+import UsagePanel from "./components/UsagePanel.vue";
+import CourseSubtitleSearch from "./components/CourseSubtitleSearch.vue";
+import {
+  publicSettings,
+  loadPublicSettings,
+  displayDate,
+  clockSeconds,
+} from "./public-settings";
+import { mergeUnits, activeUnits, timedUnit } from "./recovery";
 
 const user = ref<User | null>(null),
   courses = ref<Course[]>([]),
@@ -59,6 +69,25 @@ const playbackUrl = ref(""),
   player = ref<HTMLAudioElement | null>(null),
   playbackError = ref(false),
   playbackRate = ref("1");
+const playbackPosition = ref(0),
+  playbackDuration = ref(0),
+  playbackFollow = ref(true),
+  pendingSeek = ref<number | null>(null),
+  locatedUnitId = ref<string | null>(null),
+  issues = ref<CaptureIssue[]>([]),
+  recoveryNotice = ref<{ mode: string; count: number } | null>(null),
+  usageWarning = ref<{ code: string; seconds: number } | null>(null),
+  rotationStatus = ref(""),
+  showUsage = ref(false);
+const playbackUnitIds = computed(
+  () =>
+    new Set(
+      activeUnits(
+        mergeUnits(units.value, historyUnits.value || []),
+        playbackPosition.value,
+      ).map((unit) => String(unit.id)),
+    ),
+);
 const captions = ref<HTMLElement | null>(null),
   autoFollow = ref(true),
   unseen = ref(0);
@@ -108,6 +137,12 @@ const outstanding = new Set<number>();
 const microphone = new MicrophoneCapture();
 let wakeLock: WakeLockSentinel | null = null;
 let lastLessonSeq = 0;
+let lastAckSequence = -1;
+let playbackLoading = false,
+  lastPlaybackQuery = -1;
+const pendingCaptureIssues = ref<
+  Array<{ lessonId: number; body: Record<string, unknown> }>
+>([]);
 const permitted = computed(
   () => !!user.value && !user.value.must_change_password,
 );
@@ -261,6 +296,11 @@ async function loadView() {
   await stopCapture(true);
   socketClient?.close();
   socketClient = null;
+  epoch = 0;
+  sequence = 0;
+  lastAckSequence = -1;
+  lastLessonSeq = 0;
+  outstanding.clear();
   lesson.value = null;
   course.value = null;
   units.value = [];
@@ -280,6 +320,16 @@ async function loadView() {
   subtitlePage.value = 1;
   subtitleTotal.value = 0;
   currentClientId.value = "";
+  issues.value = [];
+  recoveryNotice.value = null;
+  lastPlaybackQuery = -1;
+  usageWarning.value = null;
+  rotationStatus.value = "";
+  showUsage.value = false;
+  playbackPosition.value = 0;
+  playbackDuration.value = 0;
+  pendingSeek.value = null;
+  locatedUnitId.value = null;
   subtitleSearch.value = "";
   drafts.value = {};
   correction.value = null;
@@ -311,6 +361,7 @@ async function loadView() {
       socketClient.seed(snapshot);
       socketClient.onState = (state) => {
         connection.value = state;
+        if (state === "connected") void retryCaptureIssues();
       };
       socketClient.onMessage = receiveMessage;
       socketClient.onDisconnect = () => {
@@ -335,6 +386,7 @@ async function loadView() {
           "audio_rate_limited",
           "translation_not_ready",
           "duration_limit",
+          "daily_audio_limit",
           "disk_capacity_limit",
           "gateway_failure",
           "gateway_lock_lost",
@@ -344,6 +396,8 @@ async function loadView() {
           void safePause(code);
       };
       void socketClient.open();
+      const deepUnit = new URLSearchParams(location.search).get("unit_id");
+      if (deepUnit && /^\d+$/.test(deepUnit)) await locateUnit(deepUnit);
       if (isRecorder.value) await refreshDevices();
     } else {
       const result = await api.request<{ courses: Course[] }>("/api/courses");
@@ -376,13 +430,33 @@ async function loadView() {
 }
 function applySnapshot(snapshot: Snapshot) {
   lesson.value = snapshot.lesson;
-  units.value = snapshot.units;
-  lastLessonSeq = snapshot.last_seq;
+  units.value = mergeUnits(units.value, snapshot.units);
+  if (historyUnits.value)
+    historyUnits.value = mergeUnits(
+      historyUnits.value,
+      snapshot.units.filter((unit) =>
+        historyUnits.value?.some((existing) => existing.id === unit.id),
+      ),
+    );
+  if (subtitleMatches.value)
+    subtitleMatches.value = mergeUnits(
+      subtitleMatches.value,
+      snapshot.units.filter((unit) =>
+        subtitleMatches.value?.some((existing) => existing.id === unit.id),
+      ),
+    );
+  if (snapshot.issues) issues.value = snapshot.issues;
+  lastLessonSeq = Math.max(lastLessonSeq, snapshot.last_seq);
 }
 function upsertUnit(unit: Unit) {
   const index = units.value.findIndex((existing) => existing.id === unit.id);
   if (unit.deleted_at) {
     if (index !== -1) units.value.splice(index, 1);
+    for (const collection of [historyUnits, subtitleMatches])
+      if (collection.value)
+        collection.value = collection.value.filter(
+          (existing) => existing.id !== unit.id,
+        );
     return;
   }
   if (index === -1) units.value.push(unit);
@@ -396,11 +470,44 @@ function upsertUnit(unit: Unit) {
   if (autoFollow.value) void nextTick(() => followCaptions());
 }
 function receiveMessage(message: WireMessage) {
-  if (message.type === "snapshot")
+  if (message.type === "snapshot") {
     applySnapshot(message as unknown as Snapshot);
+    if (message.recovery)
+      recoveryNotice.value = {
+        mode: message.recovery.mode,
+        count: message.recovery.count,
+      };
+  }
+  if (message.type === "usage.warning")
+    usageWarning.value = {
+      code: message.code || "lesson_duration_warning",
+      seconds: Math.max(0, Math.floor(message.remaining_seconds || 0)),
+    };
+  if (message.type === "translation.rotation") {
+    rotationStatus.value = ["preparing", "failed"].includes(message.phase || "")
+      ? message.phase!
+      : "";
+  }
   if (message.type === "subtitle.partial" && message.unit)
     upsertUnit(message.unit);
   if (message.type === "event") {
+    if (message.event_type === "usage.warning") {
+      const info = message.payload as unknown as {
+        code: string;
+        remaining_seconds: number;
+      };
+      usageWarning.value = {
+        code: info.code,
+        seconds: Math.max(0, Math.floor(info.remaining_seconds || 0)),
+      };
+    }
+    if (message.event_type === "translation.rotation") {
+      const phase = (message.payload as unknown as { phase: string }).phase;
+      rotationStatus.value = ["preparing", "failed"].includes(phase)
+        ? phase
+        : "";
+    }
+    if (message.event_type === "recording.issue") void reloadIssues();
     if (message.event_type === "subtitle.updated" && message.payload?.unit)
       upsertUnit(message.payload.unit);
     if (message.event_type === "subtitles.updated" && message.payload?.units)
@@ -420,6 +527,10 @@ function receiveMessage(message: WireMessage) {
           (recording.value && epoch > 0 && update.recorder_epoch !== epoch))
       )
         void safePause("stale_epoch", false);
+      else if (recording.value && update.status === "paused")
+        // An authoritative server pause (for example a rotation deadline)
+        // must stop capture immediately, even if holder and epoch remain.
+        void stopCapture(false);
       lesson.value = update;
     }
     if (
@@ -448,6 +559,7 @@ function receiveMessage(message: WireMessage) {
     if (!recording.value) void stopCapture(false);
   }
   if (message.type === "audio.ack" && message.sequence !== undefined) {
+    lastAckSequence = Math.max(lastAckSequence, message.sequence);
     for (const sentSequence of outstanding)
       if (sentSequence <= message.sequence) outstanding.delete(sentSequence);
     if (lesson.value && typeof message.media_samples === "number")
@@ -473,6 +585,7 @@ function receiveMessage(message: WireMessage) {
     clearStartTimer();
     epoch = message.epoch!;
     sequence = message.next_sequence!;
+    lastAckSequence = sequence - 1;
     outstanding.clear();
     if (lesson.value) lesson.value.recorder_epoch = epoch;
     if (lesson.value && message.media_samples !== undefined)
@@ -787,6 +900,7 @@ async function stopCapture(flush: boolean): Promise<boolean> {
   testing.value = false;
   commandPending = false;
   microphoneState.value = "idleMic";
+  rotationStatus.value = "";
   inputRate.value = null;
   const lock = wakeLock;
   wakeLock = null;
@@ -823,12 +937,14 @@ async function safePause(code = "", sendCommand = true) {
   pausing = true;
   try {
     const hadCapture = recording.value || preparing.value;
-    await stopCapture(code === "");
+    const acknowledged = await stopCapture(code === "");
+    if (!acknowledged && !code) code = "audio_ack_timeout";
     if (hadCapture && sendCommand)
       socketClient?.command("pause", {
         epoch: lesson.value?.recorder_epoch || epoch,
       });
     if (code) errorCode.value = code;
+    if (code && hadCapture && epoch > 0) void reportCaptureIssue(code);
   } finally {
     pausing = false;
   }
@@ -840,6 +956,7 @@ async function endLesson() {
     socketClient?.command("pause", {
       epoch: lesson.value?.recorder_epoch || epoch,
     });
+    void reportCaptureIssue("audio_ack_timeout");
     return;
   }
   socketClient?.command("end", {
@@ -885,7 +1002,7 @@ microphone.onPacket = (pcm) => {
 async function loadPlayback() {
   await action(async () => {
     if (!lesson.value) return;
-    const position = player.value?.currentTime || 0;
+    const position = pendingSeek.value ?? player.value?.currentTime ?? 0;
     const result = await api.request<{ url: string; expires_at: string }>(
       `/api/lessons/${lesson.value.id}/playback`,
     );
@@ -897,6 +1014,11 @@ async function loadPlayback() {
       const restore = () => {
         audio.currentTime = position;
         audio.playbackRate = Number(playbackRate.value);
+        pendingSeek.value = null;
+        playbackPosition.value = position;
+        playbackDuration.value = Number.isFinite(audio.duration)
+          ? audio.duration
+          : 0;
       };
       audio.addEventListener("loadedmetadata", restore, { once: true });
       // Setting src already starts loading. Calling load() here cancels and
@@ -906,8 +1028,163 @@ async function loadPlayback() {
   });
 }
 function seek(unit: Unit) {
-  if (player.value && unit.start_sample !== null)
-    player.value.currentTime = unit.start_sample / 16000;
+  autoFollow.value = false;
+  if (player.value && timedUnit(unit)) {
+    player.value.currentTime = unit.start_sample! / 16000;
+    playbackPosition.value = player.value.currentTime;
+    locatedUnitId.value = String(unit.id);
+    scrollToUnit(String(unit.id));
+  }
+}
+function scrollToUnit(id: string) {
+  void nextTick(() => {
+    const element = captions.value?.querySelector<HTMLElement>(
+      `[data-unit-id="${id}"]`,
+    );
+    if (element && captions.value)
+      captions.value.scrollTop = Math.max(
+        0,
+        element.offsetTop - captions.value.offsetTop - 36,
+      );
+  });
+}
+async function locateUnit(id: string) {
+  if (!lesson.value) return;
+  const result = await api.request<{ units: Unit[]; has_more?: boolean }>(
+    `/api/lessons/${lesson.value.id}/subtitles?around_id=${encodeURIComponent(id)}`,
+  );
+  historyUnits.value = mergeUnits(historyUnits.value || [], result.units);
+  units.value = mergeUnits(units.value, result.units);
+  autoFollow.value = false;
+  locatedUnitId.value = id;
+  const unit = result.units.find((item) => String(item.id) === id);
+  if (unit && timedUnit(unit)) {
+    pendingSeek.value = unit.start_sample! / 16000;
+    playbackPosition.value = pendingSeek.value;
+    if (lesson.value.archive_status === "playable") await loadPlayback();
+  }
+  scrollToUnit(id);
+}
+function onPlaybackTime() {
+  if (!player.value) return;
+  playbackPosition.value = player.value.currentTime;
+  const active = activeUnits(
+    mergeUnits(units.value, historyUnits.value || []),
+    playbackPosition.value,
+  )[0];
+  if (
+    !active ||
+    !displayedUnits.value.some((unit) => String(unit.id) === String(active.id))
+  ) {
+    void loadAtPlaybackTime();
+    return;
+  }
+  if (playbackFollow.value) {
+    autoFollow.value = false;
+    const current = activeUnits(
+      mergeUnits(units.value, historyUnits.value || []),
+      playbackPosition.value,
+    )[0];
+    if (current) scrollToUnit(String(current.id));
+    else void loadAtPlaybackTime();
+  }
+}
+async function loadAtPlaybackTime() {
+  if (!lesson.value || playbackLoading) return;
+  const sample = Math.floor(playbackPosition.value * 16000);
+  if (lastPlaybackQuery >= 0 && Math.abs(lastPlaybackQuery - sample) < 16000)
+    return;
+  lastPlaybackQuery = sample;
+  playbackLoading = true;
+  const generation = viewGeneration;
+  try {
+    const result = await api.request<{ units: Unit[] }>(
+      `/api/lessons/${lesson.value.id}/subtitles?at_sample=${sample}`,
+    );
+    if (generation !== viewGeneration) return;
+    units.value = mergeUnits(units.value, result.units);
+    historyUnits.value = mergeUnits(historyUnits.value || [], result.units);
+    if (playbackFollow.value) {
+      const current = activeUnits(result.units, playbackPosition.value)[0];
+      if (current) scrollToUnit(String(current.id));
+    }
+  } catch (e) {
+    errorCode.value = getError(e);
+  } finally {
+    playbackLoading = false;
+  }
+}
+async function reloadIssues() {
+  if (!lesson.value) return;
+  const id = lesson.value.id;
+  try {
+    const snapshot = await api.request<Snapshot>(`/api/lessons/${id}`);
+    if (lesson.value?.id === id && snapshot.issues)
+      issues.value = snapshot.issues;
+  } catch {
+    /* Reconnect snapshot restores persisted issues. */
+  }
+}
+function issueBody(code: string) {
+  const reason =
+    code === "microphone_ended"
+      ? "microphone_ended"
+      : code === "audio_context_suspended"
+        ? "context_suspended"
+        : ["connection_lost", "audio_ack_timeout", "network_error"].includes(
+              code,
+            )
+          ? "network_disconnected"
+          : code === "network_backpressure"
+            ? "buffer_limit"
+            : code === "page_hidden"
+              ? "page_hidden"
+              : "capture_failed";
+  return {
+    epoch,
+    reason,
+    last_ack_sequence: lastAckSequence,
+    next_sequence: sequence,
+    estimated_lost_ms: null,
+  };
+}
+async function reportCaptureIssue(code: string) {
+  if (!lesson.value || !permitted.value || epoch < 1) return;
+  const queued = { lessonId: lesson.value.id, body: issueBody(code) };
+  pendingCaptureIssues.value = [
+    ...pendingCaptureIssues.value.slice(-19),
+    queued,
+  ];
+  await retryCaptureIssues();
+}
+let retryingIssues = false;
+async function retryCaptureIssues() {
+  if (retryingIssues || !permitted.value) return;
+  retryingIssues = true;
+  try {
+    for (const item of [...pendingCaptureIssues.value]) {
+      try {
+        const result = await api.request<{ issue: CaptureIssue }>(
+          `/api/lessons/${item.lessonId}/capture-issue`,
+          item.body,
+        );
+        pendingCaptureIssues.value = pendingCaptureIssues.value.filter(
+          (existing) => existing !== item,
+        );
+        if (lesson.value?.id === item.lessonId)
+          issues.value = [
+            ...issues.value.filter(
+              (existing) => existing.id !== result.issue.id,
+            ),
+            result.issue,
+          ];
+      } catch {
+        break;
+      }
+    }
+  } finally {
+    retryingIssues = false;
+  }
 }
 function onVisibility() {
   if (document.visibilityState !== "visible" && microphoneRunning.value)
@@ -915,6 +1192,18 @@ function onVisibility() {
 }
 function onUnload() {
   const hadCapture = recording.value || preparing.value;
+  if (hadCapture && epoch > 0 && lesson.value && permitted.value)
+    void fetch(`/api/lessons/${lesson.value.id}/capture-issue`, {
+      method: "POST",
+      credentials: "same-origin",
+      keepalive: true,
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-TOKEN": api.csrf,
+        Accept: "application/json",
+      },
+      body: JSON.stringify(issueBody("page_hidden")),
+    }).catch(() => {});
   microphone.onPacket = () => {};
   void microphone.stop(false);
   if (hadCapture && isRecorder.value)
@@ -952,6 +1241,7 @@ onMounted(async () => {
   window.addEventListener("pagehide", onUnload);
   window.addEventListener("popstate", onPopState);
   try {
+    await loadPublicSettings();
     await refreshIdentity();
     await loadView();
   } catch (error) {
@@ -1094,6 +1384,8 @@ onUnmounted(() => {
             <Icon name="edit" /> {{ t("rename") }}</button
           ><button v-if="permitted && !largeMode" @click="showExport = true">
             <Icon name="export" /> {{ t("export") }}</button
+          ><button v-if="permitted && !largeMode" @click="showUsage = true">
+            {{ t("usage") }}</button
           ><button v-if="largeMode" @click="toggleFullscreen">
             {{ t(fullScreen ? "exitFullscreen" : "fullscreen") }}</button
           ><label v-if="largeMode"
@@ -1125,6 +1417,28 @@ onUnmounted(() => {
             }}</span>
           </div>
           <p class="muted">{{ t("playbackHelp") }}</p>
+          <p class="muted">
+            {{
+              t(
+                publicSettings.retention_days
+                  ? "retentionNotice"
+                  : "retentionForever",
+                { days: publicSettings.retention_days },
+              )
+            }}
+          </p>
+          <p class="muted">{{ t("playbackLocateHelp") }}</p>
+          <a
+            v-if="
+              permitted &&
+              publicSettings.audio_download &&
+              lesson.allow_audio_download &&
+              lesson.archive_status === 'playable'
+            "
+            class="button"
+            :href="`/api/lessons/${lesson.id}/download`"
+            >{{ t("downloadAudio") }}</a
+          >
           <button
             v-if="lesson.archive_status === 'playable'"
             @click="loadPlayback"
@@ -1139,10 +1453,17 @@ onUnmounted(() => {
               controls
               preload="metadata"
               @error="playbackError = true"
+              @timeupdate="onPlaybackTime"
+              @seeked="onPlaybackTime"
+              @loadedmetadata="
+                playbackDuration = Number.isFinite(player?.duration)
+                  ? player!.duration
+                  : 0
+              "
             ></audio
             ><label
               >{{ t("speed") }}
-              <select v-model="playbackRate">
+              <select v-model="playbackRate" :aria-label="t('speed')">
                 <option value="0.75">0.75×</option>
                 <option value="1">1×</option>
                 <option value="1.25">1.25×</option>
@@ -1154,6 +1475,15 @@ onUnmounted(() => {
           <p v-if="playbackError" class="alert" role="alert">
             {{ t("playbackFailed") }}
           </p>
+          <p v-if="playbackUrl">
+            {{ t("playbackPosition") }}: {{ clockSeconds(playbackPosition) }} /
+            {{ clockSeconds(playbackDuration) }}
+          </p>
+          <label v-if="playbackUrl" class="consent"
+            ><input type="checkbox" v-model="playbackFollow" />{{
+              t("followPlayback")
+            }}</label
+          >
         </section>
         <section class="subtitle-panel panel">
           <div class="section-header">
@@ -1219,7 +1549,14 @@ onUnmounted(() => {
               v-for="unit in displayedUnits"
               :key="`${unit.kind}:${unit.id}`"
               class="subtitle-unit"
-              :class="unit.kind"
+              :class="[
+                unit.kind,
+                {
+                  'playback-active': playbackUnitIds.has(String(unit.id)),
+                  'located-unit': locatedUnitId === String(unit.id),
+                },
+              ]"
+              :data-unit-id="String(unit.id)"
             >
               <div class="unit-meta">
                 <span>{{
@@ -1229,12 +1566,12 @@ onUnmounted(() => {
                   t(`unit_${unit.status}`)
                 }}</span
                 ><button
-                  v-if="unit.start_sample !== null"
+                  v-if="timedUnit(unit)"
                   class="timestamp"
                   :disabled="!playbackUrl"
                   @click="seek(unit)"
                 >
-                  {{ duration(unit.start_sample) }}
+                  {{ duration(unit.start_sample ?? undefined) }}
                   <span v-if="unit.timing_precision !== 'exact'"
                     >≈</span
                   ></button
@@ -1387,6 +1724,70 @@ onUnmounted(() => {
           </div>
         </section>
         <p v-else class="muted">{{ t("permissionViewer") }}</p>
+        <p v-if="recoveryNotice" role="status" class="muted">
+          {{
+            t(
+              recoveryNotice.mode === "replay"
+                ? "recoveryReplay"
+                : "recoverySnapshot",
+              { n: recoveryNotice.count },
+            )
+          }}
+        </p>
+        <p v-if="usageWarning" class="alert" role="status">
+          {{ t(usageWarning.code, { seconds: usageWarning.seconds }) }}
+        </p>
+        <p v-if="rotationStatus" role="status" class="muted">
+          {{
+            t(
+              rotationStatus === "failed"
+                ? "rotationPreparationFailed"
+                : "rotationWaiting",
+            )
+          }}
+        </p>
+        <details v-if="issues.length" class="capture-issues panel">
+          <summary>{{ t("captureIssues") }} ({{ issues.length }})</summary>
+          <p>{{ t("issueHelp") }}</p>
+          <article v-for="issue in issues" :key="issue.id">
+            <p>
+              {{ displayDate(issue.created_at) }} ·
+              {{
+                t(
+                  issue.details?.reason
+                    ? `error_${issue.details.reason}`
+                    : `issue_${issue.kind || "translation_uncertain"}`,
+                )
+              }}
+            </p>
+            <p>
+              {{
+                t(
+                  issue.kind === "capture_uncertain"
+                    ? "audioUnknown"
+                    : "translationUncertain",
+                )
+              }}
+            </p>
+            <p
+              v-if="
+                issue.details?.estimated_lost_ms !== null &&
+                issue.details?.estimated_lost_ms !== undefined
+              "
+            >
+              {{ t("lostEstimate", { ms: issue.details.estimated_lost_ms }) }}
+            </p>
+          </article>
+        </details>
+        <p
+          v-if="
+            pendingCaptureIssues.some((item) => item.lessonId === lesson?.id)
+          "
+          role="status"
+          class="alert"
+        >
+          {{ t("pendingIssue") }}
+        </p>
         <button
           v-if="canEnd && !isRecorder"
           class="danger"
@@ -1396,6 +1797,7 @@ onUnmounted(() => {
         </button>
       </template>
       <template v-else-if="course">
+        <CourseSubtitleSearch :course-id="course.id" @navigate="navigate" />
         <div class="title-row">
           <div>
             <button class="back" @click="navigate('/courses')">
@@ -1460,7 +1862,7 @@ onUnmounted(() => {
             <h2>{{ item.name }}</h2>
             <p v-if="item.created_at">
               {{ t("createdAt") }} ·
-              {{ new Date(item.created_at).toLocaleString() }}
+              {{ displayDate(item.created_at) }}
             </p>
             <p>{{ t("mediaDuration") }} · {{ duration(item.media_samples) }}</p>
           </button>
@@ -1691,6 +2093,12 @@ onUnmounted(() => {
       @signed-out="accountSignedOut"
       @password-changed="refreshIdentity"
     />
+    <Modal
+      v-if="showUsage && lesson && permitted"
+      :title="t('usage')"
+      @close="showUsage = false"
+      ><UsagePanel :lesson-id="lesson.id"
+    /></Modal>
     <CorrectionDialog
       v-if="correction && lesson"
       :lesson="lesson"

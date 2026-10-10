@@ -1,0 +1,23 @@
+{
+    "classification": "REAL_POSTGRESQL_TWO_PROCESSES_ACTUAL_GATEWAY_START_SETTINGS_SAVE_MOCK_CONFIG",
+    "status": "passed",
+    "gateway": {
+        "status": "passed",
+        "mode": "gateway",
+        "postgres_pid": 33884,
+        "settings_wait_event": "advisory",
+        "model_sessions": 1,
+        "lesson_model_version": "d95c1075-eb03-4fa9-95b5-db2e4fef9a70",
+        "cloud_requests": 0,
+        "provider_loop_run": false
+    },
+    "settings": {
+        "status": "passed",
+        "mode": "settings",
+        "postgres_pid": 47264,
+        "active_version": "59867439-91ae-4f02-bdac-da1186ee39f3",
+        "optimistic_version_conflicts": 1
+    },
+    "real_model": false,
+    "real_oss": false
+}

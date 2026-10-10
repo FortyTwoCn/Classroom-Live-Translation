@@ -1,0 +1,15 @@
+{
+  "php_files": 130,
+  "frontend_unit_tests": 24,
+  "postgresql_version": "17.11",
+  "backend_assertions": 1303,
+  "php_version": "8.5.11",
+  "powershell_files": 9,
+  "docker_build": "unverified",
+  "phpunit_report": "phpunit-phase-c-final.xml",
+  "linux_deployment": "unverified",
+  "frontend_strict_types_and_build": "passed",
+  "backend_tests": 231,
+  "status": "passed",
+  "composer_platform_requirements": "passed"
+}

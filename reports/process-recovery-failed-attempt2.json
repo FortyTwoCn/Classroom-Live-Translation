@@ -1,0 +1,9 @@
+{
+  "classification": "REAL_PROCESS_RESTART_PHP_POSTGRESQL_EXPLICIT_MOCK_QWEN",
+  "status": "failed",
+  "real_model": false,
+  "real_oss": false,
+  "hardware_microphone": false,
+  "failure_type": "TimeoutError",
+  "failure_message": "page.waitForFunction: Timeout 30000ms exceeded."
+}

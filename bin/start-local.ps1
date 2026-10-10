@@ -4,6 +4,9 @@ $workspace=Split-Path -Parent (Split-Path -Parent $project)
 $runtime=Join-Path $workspace 'work/runtime'
 $php=Join-Path $runtime 'php/php.exe'
 if(-not (Test-Path -LiteralPath $php)){throw 'Portable runtime missing; use Docker Compose or your own PHP 8.5 runtime. See README.'}
+foreach($port in @(8080,8081)){if(Get-NetTCPConnection -State Listen -LocalPort $port -ErrorAction SilentlyContinue){throw "Local port $port is already in use. Inspect its owner before starting another instance."}}
+if(-not $env:LARAVEL_STORAGE_PATH){$env:LARAVEL_STORAGE_PATH=Join-Path $project 'storage/main'}
+foreach($folder in @('app/recordings','framework/views','framework/sessions','framework/cache/data','logs')){New-Item -ItemType Directory -Force -Path (Join-Path $env:LARAVEL_STORAGE_PATH $folder) | Out-Null}
 $pidFile=Join-Path $project 'storage/local-processes.json'
 if(Test-Path -LiteralPath $pidFile){
  $previous=Get-Content -LiteralPath $pidFile -Raw | ConvertFrom-Json

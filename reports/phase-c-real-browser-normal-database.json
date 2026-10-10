@@ -1,0 +1,80 @@
+{
+    "test_kind": "real_model_real_oss_database_readback",
+    "lesson_id": 1,
+    "status": "ended",
+    "translation_status": "finished",
+    "media_samples": 278400,
+    "model_sessions": [
+        {
+            "id": "3896d8c5-a3da-43da-9967-1ec9adb6fdee",
+            "purpose": "initial",
+            "epoch": 1,
+            "base_sample": 0,
+            "sent_samples": null,
+            "status": "finished",
+            "created_at": "2026-10-09 12:31:59.417468+00",
+            "ended_at": "2026-10-09 12:32:18+00",
+            "approximate_boundary": false
+        }
+    ],
+    "model_sent_samples": null,
+    "no_duplicate_audio_forwarding": null,
+    "audio_segments": {
+        "count": 174,
+        "samples": 278400,
+        "first_sample": 0,
+        "last_sample": 278400,
+        "epoch_count": 1,
+        "gaps_or_overlaps": 0
+    },
+    "audio_chunks": [
+        {
+            "storage_state": "uploaded",
+            "n": 2,
+            "samples": 278400
+        }
+    ],
+    "subtitle_status_counts": [
+        {
+            "kind": "source",
+            "status": "completed",
+            "n": 1
+        },
+        {
+            "kind": "translation",
+            "status": "completed",
+            "n": 1
+        }
+    ],
+    "official_usage": [
+        {
+            "model_session_id": "3896d8c5-a3da-43da-9967-1ec9adb6fdee",
+            "response_id": "resp_IllsiZSwqfEGyUwNi48rv",
+            "status": "completed",
+            "official": true,
+            "usage": {
+                "input_tokens": 173,
+                "total_tokens": 226,
+                "output_tokens": 53,
+                "input_tokens_details": {
+                    "text_tokens": 47,
+                    "audio_tokens": 126
+                },
+                "output_tokens_details": {
+                    "text_tokens": 53
+                }
+            }
+        }
+    ],
+    "rotation_events": [],
+    "archive": {
+        "status": "playable",
+        "samples": 278400,
+        "bytes": 114005,
+        "sha256": "a8902453c6f036bd23ff42d61cfe2a0e8c9fa55c6e7ec803e2c1c595b637383d",
+        "object_key_sha256": "955b983421a1bc1f71ae2e17703a6dba744e9acca0445ac273a05ec50c535d11"
+    },
+    "physical_microphone_verified": false,
+    "physical_device_verified": false,
+    "translation_split_quality_verified": false
+}

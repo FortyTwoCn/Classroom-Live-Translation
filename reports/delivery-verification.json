@@ -1,0 +1,13 @@
+{
+  "deliverable_files": 430,
+  "findings": [],
+  "requirements_sha256": "83c2d50a5d63ac456c93565b00dd446720efd5696457d015e00852458dc1ecf8",
+  "log_files": 261,
+  "asset_files": 32,
+  "attachment_identical": true,
+  "scan_kind": "exact configured credential values plus signed URL report pattern",
+  "status": "passed",
+  "not_a_general_security_audit": true,
+  "values_printed": false,
+  "configured_sensitive_fields": 5
+}

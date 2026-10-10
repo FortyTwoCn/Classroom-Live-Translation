@@ -2,7 +2,7 @@
 // Explicit protocol fixture; NEVER loaded by application production code.
 require __DIR__.'/../../vendor/autoload.php';
 use Workerman\Worker;
-$worker=new Worker('websocket://127.0.0.1:18082');$worker->name='EXPLICIT-MOCK-QWEN';
+$worker=new Worker(getenv('MOCK_QWEN_LISTEN')?:'websocket://127.0.0.1:18082');$worker->name='EXPLICIT-MOCK-QWEN';
 $emit=function($c,array $e){$e['event_id']='fixture-'.++$c->context->events;$c->send(json_encode($e,JSON_UNESCAPED_UNICODE));};
 $worker->onWebSocketConnect=function($c)use($emit){$c->context->events=0;$c->context->frames=0;$c->context->samples=0;$emit($c,['type'=>'session.created','session'=>['id'=>'fixture-session','model'=>'qwen3.8-livetranslate-flash-realtime']]);};
 $worker->onMessage=function($c,$message)use($emit){$e=json_decode($message,true);$type=$e['type']??'';

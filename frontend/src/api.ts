@@ -12,12 +12,13 @@ export interface Course {
   description?: string;
   target_language: string;
   guest_access: "public" | "link";
+  allow_audio_download?: boolean;
   active_lesson_id?: number | null;
   active_lesson_status?: string;
   lesson_count?: number;
   enabled?: boolean;
   archived?: boolean;
-  archived_at?:string|null;
+  archived_at?: string | null;
   sort_order?: number;
   deleted_at?: string | null;
 }
@@ -39,7 +40,9 @@ export interface Lesson {
   created_at?: string;
   version?: number;
   editing_frozen?: boolean;
-  access_mode?:string;
+  access_mode?: string;
+  allow_audio_download?: boolean;
+  purge_status?: string | null;
 }
 export interface Unit {
   id: number | string;
@@ -76,6 +79,23 @@ export interface Snapshot {
   lesson: Lesson;
   units: Unit[];
   last_seq: number;
+  issues?: CaptureIssue[];
+}
+export interface CaptureIssue {
+  id: number;
+  epoch?: number;
+  kind?: string;
+  reason?: string;
+  start_sample?: number | null;
+  end_sample?: number | null;
+  estimated_lost_ms?: number | null;
+  created_at?: string;
+  details?: {
+    reason?: string;
+    estimated_lost_ms?: number | null;
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
 }
 export class ApiError extends Error {
   constructor(
@@ -99,7 +119,7 @@ export const api = {
   async request<T>(
     path: string,
     body?: unknown,
-    method?: "GET" | "POST" | "PATCH" | "DELETE",
+    method?: "GET" | "POST" | "PATCH" | "DELETE" | "PUT",
   ): Promise<T> {
     let response: Response;
     const isForm = body instanceof FormData;

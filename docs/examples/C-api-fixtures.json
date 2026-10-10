@@ -1,0 +1,241 @@
+{
+    "test_kind": "synthetic_api_fixture",
+    "model_called": false,
+    "oss_called": false,
+    "provider_usage_is_fixture": true,
+    "prices_are_fictional": true,
+    "database_changes": "rolled_back",
+    "glossary_list": {
+        "course_id": 1044,
+        "version": 3,
+        "entries": [
+            {
+                "id": 1709,
+                "course_id": 1044,
+                "source_language": "en",
+                "target_language": "zh",
+                "source_text": "airfoil",
+                "target_text": "翼型",
+                "note": "Synthetic mapping",
+                "enabled": true,
+                "row_version": 1,
+                "deleted_at": null,
+                "created_at": "2026-10-09 12:03:21.095346+00",
+                "updated_at": "2026-10-09 12:03:21.095346+00"
+            },
+            {
+                "id": 1710,
+                "course_id": 1044,
+                "source_language": "en",
+                "target_language": "uk",
+                "source_text": "airfoil",
+                "target_text": "аеродинамічний профіль",
+                "note": "Synthetic mapping",
+                "enabled": true,
+                "row_version": 1,
+                "deleted_at": null,
+                "created_at": "2026-10-09 12:03:21.095346+00",
+                "updated_at": "2026-10-09 12:03:21.095346+00"
+            }
+        ],
+        "total": 2,
+        "page": 1,
+        "per_page": 30,
+        "limits": {
+            "max_entries": 1000,
+            "max_term_bytes": 256,
+            "max_source_bytes": 256,
+            "max_target_bytes": 64,
+            "max_payload_bytes": 65536
+        },
+        "effective_policy": "next_lesson_first_start"
+    },
+    "glossary_saved": {
+        "version": 2,
+        "entry": {
+            "id": 1709,
+            "course_id": 1044,
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airfoil",
+            "target_text": "翼型",
+            "note": "Synthetic mapping",
+            "enabled": true,
+            "row_version": 1,
+            "deleted_at": null,
+            "created_at": "2026-10-09 12:03:21.095346+00",
+            "updated_at": "2026-10-09 12:03:21.095346+00"
+        }
+    },
+    "glossary_snapshot": {
+        "version": 3,
+        "hash": "f7c5da4276c31f9687332be254437ae60e08018cc258dc7775f2935891de3848",
+        "phrases": {
+            "airfoil": "翼型"
+        },
+        "count": 1,
+        "bytes": 182,
+        "created_at": "2026-10-09 12:03:21.095346+00"
+    },
+    "usage_without_prices": {
+        "scope": "lesson",
+        "lesson_id": 1128,
+        "audio": {
+            "samples": 16000,
+            "seconds": 1,
+            "daily_samples": 16000,
+            "daily_seconds": 1,
+            "day": "2026-10-09",
+            "reset_at": "2026-10-10T00:00:00+00:00",
+            "limits": {
+                "max_lesson_seconds": 5400,
+                "max_daily_audio_seconds": 32400,
+                "warning_ratio": 0.8,
+                "max_active_lessons": 3
+            }
+        },
+        "model": {
+            "session_count": 1,
+            "failed_sessions": 0,
+            "interrupted_sessions": 0,
+            "initial_sessions": 0,
+            "resume_sessions": 0,
+            "rotation_sessions": 0,
+            "unknown_purpose_sessions": 1,
+            "call_seconds_estimate": 10,
+            "official_records": 1,
+            "unknown_usage_records": 0,
+            "duplicate_records_ignored": 0,
+            "tokens": {
+                "total": 211,
+                "input": 166,
+                "output": 45,
+                "input_details": {
+                    "audio": 119,
+                    "text": 47,
+                    "image": null
+                },
+                "output_details": {
+                    "audio": null,
+                    "text": 45
+                }
+            }
+        },
+        "costs": {
+            "estimate": true,
+            "official_bill": false,
+            "complete": false,
+            "no_pricing_configured": true,
+            "totals": [],
+            "unpriced": [
+                {
+                    "region": "cn-beijing",
+                    "item": "audio_input",
+                    "tokens": 119,
+                    "reason": "price_missing"
+                },
+                {
+                    "region": "cn-beijing",
+                    "item": "text_input",
+                    "tokens": 47,
+                    "reason": "price_missing"
+                },
+                {
+                    "region": "cn-beijing",
+                    "item": "text_output",
+                    "tokens": 45,
+                    "reason": "price_missing"
+                }
+            ]
+        }
+    },
+    "usage_with_fictional_prices": {
+        "scope": "lesson",
+        "lesson_id": 1128,
+        "audio": {
+            "samples": 16000,
+            "seconds": 1,
+            "daily_samples": 16000,
+            "daily_seconds": 1,
+            "day": "2026-10-09",
+            "reset_at": "2026-10-10T00:00:00+00:00",
+            "limits": {
+                "max_lesson_seconds": 5400,
+                "max_daily_audio_seconds": 32400,
+                "warning_ratio": 0.8,
+                "max_active_lessons": 3
+            }
+        },
+        "model": {
+            "session_count": 1,
+            "failed_sessions": 0,
+            "interrupted_sessions": 0,
+            "initial_sessions": 0,
+            "resume_sessions": 0,
+            "rotation_sessions": 0,
+            "unknown_purpose_sessions": 1,
+            "call_seconds_estimate": 10,
+            "official_records": 1,
+            "unknown_usage_records": 0,
+            "duplicate_records_ignored": 0,
+            "tokens": {
+                "total": 211,
+                "input": 166,
+                "output": 45,
+                "input_details": {
+                    "audio": 119,
+                    "text": 47,
+                    "image": null
+                },
+                "output_details": {
+                    "audio": null,
+                    "text": 45
+                }
+            }
+        },
+        "costs": {
+            "estimate": true,
+            "official_bill": false,
+            "complete": true,
+            "no_pricing_configured": false,
+            "totals": [
+                {
+                    "currency": "CNY",
+                    "priced_subtotal": "0.001587000000",
+                    "estimated_total": "0.001587000000",
+                    "complete": true
+                }
+            ],
+            "unpriced": []
+        }
+    },
+    "fictional_price_fields": [
+        {
+            "region": "cn-beijing",
+            "currency": "CNY",
+            "item": "audio_input",
+            "unit_price": "8.50",
+            "effective_at": "2026-01-01T00:00:00Z",
+            "source_url": "https://example.com/fictional-fixture-prices",
+            "verified_at": "2026-10-09T00:00:00Z"
+        },
+        {
+            "region": "cn-beijing",
+            "currency": "CNY",
+            "item": "text_input",
+            "unit_price": "2.00",
+            "effective_at": "2026-01-01T00:00:00Z",
+            "source_url": "https://example.com/fictional-fixture-prices",
+            "verified_at": "2026-10-09T00:00:00Z"
+        },
+        {
+            "region": "cn-beijing",
+            "currency": "CNY",
+            "item": "text_output",
+            "unit_price": "10.70",
+            "effective_at": "2026-01-01T00:00:00Z",
+            "source_url": "https://example.com/fictional-fixture-prices",
+            "verified_at": "2026-10-09T00:00:00Z"
+        }
+    ]
+}

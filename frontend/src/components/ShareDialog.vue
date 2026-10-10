@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { displayDate } from "../public-settings";
 import { nextTick, onMounted, ref } from "vue";
 import { api, errorCode, type Lesson } from "../api";
 import { t } from "../i18n";
@@ -84,8 +85,7 @@ onMounted(load);
       ><p class="muted">
         {{ t(share.access === "public" ? "publicShare" : "privateShare")
         }}<span v-if="share.expires_at">
-          · {{ t("shareExpiry") }}:
-          {{ new Date(share.expires_at).toLocaleString() }}</span
+          · {{ t("shareExpiry") }}: {{ displayDate(share.expires_at) }}</span
         >
       </p>
       <label

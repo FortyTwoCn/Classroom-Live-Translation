@@ -8,6 +8,29 @@ use RuntimeException;
 
 final class RecordingPaths
 {
+    public static function directory(string $relative): string
+    {
+        if(!preg_match('/^[0-9a-zA-Z_\/-]+$/D',$relative)||str_contains($relative,'..'))throw new RuntimeException('recording_path_not_allowed');
+        $path=storage_path('app/recordings/'.$relative);
+        if(!is_dir($path)&&!mkdir($path,0700,true)&&!is_dir($path))throw new RuntimeException('recording_directory_failed');
+        $root=realpath(storage_path('app/recordings'));$actual=realpath($path);
+        $normalize=static fn(string $v)=>PHP_OS_FAMILY==='Windows'?strtolower(str_replace('\\','/',$v)):str_replace('\\','/',$v);
+        if($root===false||$actual===false||!str_starts_with($normalize($actual),$normalize($root).'/'))throw new RuntimeException('recording_path_not_allowed');return $actual;
+    }
+    public static function segment(object $segment): string
+    {
+        foreach(['lesson_id','epoch','sequence']as$f)if(!preg_match('/^\d+$/D',(string)$segment->$f))throw new RuntimeException('recording_path_not_allowed');
+        return self::directory($segment->lesson_id.'/'.$segment->epoch).'/'.$segment->sequence.'.pcm';
+    }
+    public static function chunk(object $chunk): string
+    {
+        foreach(['lesson_id','epoch','group_sequence']as$f)if(!preg_match('/^\d+$/D',(string)$chunk->$f))throw new RuntimeException('recording_path_not_allowed');
+        return self::directory($chunk->lesson_id.'/chunks/'.$chunk->epoch).'/'.$chunk->group_sequence.'.pcm';
+    }
+    public static function capacity(string $directory,int $bytes):void
+    {
+        $free=disk_free_space($directory);if($free===false||$free<$bytes+(int)config('classroom.min_disk_bytes',536870912))throw new RuntimeException('recording_recovery_disk_capacity');
+    }
     public static function existing(string $path): string
     {
         $root = realpath(storage_path('app/recordings'));

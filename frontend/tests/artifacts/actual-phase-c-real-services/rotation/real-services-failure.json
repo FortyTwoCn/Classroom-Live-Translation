@@ -1,0 +1,10 @@
+{
+  "classification": "REAL_SERVICES_SYNTHETIC_SPEECH_ATTEMPT",
+  "status": "failed",
+  "testedAt": "2026-10-09T12:37:14.574Z",
+  "elapsedSeconds": 28.9,
+  "error": "page.waitForFunction: Timeout 25000ms exceeded.",
+  "jsErrors": [],
+  "requestErrors": [],
+  "real_microphone": false
+}

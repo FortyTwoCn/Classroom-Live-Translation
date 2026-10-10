@@ -1,0 +1,27 @@
+{
+    "classification": "REAL_QWEN_DATABASE_QUEUE_TESTCONNECTION_SUBPROCESS_SELECT_NO_AUDIO",
+    "status": "passed",
+    "elapsed_seconds": 1.493,
+    "queued_before_worker": 1,
+    "worker_exit_code": 0,
+    "job_class": "App\\Jobs\\TestConnection",
+    "probe_report": {
+        "steps": [
+            {
+                "step": "session_updated_text",
+                "status": "passed"
+            },
+            {
+                "step": "session_finished",
+                "status": "passed"
+            }
+        ],
+        "status": "passed",
+        "audio_samples": 0,
+        "classification": "real_qwen_connection_no_audio"
+    },
+    "failure_code": null,
+    "real_model": true,
+    "audio_samples": 0,
+    "physical_microphone_verified": false
+}

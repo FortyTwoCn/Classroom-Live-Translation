@@ -7,7 +7,7 @@ COPY frontend/ ./
 RUN mkdir -p ../public && pnpm build
 
 FROM php:8.5-fpm-bookworm AS runtime
-RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev libonig-dev libzip-dev ffmpeg unzip ca-certificates && docker-php-ext-install pdo_pgsql mbstring zip sockets pcntl && pecl install redis && docker-php-ext-enable redis && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev libonig-dev libzip-dev ffmpeg unzip ca-certificates && docker-php-ext-install pdo_pgsql mbstring zip sockets pcntl bcmath && pecl install redis && docker-php-ext-enable redis && rm -rf /var/lib/apt/lists/*
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www/classroom
 COPY composer.json composer.lock ./
@@ -19,6 +19,6 @@ RUN mkdir -p storage/app/recordings storage/framework/views storage/framework/se
 USER www-data
 CMD ["php-fpm"]
 
-FROM nginx:1.28-alpine AS web
+FROM nginx:1.30.5-alpine AS web
 COPY --from=runtime /var/www/classroom/public/ /var/www/classroom/public/
 COPY deploy/nginx.conf /etc/nginx/conf.d/default.conf

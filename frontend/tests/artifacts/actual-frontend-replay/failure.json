@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "currentCheck": "setup",
+  "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '暂停收音', exact: true })\u001b[22m\n",
+  "checks": [],
+  "js_errors": [],
+  "lessonId": 1651
+}

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { displayDate } from "../public-settings";
 import { onUnmounted, ref } from "vue";
 import { api, errorCode, type Lesson } from "../api";
 import { t } from "../i18n";
@@ -86,7 +87,11 @@ onUnmounted(() => {
     <form @submit.prevent="create">
       <label
         >{{ t("exportFormat")
-        }}<select v-model="format" :aria-label="t('exportFormat')" :disabled="busy || !!job">
+        }}<select
+          v-model="format"
+          :aria-label="t('exportFormat')"
+          :disabled="busy || !!job"
+        >
           <option value="txt">TXT (.txt)</option>
           <option value="md">Markdown (.md)</option>
           <option value="srt">SRT (.srt)</option>
@@ -94,14 +99,22 @@ onUnmounted(() => {
         </select></label
       ><label
         >{{ t("displayLayout")
-        }}<select v-model="layout" :aria-label="t('displayLayout')" :disabled="busy || !!job">
+        }}<select
+          v-model="layout"
+          :aria-label="t('displayLayout')"
+          :disabled="busy || !!job"
+        >
           <option value="bilingual">{{ t("bilingual") }}</option>
           <option value="source">{{ t("original") }}</option>
           <option value="translation">{{ t("translation") }}</option>
         </select></label
       ><label
         >{{ t("textVersion")
-        }}<select v-model="textVersion" :aria-label="t('textVersion')" :disabled="busy || !!job">
+        }}<select
+          v-model="textVersion"
+          :aria-label="t('textVersion')"
+          :disabled="busy || !!job"
+        >
           <option value="current">{{ t("currentText") }}</option>
           <option value="original">{{ t("originalModel") }}</option>
         </select></label
@@ -111,7 +124,7 @@ onUnmounted(() => {
       <div v-if="job" aria-live="polite">
         <h3>{{ t(`export_${job.status}`) }}</h3>
         <p v-if="job.expires_at">
-          {{ t("expiresAt") }}: {{ new Date(job.expires_at).toLocaleString() }}
+          {{ t("expiresAt") }}: {{ displayDate(job.expires_at) }}
         </p>
         <template v-if="Object.keys(job.counts || {}).length"
           ><h4>{{ t("exportCounts") }}</h4>

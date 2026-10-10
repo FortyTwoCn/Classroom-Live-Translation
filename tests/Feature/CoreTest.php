@@ -1,7 +1,7 @@
 <?php
 namespace Tests\Feature;
 use App\Domain\{Access,AudioStore,Failure};
-use App\Jobs\UploadSegment;
+use App\Jobs\UploadChunk;
 use Illuminate\Support\Facades\{DB,Hash,Queue};
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -13,7 +13,7 @@ final class CoreTest extends TestCase {
  public function test_forced_password_change_blocks_mutation():void{$uid=$this->user(true);$this->withSession(['uid'=>$uid])->postJson('/api/courses',['name'=>'No'])->assertStatus(403)->assertJson(['code'=>'password_change_required']);}
  public function test_disabled_user_is_not_authenticated():void{$uid=$this->user(false,'admin');DB::table('users')->where('id',$uid)->update(['disabled'=>true]);$this->withSession(['uid'=>$uid])->postJson('/api/courses',['name'=>'No'])->assertStatus(401);}
  public function test_public_view_never_exposes_device_credential():void{$id=$this->lesson($this->user());$this->getJson('/api/lessons/'.$id)->assertOk()->assertJsonMissingPath('lesson.recorder_connection')->assertJsonMissingPath('lesson.lease_until');}
- public function test_durable_audio_duplicate_is_not_appended_twice():void {Queue::fake();config(['classroom.oss.endpoint'=>'https://s3.oss-cn-hangzhou.aliyuncs.com','classroom.oss.region'=>'cn-hangzhou','classroom.oss.bucket'=>'unit-test-bucket','classroom.oss.key'=>'fake-key','classroom.oss.secret'=>'fake-secret']);$uid=$this->user();$id=$this->lesson($uid);$store=new AudioStore;$pcm=str_repeat("\x01\x00",1600);$a=$store->accept($id,$uid,'device-a',4,0,$pcm);$b=$store->accept($id,$uid,'device-a',4,0,$pcm);$this->assertFalse($a['duplicate']);$this->assertTrue($b['duplicate']);$this->assertSame(1600,(int)DB::table('lessons')->where('id',$id)->value('media_samples'));$segment=DB::table('audio_segments')->where('lesson_id',$id)->first();$this->assertSame($pcm,file_get_contents($segment->local_path));Queue::assertPushed(UploadSegment::class,1);}
+ public function test_durable_audio_duplicate_is_not_appended_twice():void {Queue::fake();config(['classroom.oss.endpoint'=>'https://s3.oss-cn-hangzhou.aliyuncs.com','classroom.oss.region'=>'cn-hangzhou','classroom.oss.bucket'=>'unit-test-bucket','classroom.oss.key'=>'fake-key','classroom.oss.secret'=>'fake-secret']);$uid=$this->user();$id=$this->lesson($uid);$store=new AudioStore;$pcm=str_repeat("\x01\x00",1600);$a=$store->accept($id,$uid,'device-a',4,0,$pcm);$b=$store->accept($id,$uid,'device-a',4,0,$pcm);$this->assertFalse($a['duplicate']);$this->assertTrue($b['duplicate']);$this->assertSame(1600,(int)DB::table('lessons')->where('id',$id)->value('media_samples'));$segment=DB::table('audio_segments')->where('lesson_id',$id)->first();$this->assertSame($pcm,file_get_contents($segment->local_path));Queue::assertPushed(UploadChunk::class,1);}
  public function test_expired_epoch_rejected_even_same_user():void{Queue::fake();$uid=$this->user();$id=$this->lesson($uid);$this->expectException(Failure::class);$this->expectExceptionMessage('recorder_stale');(new AudioStore)->accept($id,$uid,'device-a',3,0,str_repeat("\x00",3200));}
  public function test_out_of_sequence_is_explicit_gap():void{Queue::fake();$uid=$this->user();$id=$this->lesson($uid);$this->expectExceptionMessage('audio_sequence_gap');(new AudioStore)->accept($id,$uid,'device-a',4,1,str_repeat("\x00",3200));}
  public function test_paused_audio_rejected():void{$uid=$this->user();$id=$this->lesson($uid,'paused');$this->expectExceptionMessage('recorder_stale');(new AudioStore)->accept($id,$uid,'device-a',4,0,str_repeat("\x00",3200));}

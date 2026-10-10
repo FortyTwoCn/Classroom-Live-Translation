@@ -1,0 +1,72 @@
+{
+  "classification": "REAL_QWEN_REAL_OSS_REAL_PHP_POSTGRESQL_BROWSER_AUDIOWORKLET_SYNTHETIC_SPEECH",
+  "status": "passed",
+  "testedAt": "2026-10-09T12:39:51.996Z",
+  "elapsedSeconds": 76.65,
+  "browser": "154.0.4258.62",
+  "clients": 3,
+  "real_model": true,
+  "real_oss": true,
+  "synthetic_audio": true,
+  "real_microphone": false,
+  "real_physical_device": false,
+  "realPhp": true,
+  "realWorkerman": true,
+  "realPostgreSql": true,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "authenticatedThroughUi": true,
+  "runLabel": "rotation-final",
+  "speechFixtureDurationSeconds": 66.8944375,
+  "audioPackets": 674,
+  "partialTailPackets": 1,
+  "mediaSamples": 1077589,
+  "allPacketsDurablyAcknowledged": true,
+  "allTracksStopped": true,
+  "microphoneRequests": 1,
+  "recorderReadies": [
+    {
+      "epoch": 1,
+      "next_sequence": 0
+    }
+  ],
+  "rotationEvents": [
+    {
+      "phase": "preparing",
+      "approximate_boundary": true,
+      "microphoneRequests": 1,
+      "liveTracks": 1,
+      "currentEpoch": 1
+    },
+    {
+      "phase": "switched",
+      "base_sample": 667200,
+      "approximate_boundary": true,
+      "microphoneRequests": 1,
+      "liveTracks": 1,
+      "currentEpoch": 1
+    }
+  ],
+  "epochUnchanged": true,
+  "packetSequenceContiguous": true,
+  "completedSourceUnits": 3,
+  "completedTranslationUnits": 3,
+  "viewerIdsAndTextsMatchDatabase": true,
+  "viewerMicrophoneRequests": 0,
+  "archiveStatus": "playable",
+  "privatePlaybackAuthorized": true,
+  "browserAudioPlaybackPassed": true,
+  "playbackMutedDuringTest": true,
+  "playbackDurationSeconds": 67.349313,
+  "signedRangeHttpStatus": 206,
+  "signedRangeBytes": 1024,
+  "jsErrors": [],
+  "requestErrors": [],
+  "expectedMediaCancellations": 1,
+  "limitations": [
+    "Synthetic speech source replaces physical microphone input",
+    "No physical Android/iOS device coverage",
+    "No 90-minute or 100-viewer capacity validation",
+    "This uses a local HTTP/WS test origin; production HTTPS/WSS is separate"
+  ]
+}

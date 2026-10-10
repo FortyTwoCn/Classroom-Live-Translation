@@ -109,7 +109,7 @@ SQL,[$id,$options['text_version'],$lessonId,$options['text_version']]);
             $result=$formatter->render($rows,['format'=>$task->format,'layout'=>$task->layout,'text_version'=>$task->text_version],$metadata);
             $previousReport=json_decode($task->report,true,flags:JSON_THROW_ON_ERROR);
             $report=json_encode(['counts'=>$result['counts'],'warnings'=>$result['warnings'],'retry_requests'=>(int)($previousReport['retry_requests']??0),'last_retry_at'=>(int)($previousReport['last_retry_at']??0)],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR);
-            if($result['counts']['exported_segments']===0){DB::table('subtitle_exports')->where('id',$id)->update(['status'=>'failed','failure_code'=>'export_empty_timed','report'=>$report,'updated_at'=>now()]);return;}
+            if($result['counts']['exported_segments']===0){DB::transaction(function()use($id,$report){$current=DB::table('subtitle_exports')->where('id',$id)->lockForUpdate()->first();if(!$current||$current->status==='expired')return;if(strtotime($current->expires_at)<=time()){$this->expire($current);return;}DB::table('subtitle_exports')->where('id',$id)->update(['status'=>'failed','failure_code'=>'export_empty_timed','report'=>$report,'updated_at'=>now()]);});return;}
             $path=$this->path($task);$directory=dirname($path);
             if(!is_dir($directory)&&!mkdir($directory,0700,true)&&!is_dir($directory))throw new \RuntimeException('export_file_failed');
             $stream=fopen($path.'.tmp','wb');if($stream===false)throw new \RuntimeException('export_file_failed');
@@ -118,7 +118,7 @@ SQL,[$id,$options['text_version'],$lessonId,$options['text_version']]);
             chmod($path,0600);
             DB::transaction(function()use($task,$id,$path,$report,$metadata){
                 $current=DB::table('subtitle_exports')->where('id',$id)->lockForUpdate()->first();
-                if(strtotime($current->expires_at)<=time()){$this->expire($current);return;}
+                if($current->status==='expired'||strtotime($current->expires_at)<=time()){$this->expire($current);return;}
                 try{$this->authorized($id,Access::user((int)$task->owner_id));}catch(Failure){if(is_file($path))unlink($path);DB::table('subtitle_exports')->where('id',$id)->update(['status'=>'failed','failure_code'=>'export_permission_revoked','updated_at'=>now()]);return;}
                 $filename=$this->filename($metadata,$task);
                 DB::table('subtitle_exports')->where('id',$id)->update(['status'=>'ready','file_path'=>$path,'filename'=>$filename,'mime'=>$this->mime($task->format),'report'=>$report,'updated_at'=>now()]);
@@ -129,6 +129,12 @@ SQL,[$id,$options['text_version'],$lessonId,$options['text_version']]);
             // Queue diagnostics never retain subtitle text or private paths.
             throw new \RuntimeException('export_file_failed');
         }
+    }
+
+    public function expireIfDue(string $id):bool
+    {
+        if(!Str::isUuid($id))return false;
+        return DB::transaction(function()use($id){$task=DB::table('subtitle_exports')->where('id',$id)->lockForUpdate()->first();if(!$task||strtotime($task->expires_at)>time())return false;$this->expire($task);return true;});
     }
 
     public function cleanup():int

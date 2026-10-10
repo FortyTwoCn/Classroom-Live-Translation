@@ -9,6 +9,10 @@ use InvalidArgumentException;
 /** Configuration is server-only. Never serialize this object into an API response. */
 final class QwenConfig
 {
+    /** Application resource cap, not an advertised provider limit. Includes event_id. */
+    public const MAX_SESSION_UPDATE_BYTES = 65536;
+    public const MAX_PHRASE_SOURCE_BYTES = 256;
+    public const MAX_PHRASE_TARGET_BYTES = 64;
     public readonly string $model;
     public readonly string $region;
     public readonly string $workspaceId;
@@ -111,13 +115,24 @@ final class QwenConfig
         $translation = ['language' => $language];
         if ($this->phrases !== []) {
             foreach ($this->phrases as $source => $target) {
-                if (!is_string($source) || !is_string($target) || trim($source) === '' || trim($target) === '' || strlen($source) > 1000 || strlen($target) > 1000) {
+                $source = (string) $source;
+                if (!is_string($target) || !mb_check_encoding($source, 'UTF-8') || !mb_check_encoding($target, 'UTF-8') || trim($source) === '' || trim($target) === '' || strlen($source) > self::MAX_PHRASE_SOURCE_BYTES || strlen($target) > self::MAX_PHRASE_TARGET_BYTES || preg_match('/[\x00-\x1f\x7f]/u', $source.$target)) {
                     throw new InvalidArgumentException('QWEN_LOCAL_PHRASE_INVALID');
                 }
             }
             $translation['corpus'] = ['phrases' => (object) $this->phrases];
         }
         // 3.8 ASR is always enabled; do not copy 3.5 transcription or modality settings.
-        return ['type' => 'session.update', 'session' => ['output_modalities' => ['text'], 'translation' => $translation]];
+        $update = ['type' => 'session.update', 'session' => ['output_modalities' => ['text'], 'translation' => $translation]];
+        if (self::updateBytes($update) > self::MAX_SESSION_UPDATE_BYTES) {
+            throw new InvalidArgumentException('QWEN_LOCAL_PAYLOAD_LIMIT');
+        }
+        return $update;
+    }
+
+    public static function updateBytes(array $update): int
+    {
+        $update['event_id'] = 'evt_'.str_repeat('0', 24);
+        return strlen(json_encode($update, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
     }
 }

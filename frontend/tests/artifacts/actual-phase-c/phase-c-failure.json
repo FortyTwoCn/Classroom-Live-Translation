@@ -1,0 +1,64 @@
+{
+  "classification": "ACTUAL_PHP_POSTGRESQL_C_UI_SYNTHETIC_CONTENT",
+  "status": "failed",
+  "currentCheck": "actual permanent cleanup requires exact name and awaits the isolated worker",
+  "browserRecovery": [
+    {
+      "recoveries": [],
+      "subscriptionSequences": []
+    },
+    {
+      "recoveries": [],
+      "subscriptionSequences": []
+    },
+    {
+      "recoveries": [
+        {
+          "mode": "replay",
+          "from_seq": 3762,
+          "count": 0,
+          "truncated": false
+        }
+      ],
+      "subscriptionSequences": [
+        3762
+      ]
+    }
+  ],
+  "message": "TimeoutError: locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('.course-card').filter({ hasText: 'SYNTHETIC EMPTY PURGE FIXTURE' }).getByRole('button', { name: '永久清理课堂', exact: true })\u001b[22m\n",
+  "checks": [
+    {
+      "name": "actual settings masks secrets and blank-secret saves preserve configuration",
+      "status": "passed"
+    },
+    {
+      "name": "actual settings version conflict retains draft and reloads latest policy without secret exposure",
+      "status": "passed"
+    },
+    {
+      "name": "actual glossary UTF-8 limits, create, concurrent conflict, delete and restore",
+      "status": "passed"
+    },
+    {
+      "name": "actual usage shows unknown costs with no prices and operational diagnostics load",
+      "status": "passed"
+    },
+    {
+      "name": "C admin pages localize immediately in English/Ukrainian mobile with no overflow or microphone",
+      "status": "passed"
+    },
+    {
+      "name": "actual course UTF-8 search links to the exact historical unit without microphone/autoplay",
+      "status": "passed"
+    },
+    {
+      "name": "actual reconnect replays corrections outside the latest-200 snapshot and preserves loaded history",
+      "status": "passed"
+    },
+    {
+      "name": "real OSS borrowed archive decodes; rate, highlight, at_sample and dual download authorization use actual APIs",
+      "status": "passed"
+    }
+  ],
+  "jsErrors": []
+}

@@ -1,0 +1,49 @@
+{
+    "test_type": "real_oss_archive_recovery",
+    "audio": "synthetic_440hz_10.1s_no_model_no_device",
+    "status": "passed",
+    "started_at": "2026-10-09T10:28:48+00:00",
+    "steps": [
+        {
+            "step": "register_encrypted_private_test_version",
+            "status": "passed",
+            "elapsed_ms": 6
+        },
+        {
+            "step": "persist_101_frames_durable_and_group",
+            "status": "passed",
+            "elapsed_ms": 706
+        },
+        {
+            "step": "real_upload_two_lossless_chunks",
+            "status": "passed",
+            "elapsed_ms": 1673
+        },
+        {
+            "step": "simulate_loss_only_of_new_probe_local_files",
+            "status": "passed",
+            "elapsed_ms": 39
+        },
+        {
+            "step": "change_active_prefix_without_changing_lesson_reference",
+            "status": "passed",
+            "elapsed_ms": 0
+        },
+        {
+            "step": "real_download_recover_ffmpeg_archive_rebuild_and_upload",
+            "status": "passed",
+            "elapsed_ms": 3105
+        },
+        {
+            "step": "verify_exact_original_pcm_and_private_archive_head",
+            "status": "passed",
+            "elapsed_ms": 334
+        },
+        {
+            "step": "cleanup_only_three_explicit_random_test_keys",
+            "status": "passed"
+        }
+    ],
+    "database_fixture": "rolled_back_without_deleting_existing_rows",
+    "finished_at": "2026-10-09T10:28:55+00:00"
+}

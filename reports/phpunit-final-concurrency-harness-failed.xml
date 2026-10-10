@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Tests\Feature\FinalConcurrencyTest" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" tests="2" assertions="5" errors="1" failures="0" skipped="0" time="5.227221">
+    <testcase name="test_cleanup_during_zero_timed_export_cannot_resurrect_expired_task" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" line="14" class="Tests\Feature\FinalConcurrencyTest" classname="Tests.Feature.FinalConcurrencyTest" assertions="4" time="1.923901"/>
+    <testcase name="test_actual_start_and_settings_save_serialize_on_two_postgres_processes" file="C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php" line="25" class="Tests\Feature\FinalConcurrencyTest" classname="Tests.Feature.FinalConcurrencyTest" assertions="1" time="3.303320">
+      <error type="RuntimeException">Tests\Feature\FinalConcurrencyTest::test_actual_start_and_settings_save_serialize_on_two_postgres_processes&#13;
+RuntimeException: Gateway fixture actor lock was not reached
+&#13;
+C:\Users\Lenovo\Documents\Codex\2026-10-09\php-postgresql-oss-s3-qwen3-8\outputs\classroom-live-translation\tests\Feature\FinalConcurrencyTest.php:34</error>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,21 @@
+<?php
+declare(strict_types=1);
+require __DIR__.'/bootstrap.php';
+use Illuminate\Support\Facades\{DB,Artisan,Hash,Crypt};
+use Illuminate\Support\Str;
+$name=config('database.connections.pgsql.database');
+$admin=[...config('database.connections.pgsql'),'database'=>'postgres'];
+config(['database.connections.load_admin'=>$admin]);
+if(DB::connection('load_admin')->selectOne('SELECT 1 AS present FROM pg_database WHERE datname=?',[$name]))throw new RuntimeException('load_database_already_exists_no_overwrite');
+DB::connection('load_admin')->statement('CREATE DATABASE "'.$name.'" OWNER "classroom_dev"');
+DB::disconnect('load_admin');
+Artisan::call('migrate',['--force'=>true]);
+$policies=[...App\Settings\Settings::defaults(),'max_lesson_seconds'=>max(5400,(int)env('LOAD_DURATION_SECONDS',60)),'rotation_soft_seconds'=>(int)env('LOAD_ROTATION_SOFT_SECONDS',600),'rotation_hard_seconds'=>(int)env('LOAD_ROTATION_HARD_SECONDS',720)];
+App\Settings\Settings::validate('policies',$policies);
+DB::table('settings_versions')->insert(['id'=>(string)Str::uuid(),'kind'=>'policies','payload_encrypted'=>Crypt::encryptString(json_encode($policies,JSON_THROW_ON_ERROR))]);
+$password=bin2hex(random_bytes(24));$student='load-'.bin2hex(random_bytes(10));
+$u=DB::table('users')->insertGetId(['student_id'=>$student,'name'=>'Explicit synthetic load recorder','role'=>'user','password'=>Hash::make($password),'must_change_password'=>false]);
+$c=DB::table('courses')->insertGetId(['name'=>'EXPLICIT LOAD FIXTURE: NOT A REAL CLASS','target_language'=>'zh','guest_access'=>'public']);
+$l=DB::table('lessons')->insertGetId(['course_id'=>$c,'creator_id'=>$u,'recorder_user_id'=>$u,'name'=>'Artificial PCM / mock provider load test','target_language'=>'zh','idempotency_key'=>(string)Str::uuid()]);
+$path=storage_path('../fixture.private.json');file_put_contents($path,json_encode(['database'=>$name,'lesson_id'=>$l,'student_id'=>$student,'password'=>$password],JSON_THROW_ON_ERROR));
+echo json_encode(['status'=>'isolated_database_created','database'=>$name,'fixture_path'=>$path,'real_model'=>false,'real_oss'=>false],JSON_THROW_ON_ERROR).PHP_EOL;

@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import { phaseBMessages } from './phase-b-i18n';
 import { serverErrorMessages } from './server-error-i18n';
+import {phaseCMessages} from './phase-c-i18n';
 export const messages = {
   'zh-CN': {
     error_microphone_api_unavailable: '此浏览器没有提供麦克风采集接口，请使用支持的浏览器或设备。',
@@ -57,7 +58,7 @@ export const messages = {
     error_generic: 'Операція не вдалася. Спробуйте ще раз.', error_login_required: 'Спочатку увійдіть.', error_forbidden: 'Ви не маєте дозволу на цю дію.', error_invalid_credentials: 'Неправильний номер студента або пароль.', error_password_change_required: 'Спочатку змініть початковий пароль.', error_validation_failed: 'Введені дані не відповідають вимогам.', error_active_lesson_exists: 'Курс уже має незавершене заняття. Відкрийте його.', error_rate_limited: 'Забагато запитів. Спробуйте пізніше.', error_not_found: 'Вміст відсутній або недоступний.', error_archive_not_ready: 'Аудіоархів ще не готовий.', error_model_unavailable: 'Не вдалося підключити справжню модель. Запис зупинено.', error_not_recorder: 'Цей пристрій не має дійсного права запису.', error_stale_epoch: 'Право запису змінилося. Захоплення звуку зупинено.', error_secure_context_required: 'Для мікрофона потрібні HTTPS або localhost.', error_audio_worklet_unavailable: 'Браузер не підтримує потрібний AudioWorklet.', error_NotAllowedError: 'Доступ до мікрофона відхилено. Надайте дозвіл у налаштуваннях браузера.', error_NotFoundError: 'Мікрофон не знайдено.', error_NotReadableError: 'Мікрофон недоступний, зайнятий або несправний.', error_OverconstrainedError: 'Обраний мікрофон недоступний. Виберіть інший.', error_microphone_ended: 'Мікрофон відключено. Запис зупинено.', error_audio_context_suspended: 'Аудіоконтекст призупинено. Запис зупинено.', error_audio_processor_failed: 'Помилка обробки аудіо. Запис зупинено.', error_microphone_not_ready: 'Мікрофон ще не готовий.', error_network_backpressure: 'Передавання або підтвердження збереження занадто повільне. Запис безпечно призупинено без необмеженого буфера.', error_connection_lost: 'Заняття відключено. Запис зупинено; повторне підключення не ввімкне мікрофон.', error_page_hidden: 'Сторінка перейшла у фон, запис безпечно призупинено. Поверніться та продовжіть вручну.', error_start_timeout: 'Сервер не підтвердив вчасно. Запис зупинено.', error_network_error: 'Не вдалося підключитися до сервера.', error_protocol_error: 'Неправильне повідомлення заняття. Підключіться знову.', error_command_pending: 'Зачекайте завершення поточної зміни стану.'
   }
 };
-for (const language of ['zh-CN', 'en', 'uk'] as const) Object.assign(messages[language], phaseBMessages[language],serverErrorMessages[language]);
+for (const language of ['zh-CN', 'en', 'uk'] as const) Object.assign(messages[language], phaseBMessages[language],serverErrorMessages[language],phaseCMessages[language]);
 export const missingMessageKeys = new Set<string>();
 export type Locale = keyof typeof messages;
 export type MessageKey = keyof typeof messages['zh-CN'];

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { displayDate } from "../public-settings";
 import { onMounted, ref, watch } from "vue";
 import { api, ApiError, errorCode, type Lesson, type Unit } from "../api";
 import { t } from "../i18n";
@@ -212,7 +213,7 @@ onMounted(() => {
             {{ t("version") }} {{ revision.version }} ·
             {{ revision.actor_name }}
           </h4>
-          <time>{{ new Date(revision.created_at).toLocaleString() }}</time>
+          <time>{{ displayDate(revision.created_at) }}</time>
           <div class="comparison">
             <section>
               <h5>{{ t("beforeText") }}</h5>

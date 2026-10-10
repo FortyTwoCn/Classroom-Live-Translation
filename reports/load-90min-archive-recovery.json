@@ -1,0 +1,547 @@
+{
+  "status": "passed",
+  "started_at": "2026-10-09T22:37:44+08:00",
+  "database": "classroom_load_4c4047bf8fa0",
+  "lesson_id": 1,
+  "original_attempt_status": "failed",
+  "original_failure": "archive_not_playable after 180-second harness deadline",
+  "recovery": "Controlled manual ArchiveLesson.handle, same original PCM; recorded original worker stopped by controller.",
+  "provider": "mock Qwen original capture; filesystem SDK OSS handler; no real cloud requests",
+  "recaptured_audio": false,
+  "original_reserved_archive_jobs": [
+    {
+      "id": 1081,
+      "payload_sha256": "4a5a5f2378f49c3722549c24bdc9e4a33850f59986dc97c5498135515975e5f7"
+    }
+  ],
+  "released_locks": [
+    "laravel-queue-overlap:lesson-data:1",
+    "laravel-queue-overlap:App\\Jobs\\ArchiveLesson:archive:1"
+  ],
+  "frames": 54000,
+  "samples": 86400000,
+  "uploaded_chunks": 541,
+  "recording": {
+    "status": "playable",
+    "bytes": 36811054,
+    "sha256": "8bf10e13147a9db002fb06642c7d5b79e279d2e284132f13e2831e63d5991f81",
+    "duration_samples": 86400000,
+    "mime": "audio/mp4"
+  },
+  "completed_original_archive_jobs": [
+    1081
+  ],
+  "finished_at": "2026-10-09T22:42:03+08:00",
+  "recovery_wall_seconds": 258.479,
+  "original_report_unchanged": true,
+  "final_database_metrics": {
+    "at_ms": 1791556997751,
+    "lesson": {
+      "status": "ended",
+      "media_samples": 86400000,
+      "archive_status": "playable",
+      "recorder_epoch": 1
+    },
+    "segments": {
+      "frames": 54000,
+      "samples": 86400000,
+      "epochs": 1,
+      "model_sent": 54000
+    },
+    "chunks": {
+      "uploaded": 541
+    },
+    "chunk_backup_delay_mock_ms": {
+      "min_ms": "908.532000",
+      "max_ms": "10910.757000",
+      "p95_ms": 10899.547
+    },
+    "queued_jobs": 0,
+    "failed_jobs": 0,
+    "events": 7637,
+    "model_sessions": 9,
+    "db_bytes": 60085939,
+    "disk_free_bytes": 101660057600,
+    "timeline": {
+      "gaps": 0,
+      "end_sample": 86400000
+    },
+    "completed_units": 2174,
+    "archive": {
+      "bytes": 36811054,
+      "sha256": "8bf10e13147a9db002fb06642c7d5b79e279d2e284132f13e2831e63d5991f81",
+      "duration_samples": 86400000,
+      "status": "playable"
+    },
+    "storage_bytes": 818135120,
+    "storage_files": 55637,
+    "mock_receive_cadence": {
+      "frames": 54000,
+      "first_to_last_wall_seconds": 5399.882,
+      "interval_p95_ms": 117,
+      "interval_p99_ms": 183,
+      "interval_max_ms": 831,
+      "intervals_above_500ms": 3
+    }
+  },
+  "pcm": {
+    "sha256": "a895ca71574fccf250dc83b786ba1f39de78379be1c33779a368dcac1e2481aa",
+    "bytes": 172800000,
+    "validation": "ArchiveLesson performed exact contiguous start_sample/sample_count and SHA-256 validation of all original frames during concatenation.",
+    "manifest_lines": 54000,
+    "manifest_sha256": "7e72a1f690d691bf77ed38039444e4752574bf606a035f2dfce47908f4af51bd"
+  },
+  "ffmpeg": {
+    "sha256": "8bf10e13147a9db002fb06642c7d5b79e279d2e284132f13e2831e63d5991f81",
+    "real": true,
+    "measured_seconds": 5400.0,
+    "codec": "aac",
+    "bytes": 36811054,
+    "sample_rate": 16000,
+    "full_decode_validation": "ArchiveLesson PcmArchiveAssembler.encode performed whole-media decode to null and required exit0.",
+    "channels": 1
+  },
+  "original_viewer_convergence": {
+    "completed_units_in_recovered_database": 2174,
+    "original_duplicate_events": 0,
+    "all_match_database": true,
+    "clients": 101,
+    "unit_counts": [
+      {
+        "client": -1,
+        "units": 2174
+      },
+      {
+        "client": 0,
+        "units": 2174
+      },
+      {
+        "client": 1,
+        "units": 2174
+      },
+      {
+        "client": 2,
+        "units": 2174
+      },
+      {
+        "client": 3,
+        "units": 2174
+      },
+      {
+        "client": 4,
+        "units": 2174
+      },
+      {
+        "client": 5,
+        "units": 2174
+      },
+      {
+        "client": 6,
+        "units": 2174
+      },
+      {
+        "client": 7,
+        "units": 2174
+      },
+      {
+        "client": 8,
+        "units": 2174
+      },
+      {
+        "client": 9,
+        "units": 2174
+      },
+      {
+        "client": 10,
+        "units": 2174
+      },
+      {
+        "client": 11,
+        "units": 2174
+      },
+      {
+        "client": 12,
+        "units": 2174
+      },
+      {
+        "client": 13,
+        "units": 2174
+      },
+      {
+        "client": 14,
+        "units": 2174
+      },
+      {
+        "client": 15,
+        "units": 2174
+      },
+      {
+        "client": 16,
+        "units": 2174
+      },
+      {
+        "client": 17,
+        "units": 2174
+      },
+      {
+        "client": 18,
+        "units": 2174
+      },
+      {
+        "client": 19,
+        "units": 2174
+      },
+      {
+        "client": 20,
+        "units": 2174
+      },
+      {
+        "client": 21,
+        "units": 2174
+      },
+      {
+        "client": 22,
+        "units": 2174
+      },
+      {
+        "client": 23,
+        "units": 2174
+      },
+      {
+        "client": 24,
+        "units": 2174
+      },
+      {
+        "client": 25,
+        "units": 2174
+      },
+      {
+        "client": 26,
+        "units": 2174
+      },
+      {
+        "client": 27,
+        "units": 2174
+      },
+      {
+        "client": 28,
+        "units": 2174
+      },
+      {
+        "client": 29,
+        "units": 2174
+      },
+      {
+        "client": 30,
+        "units": 2174
+      },
+      {
+        "client": 31,
+        "units": 2174
+      },
+      {
+        "client": 32,
+        "units": 2174
+      },
+      {
+        "client": 33,
+        "units": 2174
+      },
+      {
+        "client": 34,
+        "units": 2174
+      },
+      {
+        "client": 35,
+        "units": 2174
+      },
+      {
+        "client": 36,
+        "units": 2174
+      },
+      {
+        "client": 37,
+        "units": 2174
+      },
+      {
+        "client": 38,
+        "units": 2174
+      },
+      {
+        "client": 39,
+        "units": 2174
+      },
+      {
+        "client": 40,
+        "units": 2174
+      },
+      {
+        "client": 41,
+        "units": 2174
+      },
+      {
+        "client": 42,
+        "units": 2174
+      },
+      {
+        "client": 43,
+        "units": 2174
+      },
+      {
+        "client": 44,
+        "units": 2174
+      },
+      {
+        "client": 45,
+        "units": 2174
+      },
+      {
+        "client": 46,
+        "units": 2174
+      },
+      {
+        "client": 47,
+        "units": 2174
+      },
+      {
+        "client": 48,
+        "units": 2174
+      },
+      {
+        "client": 49,
+        "units": 2174
+      },
+      {
+        "client": 50,
+        "units": 2174
+      },
+      {
+        "client": 51,
+        "units": 2174
+      },
+      {
+        "client": 52,
+        "units": 2174
+      },
+      {
+        "client": 53,
+        "units": 2174
+      },
+      {
+        "client": 54,
+        "units": 2174
+      },
+      {
+        "client": 55,
+        "units": 2174
+      },
+      {
+        "client": 56,
+        "units": 2174
+      },
+      {
+        "client": 57,
+        "units": 2174
+      },
+      {
+        "client": 58,
+        "units": 2174
+      },
+      {
+        "client": 59,
+        "units": 2174
+      },
+      {
+        "client": 60,
+        "units": 2174
+      },
+      {
+        "client": 61,
+        "units": 2174
+      },
+      {
+        "client": 62,
+        "units": 2174
+      },
+      {
+        "client": 63,
+        "units": 2174
+      },
+      {
+        "client": 64,
+        "units": 2174
+      },
+      {
+        "client": 65,
+        "units": 2174
+      },
+      {
+        "client": 66,
+        "units": 2174
+      },
+      {
+        "client": 67,
+        "units": 2174
+      },
+      {
+        "client": 68,
+        "units": 2174
+      },
+      {
+        "client": 69,
+        "units": 2174
+      },
+      {
+        "client": 70,
+        "units": 2174
+      },
+      {
+        "client": 71,
+        "units": 2174
+      },
+      {
+        "client": 72,
+        "units": 2174
+      },
+      {
+        "client": 73,
+        "units": 2174
+      },
+      {
+        "client": 74,
+        "units": 2174
+      },
+      {
+        "client": 75,
+        "units": 2174
+      },
+      {
+        "client": 76,
+        "units": 2174
+      },
+      {
+        "client": 77,
+        "units": 2174
+      },
+      {
+        "client": 78,
+        "units": 2174
+      },
+      {
+        "client": 79,
+        "units": 2174
+      },
+      {
+        "client": 80,
+        "units": 2174
+      },
+      {
+        "client": 81,
+        "units": 2174
+      },
+      {
+        "client": 82,
+        "units": 2174
+      },
+      {
+        "client": 83,
+        "units": 2174
+      },
+      {
+        "client": 84,
+        "units": 2174
+      },
+      {
+        "client": 85,
+        "units": 2174
+      },
+      {
+        "client": 86,
+        "units": 2174
+      },
+      {
+        "client": 87,
+        "units": 2174
+      },
+      {
+        "client": 88,
+        "units": 2174
+      },
+      {
+        "client": 89,
+        "units": 2174
+      },
+      {
+        "client": 90,
+        "units": 2174
+      },
+      {
+        "client": 91,
+        "units": 2174
+      },
+      {
+        "client": 92,
+        "units": 2174
+      },
+      {
+        "client": 93,
+        "units": 2174
+      },
+      {
+        "client": 94,
+        "units": 2174
+      },
+      {
+        "client": 95,
+        "units": 2174
+      },
+      {
+        "client": 96,
+        "units": 2174
+      },
+      {
+        "client": 97,
+        "units": 2174
+      },
+      {
+        "client": 98,
+        "units": 2174
+      },
+      {
+        "client": 99,
+        "units": 2174
+      }
+    ]
+  },
+  "original_report_sha256": "9932a99edef523c9af42b3aca135952a01afaa3e935d2e0f4e0af00f74d6f2bb",
+  "terminal_upload_worker": "Existing strict mock SDK queue profile processed remaining UploadChunk once after successful manual archive; queue empty.",
+  "performance": {
+    "archive_wall_seconds": 258.479,
+    "concatenation_seconds_approx": 240,
+    "concatenation_note": "Approximate from archive input file final-write timestamp vs recovery start; includes per-frame canonical checks and recovery validation. Native Windows 54000 small files; initial 180-second harness deadline insufficient."
+  },
+  "code_version_evidence": {
+    "current_source_coverage": "Independent load-final-smoke with start/end source manifests.",
+    "long_run_exact_source_version_verified": false,
+    "long_run_start_hash_saved": false,
+    "note": "Already loaded Gateway retained prior code; PHP lazy autoload dependencies may have read later file versions. This recovery used current archive code and does not certify the original attempt as final-source 90min coverage."
+  },
+  "unverified": [
+    "Real Qwen load capacity/quota",
+    "Real OSS load throughput",
+    "Real microphones and browser/mobile devices",
+    "Linux Docker deployment and archival performance"
+  ],
+  "verification_checks": {
+    "playable": true,
+    "recording_hash": true,
+    "manifest": true,
+    "timeline": true,
+    "pcm_bytes": true,
+    "frames": true,
+    "samples": true,
+    "original_failed": true,
+    "queue_empty": true,
+    "original_clients": true
+  }
+}

@@ -113,7 +113,14 @@ function resetShare() {
         v-if="lesson.archive_status === 'failed'"
         @click="ask('retryArchive', 'retry-archive')"
       >
-        {{ t("retryArchive") }}
+        {{ t("retryArchive") }}</button
+      ><button
+        v-if="lesson.status === 'ended'"
+        @click="
+          ask('forceArchive', 'retry-archive', { confirmed: true, force: true })
+        "
+      >
+        {{ t("forceArchive") }}
       </button></template
     >
   </div>
@@ -138,6 +145,7 @@ function resetShare() {
     </div></Modal
   ><Modal v-if="confirm" :title="t(confirm.label)" @close="confirm = null"
     ><p>{{ t("confirmAction") }}</p>
+    <p v-if="confirm.label === 'forceArchive'">{{ t("forceArchiveHelp") }}</p>
     <p v-if="error" class="alert">{{ t(`error_${error}`) }}</p>
     <div class="dialog-actions">
       <button @click="confirm = null">{{ t("cancel") }}</button

@@ -1,0 +1,78 @@
+{
+  "classification": "ACTUAL_PHP_WEBSOCKET_POSTGRESQL_FRONTEND_REPLAY_SYNTHETIC_AUDIO_MOCK_PROVIDER",
+  "status": "passed",
+  "testedAt": "2026-10-09T13:44:40.191Z",
+  "real_php": true,
+  "real_postgresql": true,
+  "real_gateway": true,
+  "http_mocks": false,
+  "websocket_mocks": false,
+  "provider": "explicit local mock Qwen",
+  "real_model": false,
+  "real_oss": false,
+  "synthetic_audio": true,
+  "real_microphone": false,
+  "borrowed_archive_touched": false,
+  "long_test_services_touched": false,
+  "fixture": {
+    "database": "classroom_test",
+    "course_id": 1553,
+    "lesson_id": 1652
+  },
+  "checks": [
+    {
+      "name": "actual viewer reconnect replays one subtitle correction and preserves its unsaved draft without duplicate display",
+      "status": "passed"
+    },
+    {
+      "name": "actual same-holder same-epoch paused outbox event stops the browser track before any audio rejection",
+      "status": "passed"
+    }
+  ],
+  "replay": {
+    "request_last_seq": 4451,
+    "recovery": {
+      "mode": "replay",
+      "from_seq": 4451,
+      "count": 1,
+      "truncated": false
+    },
+    "snapshot_last_seq": 4452,
+    "missed_events": [
+      {
+        "seq": 4452,
+        "event_type": "subtitle.updated",
+        "unit_id": 1299,
+        "version": 2
+      }
+    ],
+    "expected_unit_id": 1299,
+    "persisted_version": 2,
+    "unsaved_draft_preserved": true,
+    "visible_unit_count": 1,
+    "viewer_microphone_requests": 0
+  },
+  "server_pause": {
+    "fixture_injection": "isolated PostgreSQL lesson status and real gateway outbox; no production endpoint added",
+    "previous_status": "live",
+    "authoritative_status": "paused",
+    "same_epoch": true,
+    "same_holder": true,
+    "epoch": 2,
+    "holder_id": 2743,
+    "server_event_seq": 4459,
+    "track_stop_caused_by": {
+      "type": "event",
+      "event_type": "lesson.updated",
+      "seq": 4459,
+      "status": "paused",
+      "epoch": 2,
+      "holder": 2743
+    },
+    "all_tracks_stopped": true,
+    "packets_at_stop": 25,
+    "packets_after_450ms": 25,
+    "microphone_requests": 2
+  },
+  "js_errors": []
+}

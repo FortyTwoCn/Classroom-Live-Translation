@@ -24,6 +24,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
+      LARAVEL_STORAGE_PATH: /var/www/classroom/storage
       DB_HOST: db
       DB_PORT: "5432"
       CACHE_STORE: redis
@@ -47,6 +48,7 @@ services:
       REDIS_HOST: redis
       QUEUE_CONNECTION: database
       WS_LISTEN: websocket://0.0.0.0:8081
+      LARAVEL_STORAGE_PATH: /var/www/classroom/storage
       FFMPEG_BINARY: ffmpeg
       FFPROBE_BINARY: ffprobe
     command: [php, bin/gateway.php, start]

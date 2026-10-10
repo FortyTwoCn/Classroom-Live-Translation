@@ -14,6 +14,7 @@ final class QwenEvents
     private array $relations = [];
     private array $times = [];
     private array $responses = [];
+    private array $speechPending = [];
     private int $sequence = 0;
     private const TERMINAL = ['completed', 'failed', 'incomplete', 'interrupted'];
 
@@ -63,6 +64,11 @@ final class QwenEvents
                     throw new UnexpectedValueException('QWEN_AUDIO_OFFSET_INVALID');
                 }
                 $this->times[$itemId][$field] = $value;
+                $settled = false;
+                foreach ($this->units as $unit) {
+                    if ($unit['kind'] === 'source' && $unit['item_id'] === $itemId && in_array($unit['status'], self::TERMINAL, true)) $settled = true;
+                }
+                if (!$settled) $this->speechPending[$itemId] = true;
                 foreach ($this->units as $key => $unit) {
                     if (($unit['kind'] === 'source' && $unit['item_id'] === $itemId) || ($unit['kind'] === 'translation' && ($this->relations[$unit['item_id']] ?? null) === $itemId)) {
                         $out[] = $this->emit($key, $id);
@@ -81,9 +87,11 @@ final class QwenEvents
                     $this->replace($key, $event['transcript'] ?? null);
                     $this->units[$key]['status'] = 'completed';
                     $this->units[$key]['language'] = is_string($event['language'] ?? null) ? $event['language'] : null;
+                    unset($this->speechPending[$this->units[$key]['item_id']]);
                 } else {
                     $this->units[$key]['status'] = 'failed';
                     $this->units[$key]['error_code'] = self::safeCode($event['error']['code'] ?? 'transcription_failed');
+                    unset($this->speechPending[$this->units[$key]['item_id']]);
                 }
                 $out[] = $this->emit($key, $id);
                 break;
@@ -185,6 +193,15 @@ final class QwenEvents
         return $out;
     }
 
+    /** Only received provider events are known; a quiet result is advisory, not a VAD guarantee. */
+    public function hasPendingWork(): bool
+    {
+        if ($this->speechPending !== []) return true;
+        foreach ($this->units as $unit) if (!in_array($unit['status'], self::TERMINAL, true)) return true;
+        foreach ($this->responses as $response) if (!in_array($response['status'] ?? '', self::TERMINAL, true)) return true;
+        return false;
+    }
+
     private function ensure(string $kind, array $event): string
     {
         $item = $this->id($event['item_id'] ?? null);
@@ -276,6 +293,7 @@ final class QwenEvents
 
     private function boundState(): void
     {
+        if (count($this->speechPending) > 2048) throw new UnexpectedValueException('QWEN_TOO_MANY_PENDING_AUDIO_ITEMS');
         // The database is the durable source of truth. Keep a bounded late-event window in memory.
         while (count($this->units) > 2048) {
             $removed = false;
@@ -290,7 +308,14 @@ final class QwenEvents
                 throw new UnexpectedValueException('QWEN_TOO_MANY_UNFINISHED_UNITS');
             }
         }
-        foreach (['relations', 'times', 'responses'] as $field) {
+        while (count($this->responses) > 4096) {
+            $removed = false;
+            foreach ($this->responses as $id => $response) {
+                if (in_array($response['status'] ?? '', self::TERMINAL, true)) { unset($this->responses[$id]); $removed = true; break; }
+            }
+            if (!$removed) throw new UnexpectedValueException('QWEN_TOO_MANY_PENDING_RESPONSES');
+        }
+        foreach (['relations', 'times'] as $field) {
             while (count($this->{$field}) > 4096) {
                 array_shift($this->{$field});
             }

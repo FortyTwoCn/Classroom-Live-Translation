@@ -1,0 +1,121 @@
+{
+  "test_kind": "real_model_phrases",
+  "started_at": "2026-10-09T19:52:18+08:00",
+  "status": "PASS",
+  "supplier_maximum_claimed": false,
+  "application_caps": {
+    "count": 1000,
+    "source_bytes": 256,
+    "target_bytes": 64,
+    "session_update_bytes": 65536
+  },
+  "budget": {
+    "max_calls": 2,
+    "max_elapsed_seconds": 180,
+    "min_start_interval_seconds": 6.3
+  },
+  "device_capture_verified": false,
+  "language_quality_verified": false,
+  "transcript_storage": "counts_and_matching_booleans_only",
+  "cases": [
+    {
+      "name": "natural_chinese",
+      "target_language": "zh",
+      "status": "PASS",
+      "phrase_count": 1,
+      "source_max_bytes": 7,
+      "target_max_bytes": 54,
+      "checks": {
+        "configuration_accepted": true,
+        "echo_match": true,
+        "source_recognized": true,
+        "preferred_translation_observed": true,
+        "all_audio_sent": true,
+        "session_finished": true,
+        "translation_nonempty": true,
+        "no_unfinished_response": true
+      },
+      "source_final_count": 1,
+      "translation_final_count": 1,
+      "usage": {
+        "resp_Mi93C8kMiemg6uf8CHMEv": {
+          "total_tokens": 184,
+          "input_tokens": 142,
+          "output_tokens": 42,
+          "input_tokens_details": {
+            "text_tokens": 79,
+            "audio_tokens": 63
+          },
+          "output_tokens_details": {
+            "text_tokens": 42
+          }
+        }
+      },
+      "errors": [],
+      "session_update_bytes": 230,
+      "requested_hash": "0706a444f71e98852a4386ab5030e1a7442b86b69a62a0e133644ae563c99e65",
+      "response_status_counts": {
+        "completed": 1
+      }
+    },
+    {
+      "name": "natural_ukrainian",
+      "target_language": "uk",
+      "status": "PASS",
+      "phrase_count": 1,
+      "source_max_bytes": 7,
+      "target_max_bytes": 43,
+      "checks": {
+        "configuration_accepted": true,
+        "echo_match": true,
+        "source_recognized": true,
+        "preferred_translation_observed": true,
+        "all_audio_sent": true,
+        "session_finished": true,
+        "translation_nonempty": true,
+        "no_unfinished_response": true
+      },
+      "source_final_count": 1,
+      "translation_final_count": 1,
+      "usage": {
+        "resp_GuXzRaBzYwE6m1XfASlIM": {
+          "total_tokens": 204,
+          "input_tokens": 142,
+          "output_tokens": 62,
+          "input_tokens_details": {
+            "text_tokens": 79,
+            "audio_tokens": 63
+          },
+          "output_tokens_details": {
+            "text_tokens": 62
+          }
+        }
+      },
+      "errors": [],
+      "session_update_bytes": 219,
+      "requested_hash": "7737d743920b7c1c32e36660f3e3483acc571330be1b550e597760b25002f333",
+      "response_status_counts": {
+        "completed": 1
+      }
+    }
+  ],
+  "model": "qwen3.8-livetranslate-flash-realtime",
+  "region": "cn-beijing",
+  "input_samples": 140400,
+  "input_sha256": "873dcb82edafd06995ea49adaba88e141ad164b6cee12dab425bab65c20b9036",
+  "target_language": "mixed",
+  "probe_plan": "natural_term_followup",
+  "calls": 2,
+  "elapsed_seconds": 21.538,
+  "finished_at": "2026-10-09T19:52:40+08:00",
+  "scope": "Only listed values and this speech fixture were tested; no supplier maximum inferred.",
+  "metadata_correction": {
+    "original_application_caps": {
+      "count": 1000,
+      "term_bytes": 1000,
+      "session_update_bytes": 65536
+    },
+    "reason": "Probe report had a stale literal after application byte caps changed. Provider checks, usages, timings and results are unchanged.",
+    "corrected_at": "2026-10-09T12:16:06.2968710Z"
+  }
+}

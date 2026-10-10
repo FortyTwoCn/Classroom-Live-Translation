@@ -11,6 +11,7 @@ import {
 import { t } from "../i18n";
 import Modal from "./Modal.vue";
 import CorrectionDialog from "./CorrectionDialog.vue";
+import { loadAdminCourseOptions } from "../admin-courses";
 const emit = defineEmits<{ navigate: [path: string] }>();
 type ManagedUnit = Unit & {
   lesson_id: number;
@@ -108,9 +109,7 @@ async function authorize() {
 }
 onMounted(async () => {
   try {
-    courses.value = (
-      await api.request<{ courses: { data: Course[] } }>("/api/admin/courses")
-    ).courses.data;
+    courses.value = await loadAdminCourseOptions();
   } catch (e) {
     error.value = errorCode(e);
   }

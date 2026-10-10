@@ -1,0 +1,148 @@
+{
+    "test_kind": "real_model_real_oss_database_readback",
+    "lesson_id": 3,
+    "status": "ended",
+    "translation_status": "finished",
+    "media_samples": 1077589,
+    "model_sessions": [
+        {
+            "id": "fecca358-5fb1-4441-97fc-d5f2af57b816",
+            "purpose": "initial",
+            "epoch": 1,
+            "base_sample": 0,
+            "sent_samples": 667200,
+            "sent_samples_complete": true,
+            "status": "finished",
+            "created_at": "2026-10-09 12:38:39.193009+00",
+            "ended_at": "2026-10-09 12:39:22+00",
+            "approximate_boundary": false
+        },
+        {
+            "id": "fbdb44cc-636b-48d7-b63f-b8e37233b0f6",
+            "purpose": "rotation",
+            "epoch": 1,
+            "base_sample": 667200,
+            "sent_samples": 410389,
+            "sent_samples_complete": true,
+            "status": "finished",
+            "created_at": "2026-10-09 12:39:21.011862+00",
+            "ended_at": "2026-10-09 12:39:47+00",
+            "approximate_boundary": true
+        }
+    ],
+    "model_sent_samples": 1077589,
+    "no_duplicate_audio_forwarding": true,
+    "forwarding_counter_scope": "Local QwenSession sendAudio sample counts and contiguous peer bases; provider exactly-once receipt is not verified.",
+    "model_audio_peer_coverage_contiguous": true,
+    "audio_segments": {
+        "count": 674,
+        "samples": 1077589,
+        "first_sample": 0,
+        "last_sample": 1077589,
+        "epoch_count": 1,
+        "gaps_or_overlaps": 0
+    },
+    "audio_chunks": [
+        {
+            "storage_state": "uploaded",
+            "n": 7,
+            "samples": 1077589
+        }
+    ],
+    "subtitle_status_counts": [
+        {
+            "kind": "source",
+            "status": "completed",
+            "n": 3
+        },
+        {
+            "kind": "translation",
+            "status": "completed",
+            "n": 3
+        }
+    ],
+    "retained_interrupted_unit_count": 0,
+    "official_usage": [
+        {
+            "model_session_id": "fecca358-5fb1-4441-97fc-d5f2af57b816",
+            "response_id": "resp_DItdQKYTcDMyASsudlO5G",
+            "status": "completed",
+            "official": true,
+            "usage": {
+                "input_tokens": 180,
+                "total_tokens": 225,
+                "output_tokens": 45,
+                "input_tokens_details": {
+                    "text_tokens": 47,
+                    "audio_tokens": 133
+                },
+                "output_tokens_details": {
+                    "text_tokens": 45
+                }
+            }
+        },
+        {
+            "model_session_id": "fecca358-5fb1-4441-97fc-d5f2af57b816",
+            "response_id": "resp_TP5xLSVsaq5SVcrEkd38m",
+            "status": "completed",
+            "official": true,
+            "usage": {
+                "input_tokens": 320,
+                "total_tokens": 408,
+                "output_tokens": 88,
+                "input_tokens_details": {
+                    "text_tokens": 47,
+                    "audio_tokens": 273
+                },
+                "output_tokens_details": {
+                    "text_tokens": 88
+                }
+            }
+        },
+        {
+            "model_session_id": "fbdb44cc-636b-48d7-b63f-b8e37233b0f6",
+            "response_id": "resp_GY8JwmhxLxGjXk8Tr7A7P",
+            "status": "completed",
+            "official": true,
+            "usage": {
+                "input_tokens": 173,
+                "total_tokens": 224,
+                "output_tokens": 51,
+                "input_tokens_details": {
+                    "text_tokens": 47,
+                    "audio_tokens": 126
+                },
+                "output_tokens_details": {
+                    "text_tokens": 51
+                }
+            }
+        }
+    ],
+    "rotation_events": [
+        {
+            "seq": 166,
+            "payload": {
+                "phase": "preparing",
+                "approximate_boundary": true
+            }
+        },
+        {
+            "seq": 167,
+            "payload": {
+                "phase": "switched",
+                "base_sample": 667200,
+                "approximate_boundary": true
+            }
+        }
+    ],
+    "archive": {
+        "status": "playable",
+        "samples": 1077589,
+        "bytes": 343092,
+        "sha256": "bc4f59f8b79861706ac74060a0bd217c41e4425cb5cf9fa9bfcbaf1a5a02838d",
+        "object_key_sha256": "520549a387c9790113617c6443f697fc054a92cfc66e46419e2013ca9fd6fdcc"
+    },
+    "physical_microphone_verified": false,
+    "physical_device_verified": false,
+    "translation_split_quality_verified": false
+}

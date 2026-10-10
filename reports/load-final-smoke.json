@@ -1,0 +1,606 @@
+{
+  "classification": "REAL_WALL_CLOCK_PHP_POSTGRESQL_WEBSOCKET_SIMULATED_QWEN_AND_S3",
+  "status": "passed",
+  "started_at": "2026-10-09T14:43:39.265Z",
+  "finished_at": "2026-10-09T14:44:59.385Z",
+  "requested_duration_seconds": 60,
+  "actual_capture_wall_seconds": 60.011,
+  "viewers": {
+    "kind": "Node ws clients; not browser tabs or real devices",
+    "requested": 100,
+    "connected": 100,
+    "min_events": 103,
+    "max_events": 103,
+    "duplicates": 0,
+    "completed_unit_delivery_counts": [
+      {
+        "client": -1,
+        "units": 26
+      },
+      {
+        "client": 0,
+        "units": 26
+      },
+      {
+        "client": 1,
+        "units": 26
+      },
+      {
+        "client": 2,
+        "units": 26
+      },
+      {
+        "client": 3,
+        "units": 26
+      },
+      {
+        "client": 4,
+        "units": 26
+      },
+      {
+        "client": 5,
+        "units": 26
+      },
+      {
+        "client": 6,
+        "units": 26
+      },
+      {
+        "client": 7,
+        "units": 26
+      },
+      {
+        "client": 8,
+        "units": 26
+      },
+      {
+        "client": 9,
+        "units": 26
+      },
+      {
+        "client": 10,
+        "units": 26
+      },
+      {
+        "client": 11,
+        "units": 26
+      },
+      {
+        "client": 12,
+        "units": 26
+      },
+      {
+        "client": 13,
+        "units": 26
+      },
+      {
+        "client": 14,
+        "units": 26
+      },
+      {
+        "client": 15,
+        "units": 26
+      },
+      {
+        "client": 16,
+        "units": 26
+      },
+      {
+        "client": 17,
+        "units": 26
+      },
+      {
+        "client": 18,
+        "units": 26
+      },
+      {
+        "client": 19,
+        "units": 26
+      },
+      {
+        "client": 20,
+        "units": 26
+      },
+      {
+        "client": 21,
+        "units": 26
+      },
+      {
+        "client": 22,
+        "units": 26
+      },
+      {
+        "client": 23,
+        "units": 26
+      },
+      {
+        "client": 24,
+        "units": 26
+      },
+      {
+        "client": 25,
+        "units": 26
+      },
+      {
+        "client": 26,
+        "units": 26
+      },
+      {
+        "client": 27,
+        "units": 26
+      },
+      {
+        "client": 28,
+        "units": 26
+      },
+      {
+        "client": 29,
+        "units": 26
+      },
+      {
+        "client": 30,
+        "units": 26
+      },
+      {
+        "client": 31,
+        "units": 26
+      },
+      {
+        "client": 32,
+        "units": 26
+      },
+      {
+        "client": 33,
+        "units": 26
+      },
+      {
+        "client": 34,
+        "units": 26
+      },
+      {
+        "client": 35,
+        "units": 26
+      },
+      {
+        "client": 36,
+        "units": 26
+      },
+      {
+        "client": 37,
+        "units": 26
+      },
+      {
+        "client": 38,
+        "units": 26
+      },
+      {
+        "client": 39,
+        "units": 26
+      },
+      {
+        "client": 40,
+        "units": 26
+      },
+      {
+        "client": 41,
+        "units": 26
+      },
+      {
+        "client": 42,
+        "units": 26
+      },
+      {
+        "client": 43,
+        "units": 26
+      },
+      {
+        "client": 44,
+        "units": 26
+      },
+      {
+        "client": 45,
+        "units": 26
+      },
+      {
+        "client": 46,
+        "units": 26
+      },
+      {
+        "client": 47,
+        "units": 26
+      },
+      {
+        "client": 48,
+        "units": 26
+      },
+      {
+        "client": 49,
+        "units": 26
+      },
+      {
+        "client": 50,
+        "units": 26
+      },
+      {
+        "client": 51,
+        "units": 26
+      },
+      {
+        "client": 52,
+        "units": 26
+      },
+      {
+        "client": 53,
+        "units": 26
+      },
+      {
+        "client": 54,
+        "units": 26
+      },
+      {
+        "client": 55,
+        "units": 26
+      },
+      {
+        "client": 56,
+        "units": 26
+      },
+      {
+        "client": 57,
+        "units": 26
+      },
+      {
+        "client": 58,
+        "units": 26
+      },
+      {
+        "client": 59,
+        "units": 26
+      },
+      {
+        "client": 60,
+        "units": 26
+      },
+      {
+        "client": 61,
+        "units": 26
+      },
+      {
+        "client": 62,
+        "units": 26
+      },
+      {
+        "client": 63,
+        "units": 26
+      },
+      {
+        "client": 64,
+        "units": 26
+      },
+      {
+        "client": 65,
+        "units": 26
+      },
+      {
+        "client": 66,
+        "units": 26
+      },
+      {
+        "client": 67,
+        "units": 26
+      },
+      {
+        "client": 68,
+        "units": 26
+      },
+      {
+        "client": 69,
+        "units": 26
+      },
+      {
+        "client": 70,
+        "units": 26
+      },
+      {
+        "client": 71,
+        "units": 26
+      },
+      {
+        "client": 72,
+        "units": 26
+      },
+      {
+        "client": 73,
+        "units": 26
+      },
+      {
+        "client": 74,
+        "units": 26
+      },
+      {
+        "client": 75,
+        "units": 26
+      },
+      {
+        "client": 76,
+        "units": 26
+      },
+      {
+        "client": 77,
+        "units": 26
+      },
+      {
+        "client": 78,
+        "units": 26
+      },
+      {
+        "client": 79,
+        "units": 26
+      },
+      {
+        "client": 80,
+        "units": 26
+      },
+      {
+        "client": 81,
+        "units": 26
+      },
+      {
+        "client": 82,
+        "units": 26
+      },
+      {
+        "client": 83,
+        "units": 26
+      },
+      {
+        "client": 84,
+        "units": 26
+      },
+      {
+        "client": 85,
+        "units": 26
+      },
+      {
+        "client": 86,
+        "units": 26
+      },
+      {
+        "client": 87,
+        "units": 26
+      },
+      {
+        "client": 88,
+        "units": 26
+      },
+      {
+        "client": 89,
+        "units": 26
+      },
+      {
+        "client": 90,
+        "units": 26
+      },
+      {
+        "client": 91,
+        "units": 26
+      },
+      {
+        "client": 92,
+        "units": 26
+      },
+      {
+        "client": 93,
+        "units": 26
+      },
+      {
+        "client": 94,
+        "units": 26
+      },
+      {
+        "client": 95,
+        "units": 26
+      },
+      {
+        "client": 96,
+        "units": 26
+      },
+      {
+        "client": 97,
+        "units": 26
+      },
+      {
+        "client": 98,
+        "units": 26
+      },
+      {
+        "client": 99,
+        "units": 26
+      }
+    ]
+  },
+  "capture": {
+    "artificial_pcm": true,
+    "format": "16000Hz mono PCM16 little-endian",
+    "frame_ms": 100,
+    "frames_sent": 600,
+    "duplicate_frames_sent": 1,
+    "acks": 601,
+    "samples": 960000,
+    "real_microphone": false
+  },
+  "mock_model": {
+    "audio_received": 600,
+    "duplicate_audio_received": 0,
+    "responses": 13,
+    "sessions": 2,
+    "real_model": false
+  },
+  "storage": {
+    "sdk_handler": "explicit test-process file-backed command fixture",
+    "real_oss": false,
+    "real_ffmpeg": true,
+    "metrics": {
+      "at_ms": 1791557099268,
+      "lesson": {
+        "status": "ended",
+        "media_samples": 960000,
+        "archive_status": "playable",
+        "recorder_epoch": 1
+      },
+      "segments": {
+        "frames": 600,
+        "samples": 960000,
+        "epochs": 1,
+        "model_sent": 600
+      },
+      "chunks": {
+        "uploaded": 6
+      },
+      "chunk_backup_delay_mock_ms": {
+        "min_ms": "9886.240000",
+        "max_ms": "9897.173000",
+        "p95_ms": 9896.6285
+      },
+      "queued_jobs": 0,
+      "failed_jobs": 0,
+      "events": 103,
+      "model_sessions": 2,
+      "db_bytes": 11654835,
+      "disk_free_bytes": 101578305536,
+      "timeline": {
+        "gaps": 0,
+        "end_sample": 960000
+      },
+      "completed_units": 26,
+      "archive": {
+        "bytes": 468152,
+        "sha256": "4748dadb5a6993bd3d7bbdbeab75f9e6ab9a0728de91eb6ac3bdec51db5a70f4",
+        "duration_samples": 960000,
+        "status": "playable"
+      },
+      "storage_bytes": 8795122,
+      "storage_files": 625,
+      "mock_receive_cadence": {
+        "frames": 600,
+        "first_to_last_wall_seconds": 59.858,
+        "interval_p95_ms": 118,
+        "interval_p99_ms": 173,
+        "interval_max_ms": 230,
+        "intervals_above_500ms": 0
+      }
+    }
+  },
+  "latencies": {
+    "durable_ack": {
+      "count": 601,
+      "min_ms": 8,
+      "p50_ms": 13,
+      "p95_ms": 27,
+      "p99_ms": 92,
+      "max_ms": 138
+    },
+    "forward_to_mock": {
+      "count": 600,
+      "min_ms": 9,
+      "p50_ms": 14,
+      "p95_ms": 28,
+      "p99_ms": 93,
+      "max_ms": 139
+    },
+    "mock_response_from_last_frame": {
+      "count": 13,
+      "min_ms": 10,
+      "p50_ms": 14,
+      "p95_ms": 104,
+      "p99_ms": 104,
+      "max_ms": 128
+    },
+    "completed_subtitle_broadcast_to_all_clients": {
+      "count": 2626,
+      "min_ms": 22,
+      "p50_ms": 75,
+      "p95_ms": 124,
+      "p99_ms": 126,
+      "max_ms": 127
+    },
+    "mock_sdk_commands": {
+      "count": 14,
+      "min_ms": 0.6761550903320312,
+      "p50_ms": 2.064943313598633,
+      "p95_ms": 10.829925537109375,
+      "p99_ms": 10.829925537109375,
+      "max_ms": 12.5579833984375
+    },
+    "clock": "same-host Date.now()/PHP microtime; wall-clock offset not network synchronized"
+  },
+  "machine": {
+    "platform": "win32",
+    "os_release": "10.0.26100",
+    "cpu": "Intel(R) Core(TM) i7-14700HX",
+    "logical_cpus": 28,
+    "total_memory_bytes": 16944848896,
+    "node": "v24.19.0"
+  },
+  "failures": [],
+  "unverified": [
+    "real Qwen capacity/quota",
+    "real OSS throughput",
+    "real microphone and browsers/mobile devices",
+    "Linux Docker deployment/timeouts"
+  ],
+  "resource_samples_path": "work load profile resource-metrics.ndjson (private runtime)",
+  "resources": {
+    "sample_period_seconds": 5,
+    "samples": 16,
+    "processes": {
+      "http": {
+        "rss_peak_bytes": 45199360,
+        "cpu_peak_percent_one_core": 33.5275619681835,
+        "cpu_total_ms_last_sample": 5187.5
+      },
+      "mock": {
+        "rss_peak_bytes": 40816640,
+        "cpu_peak_percent_one_core": 0.6209020464931453,
+        "cpu_total_ms_last_sample": 296.875
+      },
+      "gateway": {
+        "rss_peak_bytes": 47853568,
+        "cpu_peak_percent_one_core": 16.700262516407275,
+        "cpu_total_ms_last_sample": 7250
+      },
+      "worker": {
+        "rss_peak_bytes": 73281536,
+        "cpu_peak_percent_one_core": 3.5198047681621927,
+        "cpu_total_ms_last_sample": 781.25
+      },
+      "viewers": {
+        "rss_peak_bytes": 81862656,
+        "cpu_peak_percent_one_core": 8.670921198668147,
+        "cpu_total_ms_last_sample": 1671.875
+      }
+    },
+    "postgres_shared_cluster_rss_peak_bytes": 235896832,
+    "postgres_note": "Shared PostgreSQL server includes other databases/tests; not isolated CPU/RSS.",
+    "queue_peak_jobs": 1,
+    "db_peak_bytes": 11572915,
+    "disk_min_free_bytes": 101582270464
+  },
+  "isolated_database": "classroom_load_fb6e50ad5090",
+  "phase_timing": {
+    "capture_wall_seconds": 60.011,
+    "archive_wait_wall_seconds": 0.303,
+    "archive_harness_deadline_seconds": 1800
+  },
+  "code_version_evidence": {
+    "gateway_sha256_at_end": "474f699078ae26e55c84e8b18c6c66b0554eea3999fb94fd6d43a8b50ea3148e",
+    "startup_source_hash_recorded": true,
+    "exact_start_end_source_match": true,
+    "hash_manifest": "load-final-smoke-source-manifest.json",
+    "scope": "Actual start/end code snapshots; git HEAD alone does not identify uncommitted source.",
+    "working_tree_dirty_at_start": true,
+    "gateway_sha256_at_start": "474f699078ae26e55c84e8b18c6c66b0554eea3999fb94fd6d43a8b50ea3148e",
+    "git_head_at_start": "867eaaf2bf071f4e4b6d084c7cb3d16f2d56f455",
+    "changed_source_files": []
+  }
+}

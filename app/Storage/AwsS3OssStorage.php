@@ -149,11 +149,24 @@ final class AwsS3OssStorage
         $this->client->deleteObject(['Bucket' => $this->configuration->bucket, 'Key' => $key]);
     }
 
-    /** Caller must perform lesson authorization immediately before signing. */
-    public function presignedGet(string $key): string
+    /** Bounded streaming download; neither S3 headers nor file names are trusted. */
+    public function downloadVerified(string $key,string $destination,int $bytes,string $sha256):void
     {
-        $command = $this->client->getCommand('GetObject', ['Bucket' => $this->configuration->bucket,
-            'Key' => $key]);
+        if($bytes<=0||$bytes>320000||!preg_match('/^[a-f0-9]{64}$/D',$sha256))throw new RuntimeException('recording_download_bounds_invalid');
+        $head=$this->head($key);if($head['bytes']!==$bytes||!hash_equals($sha256,$head['sha256']??''))throw new RuntimeException('recording_remote_checksum_failed');
+        $body=$this->client->getObject(['Bucket'=>$this->configuration->bucket,'Key'=>$key])['Body'];$out=fopen($destination,'xb');if(!$out){$body->close();throw new RuntimeException('recording_output_failed');}$hash=hash_init('sha256');$total=0;
+        try{while(!$body->eof()){$data=$body->read(8192);if($data==='')break;$total+=strlen($data);if($total>$bytes||fwrite($out,$data)!==strlen($data))throw new RuntimeException('recording_download_length_invalid');hash_update($hash,$data);}if($total!==$bytes||!hash_equals($sha256,hash_final($hash)))throw new RuntimeException('recording_download_checksum_failed');if(!fflush($out)||!fsync($out))throw new RuntimeException('recording_output_sync_failed');}finally{fclose($out);$body->close();}
+    }
+
+    /** Caller must perform lesson authorization immediately before signing. */
+    public function presignedGet(string $key, ?string $downloadName = null): string
+    {
+        $params = ['Bucket' => $this->configuration->bucket, 'Key' => $key];
+        if ($downloadName !== null) {
+            if (strlen($downloadName) > 500 || preg_match('/[\r\n\x00]/', $downloadName)) throw new RuntimeException('storage_download_name_invalid');
+            $params['ResponseContentDisposition'] = "attachment; filename=\"recording.m4a\"; filename*=UTF-8''".rawurlencode($downloadName);
+        }
+        $command = $this->client->getCommand('GetObject', $params);
         return (string) $this->client->createPresignedRequest($command,
             '+'.$this->configuration->presignSeconds.' seconds')->getUri();
     }

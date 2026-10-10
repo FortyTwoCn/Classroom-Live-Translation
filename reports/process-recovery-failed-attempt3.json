@@ -1,0 +1,267 @@
+{
+  "classification": "REAL_PROCESS_RESTART_PHP_POSTGRESQL_EXPLICIT_MOCK_QWEN",
+  "status": "failed",
+  "real_model": false,
+  "real_oss": false,
+  "hardware_microphone": false,
+  "initial_epoch": 1,
+  "replay_after_seq": 6,
+  "failure_phase": "restart.client.0.closed",
+  "failure_type": "TimeoutError",
+  "failure_message": "page.waitForFunction: Timeout 12000ms exceeded.",
+  "failure_stack": "page.waitForFunction: Timeout 12000ms exceeded.\n    at wait (C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-09\\php-postgresql-oss-s3-qwen3-8\\outputs\\classroom-live-translation\\tests\\e2e\\recovery.mjs:9:89)\n    at C:\\Users\\Lenovo\\Documents\\Codex\\2026-10-09\\php-postgresql-oss-s3-qwen3-8\\outputs\\classroom-live-translation\\tests\\e2e\\recovery.mjs:20:63",
+  "client_diagnostics": [
+    {
+      "index": 0,
+      "closed": false,
+      "socket_state": 3,
+      "close_code": 1006,
+      "socket_errors": 0,
+      "events": [
+        {
+          "type": "snapshot"
+        },
+        {
+          "type": "recorder.ready",
+          "media_samples": 0
+        },
+        {
+          "type": "audio.ack",
+          "media_samples": 1600
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 1,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 2,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 3,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 4,
+          "status": "live"
+        },
+        {
+          "type": "audio.ack",
+          "media_samples": 3200
+        },
+        {
+          "type": "audio.ack",
+          "media_samples": 4800
+        },
+        {
+          "type": "event",
+          "event_type": "subtitle.updated",
+          "seq": 5,
+          "unit_status": "streaming"
+        },
+        {
+          "type": "event",
+          "event_type": "subtitle.updated",
+          "seq": 6,
+          "unit_status": "streaming"
+        },
+        {
+          "type": "presence"
+        },
+        {
+          "type": "lesson.progress",
+          "media_samples": 4800
+        },
+        {
+          "type": "audio.ack",
+          "media_samples": 6400
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "closed": false,
+      "socket_state": 3,
+      "close_code": 1006,
+      "socket_errors": 0,
+      "events": [
+        {
+          "type": "snapshot"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 1,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 2,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 3,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 4,
+          "status": "live"
+        },
+        {
+          "type": "event",
+          "event_type": "subtitle.updated",
+          "seq": 5,
+          "unit_status": "streaming"
+        },
+        {
+          "type": "event",
+          "event_type": "subtitle.updated",
+          "seq": 6,
+          "unit_status": "streaming"
+        },
+        {
+          "type": "presence"
+        },
+        {
+          "type": "lesson.progress",
+          "media_samples": 4800
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "closed": false,
+      "socket_state": 3,
+      "close_code": 1006,
+      "socket_errors": 0,
+      "events": [
+        {
+          "type": "snapshot"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 1,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 2,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 3,
+          "status": "ready"
+        },
+        {
+          "type": "event",
+          "event_type": "lesson.updated",
+          "seq": 4,
+          "status": "live"
+        },
+        {
+          "type": "event",
+          "event_type": "subtitle.updated",
+          "seq": 5,
+          "unit_status": "streaming"
+        },
+        {
+          "type": "event",
+          "event_type": "subtitle.updated",
+          "seq": 6,
+          "unit_status": "streaming"
+        },
+        {
+          "type": "presence"
+        },
+        {
+          "type": "lesson.progress",
+          "media_samples": 4800
+        }
+      ]
+    }
+  ],
+  "phases": [
+    {
+      "phase": "client.0.initialize",
+      "elapsed_ms": 0
+    },
+    {
+      "phase": "client.1.initialize",
+      "elapsed_ms": 244
+    },
+    {
+      "phase": "client.2.initialize",
+      "elapsed_ms": 417
+    },
+    {
+      "phase": "initial.login",
+      "elapsed_ms": 575
+    },
+    {
+      "phase": "client.0.ticket",
+      "elapsed_ms": 1119
+    },
+    {
+      "phase": "client.0.snapshot",
+      "elapsed_ms": 1236
+    },
+    {
+      "phase": "client.1.ticket",
+      "elapsed_ms": 1258
+    },
+    {
+      "phase": "client.1.snapshot",
+      "elapsed_ms": 1372
+    },
+    {
+      "phase": "client.2.ticket",
+      "elapsed_ms": 1384
+    },
+    {
+      "phase": "client.2.snapshot",
+      "elapsed_ms": 1597
+    },
+    {
+      "phase": "recorder.ready.after_start",
+      "elapsed_ms": 1609
+    },
+    {
+      "phase": "initial.four_frames",
+      "elapsed_ms": 1652
+    },
+    {
+      "phase": "initial.four_durable_acknowledgements",
+      "elapsed_ms": 2134
+    },
+    {
+      "phase": "initial.viewer_streaming",
+      "elapsed_ms": 2136
+    },
+    {
+      "phase": "controller.restart",
+      "elapsed_ms": 2153
+    },
+    {
+      "phase": "restart.client.0.closed",
+      "elapsed_ms": 5944
+    }
+  ],
+  "elapsed_seconds": 17.958
+}

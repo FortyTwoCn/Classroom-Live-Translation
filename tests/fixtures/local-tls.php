@@ -1,0 +1,4 @@
+<?php
+// A short-lived self-signed localhost test certificate, never a production key.
+$directory=$argv[1]??'';$config=$argv[2]??'';if(!is_dir($directory)||!is_file($config))exit(2);
+$options=['config'=>$config,'digest_alg'=>'sha256','private_key_bits'=>2048,'private_key_type'=>OPENSSL_KEYTYPE_RSA];$key=openssl_pkey_new($options);$csr=openssl_csr_new(['commonName'=>'localhost','organizationName'=>'Explicit local deployment test'],$key,$options);$cert=openssl_csr_sign($csr,null,$key,2,$options);if(!$key||!$csr||!$cert)throw new RuntimeException('localhost_test_certificate_failed');openssl_pkey_export($key,$pem,null,$options);file_put_contents($directory.'/key.pem',$pem);chmod($directory.'/key.pem',0600);openssl_x509_export_to_file($cert,$directory.'/cert.pem');echo "Local self-signed test certificate created.\n";

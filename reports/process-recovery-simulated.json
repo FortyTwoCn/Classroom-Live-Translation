@@ -1,0 +1,218 @@
+{
+  "classification": "REAL_PROCESS_RESTART_PHP_POSTGRESQL_EXPLICIT_MOCK_QWEN",
+  "status": "passed",
+  "real_model": false,
+  "real_oss": false,
+  "hardware_microphone": false,
+  "initial_epoch": 1,
+  "replay_after_seq": 6,
+  "clients": 3,
+  "killed_gateway": true,
+  "restarted_gateway": true,
+  "persisted_pcm_hashes_verified": true,
+  "replay_received": true,
+  "old_epoch_audio_rejected": true,
+  "guest_audio_rejected": true,
+  "disabled_account_ws_revoked": true,
+  "guest_subscription_retained": true,
+  "automatic_microphone_or_model_restart": false,
+  "media_samples": 11200,
+  "frames": 7,
+  "frame_samples": 11200,
+  "local_hash_and_contiguous_timeline": true,
+  "local_pcm_matches_sent_fixture": true,
+  "persisted_stream_sha256": "d7d92bc4eb807f93da70315e58c52c61162487f77f8f5e03451fafabd0714085",
+  "expected_stream_sha256": "d7d92bc4eb807f93da70315e58c52c61162487f77f8f5e03451fafabd0714085",
+  "epoch_frame_counts": {
+    "1": 4,
+    "2": 1,
+    "3": 2
+  },
+  "model_statuses": [
+    "interrupted",
+    "finished",
+    "finished"
+  ],
+  "unfinished_model_count": 0,
+  "interrupted_units": 2,
+  "completed_units": 4,
+  "issues": [
+    {
+      "kind": "translation_uncertain",
+      "start_sample": 0,
+      "end_sample": 6400
+    }
+  ],
+  "lesson_status": "ended",
+  "phases": [
+    {
+      "phase": "client.0.initialize",
+      "elapsed_ms": 0
+    },
+    {
+      "phase": "client.1.initialize",
+      "elapsed_ms": 242
+    },
+    {
+      "phase": "client.2.initialize",
+      "elapsed_ms": 402
+    },
+    {
+      "phase": "initial.login",
+      "elapsed_ms": 556
+    },
+    {
+      "phase": "client.0.ticket",
+      "elapsed_ms": 1025
+    },
+    {
+      "phase": "client.0.snapshot",
+      "elapsed_ms": 1146
+    },
+    {
+      "phase": "client.1.ticket",
+      "elapsed_ms": 1168
+    },
+    {
+      "phase": "client.1.snapshot",
+      "elapsed_ms": 1285
+    },
+    {
+      "phase": "client.2.ticket",
+      "elapsed_ms": 1297
+    },
+    {
+      "phase": "client.2.snapshot",
+      "elapsed_ms": 1403
+    },
+    {
+      "phase": "recorder.ready.after_start",
+      "elapsed_ms": 1415
+    },
+    {
+      "phase": "initial.four_frames",
+      "elapsed_ms": 1464
+    },
+    {
+      "phase": "initial.four_durable_acknowledgements",
+      "elapsed_ms": 1948
+    },
+    {
+      "phase": "initial.viewer_streaming",
+      "elapsed_ms": 1950
+    },
+    {
+      "phase": "controller.restart",
+      "elapsed_ms": 1963
+    },
+    {
+      "phase": "restart.client.0.closed",
+      "elapsed_ms": 5859
+    },
+    {
+      "phase": "restart.client.1.closed",
+      "elapsed_ms": 5861
+    },
+    {
+      "phase": "restart.client.2.closed",
+      "elapsed_ms": 5874
+    },
+    {
+      "phase": "client.0.ticket",
+      "elapsed_ms": 5878
+    },
+    {
+      "phase": "client.0.snapshot",
+      "elapsed_ms": 6145
+    },
+    {
+      "phase": "client.1.ticket",
+      "elapsed_ms": 6162
+    },
+    {
+      "phase": "client.1.snapshot",
+      "elapsed_ms": 6274
+    },
+    {
+      "phase": "client.2.ticket",
+      "elapsed_ms": 6284
+    },
+    {
+      "phase": "client.2.snapshot",
+      "elapsed_ms": 6400
+    },
+    {
+      "phase": "restart.snapshot_assertions",
+      "elapsed_ms": 6411
+    },
+    {
+      "phase": "recorder.ready.after_start",
+      "elapsed_ms": 6413
+    },
+    {
+      "phase": "resume.old_epoch_rejected",
+      "elapsed_ms": 6452
+    },
+    {
+      "phase": "resume.guest_audio_rejected",
+      "elapsed_ms": 6458
+    },
+    {
+      "phase": "resume.fifth_frame_ack",
+      "elapsed_ms": 6460
+    },
+    {
+      "phase": "controller.disable",
+      "elapsed_ms": 6481
+    },
+    {
+      "phase": "disabled.account_ws_closed",
+      "elapsed_ms": 6911
+    },
+    {
+      "phase": "disabled.http_capture_rejected",
+      "elapsed_ms": 7355
+    },
+    {
+      "phase": "disabled.viewer_pause",
+      "elapsed_ms": 7491
+    },
+    {
+      "phase": "controller.enable",
+      "elapsed_ms": 7495
+    },
+    {
+      "phase": "enabled.login",
+      "elapsed_ms": 8042
+    },
+    {
+      "phase": "client.0.ticket",
+      "elapsed_ms": 8404
+    },
+    {
+      "phase": "client.0.snapshot",
+      "elapsed_ms": 8657
+    },
+    {
+      "phase": "recorder.ready.after_start",
+      "elapsed_ms": 8672
+    },
+    {
+      "phase": "enabled.two_frames_ack",
+      "elapsed_ms": 8818
+    },
+    {
+      "phase": "end.viewer_observes_end",
+      "elapsed_ms": 8836
+    },
+    {
+      "phase": "controller.readback",
+      "elapsed_ms": 9955
+    },
+    {
+      "phase": "database.hash_timeline_model_assertions",
+      "elapsed_ms": 10392
+    }
+  ],
+  "elapsed_seconds": 10.394
+}

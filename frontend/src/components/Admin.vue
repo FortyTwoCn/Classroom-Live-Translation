@@ -5,10 +5,23 @@ import { locale, t } from "../i18n";
 import Modal from "./Modal.vue";
 import AdminLessons from "./AdminLessons.vue";
 import AdminSubtitles from "./AdminSubtitles.vue";
+import SettingsPanel from "./SettingsPanel.vue";
+import GlossaryPanel from "./GlossaryPanel.vue";
+import UsagePanel from "./UsagePanel.vue";
+import DiagnosticsPanel from "./DiagnosticsPanel.vue";
+import { displayDate } from "../public-settings";
 const emit = defineEmits<{ navigate: [path: string] }>();
-const tab = ref<"users" | "courses" | "imports" | "lessons" | "subtitles">(
-    "users",
-  ),
+const tab = ref<
+    | "users"
+    | "courses"
+    | "imports"
+    | "lessons"
+    | "subtitles"
+    | "settings"
+    | "glossary"
+    | "usage"
+    | "diagnostics"
+  >("users"),
   users = ref<User[]>([]),
   courses = ref<Course[]>([]),
   search = ref(""),
@@ -25,7 +38,7 @@ const userForm = ref<(User & { student_id: string }) | null>(null),
   confirm = ref<{
     title: string;
     help: string;
-    dependencyCount?:number;
+    dependencyCount?: number;
     run: () => Promise<void>;
   } | null>(null),
   reauth = ref(false),
@@ -157,6 +170,7 @@ async function saveCourse() {
         guest_access: draft.guest_access,
         enabled: draft.enabled,
         archived: draft.archived,
+        allow_audio_download: !!draft.allow_audio_download,
         sort_order: Number(draft.sort_order || 0),
       },
       draft.id ? "PATCH" : "POST",
@@ -187,7 +201,7 @@ function askDelete(item: Course) {
   confirm.value = {
     title: "deleteCourse",
     help: "deleteCourseHelp",
-    dependencyCount:item.lesson_count||0,
+    dependencyCount: item.lesson_count || 0,
     run: async () => {
       await api.request(
         `/api/admin/courses/${item.id}`,
@@ -282,6 +296,10 @@ onUnmounted(() => {
           'lessons',
           'subtitles',
           'imports',
+          'glossary',
+          'usage',
+          'settings',
+          'diagnostics',
         ] as const"
         :key="item"
         :aria-current="tab === item ? 'page' : undefined"
@@ -297,7 +315,12 @@ onUnmounted(() => {
                   ? "manageLessons"
                   : item === "subtitles"
                     ? "manageSubtitles"
-                    : "users",
+                    : item === "diagnostics" ||
+                        item === "settings" ||
+                        item === "glossary" ||
+                        item === "usage"
+                      ? item
+                      : "users",
           )
         }}
       </button>
@@ -321,7 +344,9 @@ onUnmounted(() => {
             :placeholder="t('search')"
           /><button>{{ t("search") }}</button>
         </form>
-        <button class="primary" @click="newUser" :aria-label="t('addUser')">+ {{ t("addUser") }}</button>
+        <button class="primary" @click="newUser" :aria-label="t('addUser')">
+          + {{ t("addUser") }}
+        </button>
       </div>
       <div class="table-wrap">
         <table>
@@ -460,6 +485,10 @@ onUnmounted(() => {
     /><AdminSubtitles
       v-else-if="tab === 'subtitles'"
       @navigate="emit('navigate', $event)"
+    /><SettingsPanel v-else-if="tab === 'settings'" /><GlossaryPanel
+      v-else-if="tab === 'glossary'"
+    /><UsagePanel v-else-if="tab === 'usage'" /><DiagnosticsPanel
+      v-else-if="tab === 'diagnostics'"
     /><template v-else
       ><h2>{{ t("excelImport") }}</h2>
       <p>{{ t("importHelp") }}</p>
@@ -497,7 +526,7 @@ onUnmounted(() => {
         </dl>
         <p>
           {{ t("expiresAt") }}:
-          {{ new Date(importJob.expires_at).toLocaleString() }}
+          {{ displayDate(importJob.expires_at) }}
         </p>
         <div class="table-wrap">
           <table>
@@ -643,6 +672,11 @@ onUnmounted(() => {
         {{ t("publicWarning") }}
       </p>
       <label class="consent"
+        ><input v-model="courseForm.allow_audio_download" type="checkbox" />{{
+          t("setting_audio_download")
+        }}</label
+      >
+      <label class="consent"
         ><input v-model="courseForm.enabled" type="checkbox" />{{
           t("enabled")
         }}</label
@@ -659,7 +693,10 @@ onUnmounted(() => {
       </div>
     </form></Modal
   ><Modal v-if="confirm" :title="t(confirm.title)" @close="confirm = null"
-    ><p>{{ t(confirm.help) }}</p><p v-if="confirm.dependencyCount!==undefined">{{t('courseDependencies',{n:confirm.dependencyCount})}}</p>
+    ><p>{{ t(confirm.help) }}</p>
+    <p v-if="confirm.dependencyCount !== undefined">
+      {{ t("courseDependencies", { n: confirm.dependencyCount }) }}
+    </p>
     <p v-if="error" class="alert">{{ t(`error_${error}`) }}</p>
     <div class="dialog-actions">
       <button @click="confirm = null">{{ t("cancel") }}</button
