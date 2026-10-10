@@ -1,6 +1,6 @@
-# 课堂同声传译 · 阶段 A 工程交付
+# 课堂同声传译 · 阶段 A/B 工程交付
 
-本项目已有可运行的 PHP HTTP 服务、独立 Workerman 音频网关、Vue 页面、PostgreSQL 迁移、OSS S3 客户端、分片队列和 FFmpeg 归档路径。**阶段 A 真实服务闭环已通过，输入为明确标记的合成英语语音；物理麦克风尚未验证。** 阶段 B/C 按原始需求继续实施，这不是完整产品的完成声明。
+本项目已有可运行的 PHP HTTP 服务、独立 Workerman 音频网关、Vue 页面、PostgreSQL 迁移、OSS S3 客户端、分片队列和 FFmpeg 归档路径。**阶段 A 真实服务闭环已通过，输入为明确标记的合成英语语音；物理麦克风尚未验证。** 阶段 B 已增加完整账户、课程课堂管理、录音权交接、校对历史、Excel 导入、二维码、大字幕和四格式导出。阶段 C 的恢复、术语、用量与长课验收继续实施。
 
 需求原文逐字保存在 [`docs/requirements.original.md`](docs/requirements.original.md)。原文始终是验收依据，下面的阶段记录不删减需求。见 [`docs/acceptance.md`](docs/acceptance.md)、[`docs/architecture.md`](docs/architecture.md) 和 [`reports/PHASE-A.md`](reports/PHASE-A.md)。
 
@@ -8,8 +8,9 @@
 
 | 类别 | 结果 | 含义 |
 |---|---|---|
-| PHP / PostgreSQL | 48 项测试、164 断言通过 | 使用真实 PostgreSQL 17.11，包含权限、持久化、去重、时间偏移及协议 fixture |
-| 前端构建 / 单元 | 构建通过，13 项单元通过 | 合成信号重采样、PCM、背压、语言资源 |
+| PHP / PostgreSQL | 145 项测试、711 断言通过 | 使用真实 PostgreSQL 17.11，包含账户、权限、交接、修订、导入导出、分享与协议 fixture |
+| 前端构建 / 单元 | 构建通过，18 项单元通过 | 合成信号重采样、PCM、背压、语言资源和本地二维码解码 |
+| 阶段 B 浏览器产品测试 | 12 组通过 | 实际 PHP/WS/PostgreSQL、队列与真实导出文件；字幕为显式合成 fixture，未调用模型或 OSS |
 | 三客户端闭环 | 通过 | 真实 PHP/Workerman/PostgreSQL + 显式模拟 Qwen；7 包含 512 样本尾包；不等同真实模型 |
 | 浏览器模拟 | 5 通过，1 跳过 | Edge 与 Windows WebKit；WebKit 此环境缺音频能力 |
 | FFmpeg | 通过 | 人工 440 Hz PCM 的实际编码、ffprobe 和完整解码；不是课堂录音 |
@@ -57,9 +58,11 @@ php -S 127.0.0.1:8080 -t public public/router.php
 php bin/gateway.php start
 php artisan queue:work --queue=recordings --timeout=150 --tries=6 --sleep=1
 php artisan queue:work --queue=archives --timeout=7200 --tries=4 --sleep=1
+php artisan queue:work --queue=exports,imports,maintenance --timeout=1800 --tries=3 --sleep=1
+php artisan schedule:work
 ```
 
-打开 `http://localhost:8080`。管理员登录后可创建课程；用户创建课堂但不会自动开麦，点击开始并确认录音告知后才申请浏览器权限。阶段 A 可用 CLI `php artisan classroom:user STUDENT_ID '姓名'` 创建普通用户，初始密码严格为学号后六字符且首次强制改密。管理员初始化用独立密码，普通用户学号少于六字符拒绝创建。Excel 与完整管理后台属于未完成的阶段 B。
+打开 `http://localhost:8080`。管理员登录后可进入后台，创建课程、管理课堂、添加用户或下载 Excel 模板并预检导入。用户创建课堂不会自动开麦，点击开始并确认录音告知后才申请浏览器权限。也可用 CLI `php artisan classroom:user STUDENT_ID '姓名'` 创建普通用户；初始密码严格为学号后六字符且首次强制改密。管理员初始化用独立密码，普通用户学号少于六字符拒绝创建。此初始化规则可预测，请及时安排首次改密。
 
 本次 Windows 已在项目外的 `../../work/runtime/` 准备便携 PHP、Composer、PostgreSQL、FFmpeg；PostgreSQL 正在 `127.0.0.1:55432`，本地随机密码只写入 `.env` 和该工作目录。新电脑应按上面准备环境，或用 Docker；工作目录里的运行时不是完整源码的依赖替代品。Windows 本机可用 `bin/start-local.ps1` 启动四个本地进程，PID 保存至 `storage/local-processes.json`，重复启动前先关闭之前的进程。实际管理员仍由安全命令创建。
 
@@ -149,4 +152,4 @@ pg_restore --no-owner --dbname=classroom_restore classroom.dump
 
 必须先通过真实 Qwen 文字模式、源文与译文事件、session.finish 尾句；真实 OSS 私有写读/HEAD/删除/签名/Range/multipart；一台实际麦克风 + 至少两位观众同步字幕 + PostgreSQL 持久化 + OSS 原声回放。未达门槛不会把阶段 A 标为已完成。
 
-阶段 B 全部角色/权限、90 天设备登录、交接、校对历史、Excel、完整课程管理、二维码、大字幕、四格式导出均仍是首版必做。阶段 C 恢复、术语、定位、分享撤销、导出快照、90 分钟/100 观众、用量和部署验收保留，详见验收跟踪。附件真正的二期（摘要、私人笔记、合成译音等）没有开发。
+阶段 B 的实现、接口与验收见 [`reports/PHASE-B.md`](reports/PHASE-B.md)、[`docs/accounts.md`](docs/accounts.md)、[`docs/recorder-handoffs.md`](docs/recorder-handoffs.md)、[`docs/B-content-sharing-exports.md`](docs/B-content-sharing-exports.md)。阶段 C 恢复、术语、定位、90 分钟/100 观众、用量和部署验收保留，详见验收跟踪。附件真正的二期（摘要、私人笔记、合成译音等）没有开发。真实服务已验证，缺少物理设备的项目继续明确标为未验证；按附件要求同时完成可独立实现的后续代码。

@@ -1,0 +1,14 @@
+{
+  "classification": "ACTUAL_PHP_POSTGRESQL_EXISTING_LESSON_UI",
+  "status": "passed",
+  "testedAt": "2026-10-09T10:08:25.891Z",
+  "checks": [
+    "409 retains exact existing lesson ID",
+    "explicit button opens that lesson",
+    "no microphone request"
+  ],
+  "real_model": false,
+  "real_oss": false,
+  "real_microphone": false,
+  "jsErrors": []
+}

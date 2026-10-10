@@ -1,5 +1,5 @@
-import { api, ApiError, type Snapshot, type Lesson, type Unit } from './api';
-export type WireMessage = { type: string; seq?: number; event_type?: string; payload?: { lesson?: Lesson; unit?: Unit; count?: number }; lesson?: Lesson; units?: Unit[]; last_seq?: number; unit?: Unit; epoch?: number; next_sequence?: number; media_samples?: number; sequence?: number; code?: string; count?: number };
+import { api, ApiError, type Snapshot, type Lesson, type Unit, type Participant, type Handoff } from './api';
+export type WireMessage = { type: string; seq?: number; event_type?: string; payload?: { lesson?: Lesson; unit?: Unit; units?: Unit[]; count?: number }; lesson?: Lesson;lesson_seq?:number; units?: Unit[]; last_seq?: number; unit?: Unit; epoch?: number; next_sequence?: number; media_samples?: number; sequence?: number; code?: string; count?: number; participants?: Participant[];current_client_id?:string; items?: Handoff[]; id?: string; live?: boolean };
 export class LessonSocket {
   socket: WebSocket | null = null;
   lastSeq = 0;

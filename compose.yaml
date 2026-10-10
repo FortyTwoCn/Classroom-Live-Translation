@@ -58,6 +58,13 @@ services:
     <<: *php
     command: [php, artisan, "queue:work", --queue=archives, --timeout=7200, --tries=4, --sleep=1]
     stop_grace_period: 5m
+  product-worker:
+    <<: *php
+    command: [php, artisan, "queue:work", --queue=exports,imports,maintenance, --timeout=1800, --tries=3, --sleep=1]
+    stop_grace_period: 2m
+  scheduler:
+    <<: *php
+    command: [php, artisan, "schedule:work"]
   nginx:
     build: {context: ., target: web}
     ports: ["127.0.0.1:8080:80"]

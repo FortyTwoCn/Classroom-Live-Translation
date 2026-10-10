@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "classification": "SIMULATED_QWEN_REAL_PHP_WS_POSTGRESQL",
+  "clients": 4,
+  "guest_request_denied": true,
+  "guest_roster_hidden": true,
+  "microphone_denial_preserves_old_right": true,
+  "live_transfer_drains_old_session": true,
+  "old_epoch_rejected": true,
+  "paused_request_transfer_preserves_media_timeline": true,
+  "epochs": [
+    1,
+    3,
+    5
+  ],
+  "media_samples": 14400,
+  "real_model": false,
+  "real_oss": false,
+  "real_microphone": false
+}

@@ -1,2 +1,2 @@
 <?php
-return [];
+return [App\Accounts\AccountsProvider::class];

@@ -1,0 +1,29 @@
+{
+  "classification": "ACTUAL_PHASE_B_AUDIO_ATTEMPT",
+  "status": "failed",
+  "check": "live handoff between two devices of one account prepares only by click and invalidates old epoch",
+  "error": "expect(received).toBeGreaterThanOrEqual(expected)\n\nExpected: >= 5\nReceived:    0\n\nCall Log:\n- Timeout 5000ms exceeded while waiting on the predicate",
+  "checks": [
+    {
+      "name": "explicit capture starts one actual AudioWorklet stream",
+      "status": "passed"
+    },
+    {
+      "name": "large subtitles, QR, locale, font and fullscreen fallback keep same capture",
+      "status": "passed"
+    },
+    {
+      "name": "rejected invitation leaves the existing recorder active",
+      "status": "passed"
+    }
+  ],
+  "jsErrors": [
+    "Cannot set properties of null (setting 'requestFullscreen')",
+    "Cannot set properties of null (setting 'requestFullscreen')",
+    "Cannot set properties of null (setting 'requestFullscreen')",
+    "Cannot set properties of null (setting 'requestFullscreen')",
+    "Cannot set properties of null (setting 'requestFullscreen')",
+    "Cannot set properties of null (setting 'requestFullscreen')"
+  ],
+  "dialogs": []
+}

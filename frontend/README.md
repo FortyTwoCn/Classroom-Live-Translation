@@ -1,6 +1,6 @@
-# Browser app — Phase A
+# Browser app — Phases A and B
 
-This is a live Vue 3 client for the PHP API and WebSocket gateway. It has no runtime fake subtitles or silent model fallback. The phase banner and empty states state the current verification boundary.
+This is a live Vue 3 client for the PHP API and WebSocket gateway. It has no runtime fake subtitles or silent model fallback. Physical-device and external-service verification boundaries are recorded in `TEST-RESULTS.md`.
 
 ## Build and development
 
@@ -24,6 +24,18 @@ For a real HTTP empty-database deployment check, `pnpm test:actual-http` uses th
 
 For the actual model/storage loop, first run the real PHP gateway, Qwen, archive and OSS upload workers using an isolated database, private OSS test prefix and a fresh ready lesson. Run `pnpm test:real-services <real-gateway-fixture.json> <synthetic-english-speech.wav>`. The supplied speech replaces hardware microphone input explicitly; it passes through the production AudioWorklet, actual PHP WebSocket gateway and Qwen. Three clients are checked against persisted text, followed by private OSS archiving, native audio playback and signed Range retrieval. The test stores no signed URLs or secrets. The recorded run passed; see `TEST-RESULTS.md` for exact counts and the remaining physical-device/deployment boundary.
 
+## Phase B product functions
+
+The UI includes lesson search, filters, stable sort direction and pagination; renaming; optimistic subtitle corrections, retained conflict drafts, original model text, revision history and restoration; recording invitations/requests/device preparation/takeover; 90-day remembered login, device revocation, password change and all-device logout; and a responsive administration area for users, courses, lessons, sentences and asynchronous Excel import. Sensitive actions use the server's recent-password authorization, with a local confirmation dialog. Server API permissions remain authoritative.
+
+Each accessible lesson has an independent QR button beside the language selector. QR generation and named PNG composition run locally with the bundled `qrcode` library; access tokens are never sent to a third-party QR service. Failed clipboard copying selects a manual-copy field. Native modal dialogs trap keyboard focus, return focus to the trigger, and include their own language selector. Forced-password dialogs cannot close without changing the password or logging out.
+
+Large subtitles use the existing lesson connection and microphone instance. Font sizes 24/32/40/48/64, source/translation/bilingual selection and follow preference are stored locally. Explicit fullscreen falls back to the in-page layout when unavailable. QR/locale/size/layout changes do not start a model session or microphone. Active recorders retain pause/end controls and handoff dialogs. Returning to normal mode preserves reading position and correction drafts. Subtitle DOM is capped at 500 units; older content and multilingual keyword results come from authorized paginated APIs.
+
+TXT, Markdown, SRT and WebVTT exports are real server snapshot jobs. Users choose source/translation/bilingual and original/current text, see progress, explicit omissions and timing warnings, retry failures and receive a controlled download. The browser never generates substitute transcripts or invented timestamps. Admin course soft-deletion confirmations show dependency counts; archive, share-policy and sentence deletion/restoration actions use server endpoints.
+
+`pnpm test:phase-b <phase-b-fixture.json>` checks these flows against isolated actual PHP/WS/PostgreSQL and explicit synthetic stored subtitles, without any model/OSS calls or browser HTTP/WS mocks. `pnpm test:phase-b-audio <phase-b-fixture.json>` requires a fresh ready lesson and a separately configured mocked upstream provider; synthetic tone input exercises actual AudioWorklet capture, same-account device handoffs and mode changes. Keep real external-service results distinct from these suites.
+
 ## Remaining scope
 
-Full course search/sort/pagination, recorder handoff, correction history, administration/import, remember-device login, QR sharing, large-subtitle mode and export belong to the preserved Phase B requirements. No placeholder buttons claim those functions exist. Comprehensive recovery, playback synchronization, terminology and long-session verification remain Phase C. The current renderer bounds subtitle DOM to the latest 500 units; complete historical pagination remains pending.
+Comprehensive recovery, playback synchronization, terminology, usage controls and long-session/device verification remain Phase C. Actual microphone hardware, physical Safari/iOS/Android and production HTTPS/WSS must be tested separately.

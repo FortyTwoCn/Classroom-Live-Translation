@@ -1,0 +1,37 @@
+// Real PHP + Workerman + PostgreSQL, explicit mock Qwen. No cloud or hardware claims.
+import {createRequire} from 'node:module';
+import {readFileSync,writeFileSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const require=createRequire(new URL('../../frontend/package.json',import.meta.url));
+const {chromium}=require('@playwright/test');
+const fixtures=JSON.parse(readFileSync(process.argv[2],'utf8'));
+const origin='http://localhost:18080',lessonId=fixtures[0].lesson_id;
+const browser=await chromium.launch({headless:true,channel:'msedge'});const contexts=[],pages=[],identities=[];
+const wait=async(i,predicate)=>pages[i].waitForFunction(predicate,null,{timeout:15000});
+const command=async(i,type,args={})=>pages[i].evaluate(({type,args})=>window.sock.send(JSON.stringify({type,...args})),{type,args});
+const frame=async(i,epoch,sequence)=>pages[i].evaluate(({epoch,sequence})=>{const buf=new ArrayBuffer(3208),v=new DataView(buf);v.setUint32(0,epoch);v.setUint32(4,sequence);for(let j=0;j<1600;j++)v.setInt16(8+j*2,Math.round(1000*Math.sin(j/5)),true);window.sock.send(buf);},{epoch,sequence});
+const packets=async(i,epoch,n)=>{for(let j=0;j<n;j++){await frame(i,epoch,j);await pages[i].waitForTimeout(100);}await wait(i,()=>window.events.filter(x=>x.type==='audio.ack').length>=window.expectedAck);};
+const id=()=>crypto.randomUUID();
+try{
+ for(let i=0;i<4;i++){
+  contexts.push(await browser.newContext());pages.push(await contexts[i].newPage());await pages[i].goto(origin+'/api/me');let me=await(await contexts[i].request.get(origin+'/api/me')).json();
+  if(i<3){const response=await contexts[i].request.post(origin+'/api/login',{headers:{'X-CSRF-TOKEN':me.csrf_token,'Accept':'application/json'},data:{student_id:fixtures[i].student_id,password:'Fixture-password-2026'}});assert.equal(response.status(),200,await response.text());me=await(await contexts[i].request.get(origin+'/api/me')).json();}
+  identities.push(me.user);const ticketResponse=await contexts[i].request.post(origin+`/api/lessons/${lessonId}/ticket`,{headers:{'X-CSRF-TOKEN':me.csrf_token,'Accept':'application/json'},data:{}});assert.equal(ticketResponse.status(),200);const {ticket}=await ticketResponse.json();
+  await pages[i].evaluate(({ticket})=>{window.events=[];window.expectedAck=0;window.sock=new WebSocket('ws://localhost:18081');window.sock.onmessage=e=>window.events.push(JSON.parse(e.data));window.sock.onopen=()=>window.sock.send(JSON.stringify({type:'subscribe',ticket}));window.beat=setInterval(()=>window.sock.send(JSON.stringify({type:'heartbeat'})),5000);},{ticket});await wait(i,()=>window.events.some(x=>x.type==='snapshot'));
+ }
+ await command(3,'recording.request',{confirmed:true,idempotency_key:id()});await wait(3,()=>window.events.some(x=>x.type==='error'&&x.code==='login_required'));
+ await wait(0,()=>window.events.some(x=>x.type==='presence'&&x.participants?.length===3));
+ const roster=await pages[0].evaluate(()=>window.events.filter(x=>x.type==='presence').at(-1).participants);const destination=roster.find(p=>p.user_id===identities[1].id).client_id;
+ assert.equal(await pages[3].evaluate(()=>window.events.some(x=>x.type==='presence'&&x.participants)),false);
+ await command(0,'start');await wait(0,()=>window.events.some(x=>x.type==='recorder.ready'));const oldEpoch=await pages[0].evaluate(()=>window.events.find(x=>x.type==='recorder.ready').epoch);
+ await pages[0].evaluate(()=>window.expectedAck=3);await packets(0,oldEpoch,3);
+ const failed=id();await command(0,'recording.invite',{target_client_id:destination,confirmed:true,idempotency_key:failed});await pages[1].waitForFunction(id=>window.events.some(x=>x.type==='handoffs'&&x.items.some(h=>h.id===id)),failed);
+ await command(1,'recording.respond',{id:failed,action:'accept'});await wait(1,()=>window.events.some(x=>x.type==='recording.prepare'));await command(1,'recording.prepared',{id:failed,ready:false});await pages[0].waitForTimeout(100);let snapshot=await(await contexts[0].request.get(origin+`/api/lessons/${lessonId}`)).json();assert.equal(snapshot.lesson.recorder_epoch,oldEpoch);assert.equal(snapshot.lesson.recorder_user_id,identities[0].id);
+ const success=id();await command(0,'recording.invite',{target_client_id:destination,confirmed:true,idempotency_key:success});await pages[1].waitForFunction(id=>window.events.some(x=>x.type==='handoffs'&&x.items.some(h=>h.id===id)),success);await command(1,'recording.respond',{id:success,action:'accept'});await command(1,'recording.prepared',{id:success,ready:true});await wait(1,()=>window.events.some(x=>x.type==='recorder.ready'));const nextEpoch=await pages[1].evaluate(()=>window.events.find(x=>x.type==='recorder.ready').epoch);assert.ok(nextEpoch>oldEpoch);
+ await frame(0,oldEpoch,3);await wait(0,()=>window.events.some(x=>x.type==='error'&&x.code==='recorder_stale'));await pages[1].evaluate(()=>window.expectedAck=4);await packets(1,nextEpoch,4);await command(1,'pause',{epoch:nextEpoch});await wait(1,()=>window.events.some(x=>x.type==='event'&&x.event_type==='lesson.updated'&&x.payload.lesson.status==='paused'));
+ const request=id();await command(2,'recording.request',{confirmed:true,idempotency_key:request});await pages[1].waitForFunction(id=>window.events.some(x=>x.type==='handoffs'&&x.items.some(h=>h.id===id&&h.role==='recipient')),request);await command(1,'recording.respond',{id:request,action:'accept'});await wait(2,()=>window.events.some(x=>x.type==='recording.prepare'));await command(2,'recording.prepared',{id:request,ready:true});await wait(2,()=>window.events.some(x=>x.type==='recording.transferred'&&x.resume===false));snapshot=await(await contexts[2].request.get(origin+`/api/lessons/${lessonId}`)).json();assert.equal(snapshot.lesson.status,'paused');assert.equal(snapshot.lesson.media_samples,11200);assert.equal(snapshot.lesson.recorder_user_id,identities[2].id);
+ // The previous model must finish before an explicitly resumed session can start.
+ await pages[2].waitForTimeout(300);await command(2,'resume');await wait(2,()=>window.events.some(x=>x.type==='recorder.ready'));const finalEpoch=await pages[2].evaluate(()=>window.events.find(x=>x.type==='recorder.ready').epoch);await pages[2].evaluate(()=>window.expectedAck=2);await packets(2,finalEpoch,2);await command(2,'end',{confirmed:true,epoch:finalEpoch});await wait(2,()=>window.events.some(x=>x.type==='event'&&x.event_type==='lesson.updated'&&x.payload.lesson.status==='ended'));
+ snapshot=await(await contexts[3].request.get(origin+`/api/lessons/${lessonId}`)).json();assert.equal(snapshot.lesson.media_samples,14400);assert.equal(snapshot.lesson.status,'ended');assert.equal(snapshot.lesson.recorder_user_id,null);
+ const report={status:'passed',classification:'SIMULATED_QWEN_REAL_PHP_WS_POSTGRESQL',clients:4,guest_request_denied:true,guest_roster_hidden:true,microphone_denial_preserves_old_right:true,live_transfer_drains_old_session:true,old_epoch_rejected:true,paused_request_transfer_preserves_media_timeline:true,epochs:[oldEpoch,nextEpoch,finalEpoch],media_samples:14400,real_model:false,real_oss:false,real_microphone:false};writeFileSync(new URL('../../reports/handoffs-simulated.json',import.meta.url),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+}finally{for(const p of pages)await p.evaluate(()=>{clearInterval(window.beat);window.sock?.close();}).catch(()=>{});for(const c of contexts)await c.close();await browser.close();}

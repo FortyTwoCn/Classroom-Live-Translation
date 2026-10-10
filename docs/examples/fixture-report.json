@@ -1,0 +1,558 @@
+{
+    "test_kind": "synthetic_content_real_files",
+    "model_called": false,
+    "files": {
+        "fixture-source-original.txt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-current.txt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-original.txt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-current.txt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-original.txt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-current.txt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-original.md": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-current.md": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-original.md": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-current.md": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-original.md": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-current.md": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-original.srt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-current.srt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-original.srt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-current.srt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-original.srt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-current.srt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-original.vtt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-source-current.vtt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-original.vtt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-translation-current.vtt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 1,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-original.vtt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        },
+        "fixture-bilingual-current.vtt": {
+            "counts": {
+                "snapshot_units": 2,
+                "selected_units": 2,
+                "exported_segments": 1,
+                "skipped_timing": 0,
+                "missing_timing": 0,
+                "invalid_timing": 0,
+                "unpaired_segments": 0,
+                "missing_source": 0,
+                "missing_translation": 0,
+                "paragraph_timing_segments": 1,
+                "normalized_blank_lines": 0,
+                "skipped_incomplete": 0,
+                "skipped_empty": 0
+            },
+            "warnings": [
+                {
+                    "code": "paragraph_timing_approximate",
+                    "count": 1
+                }
+            ]
+        }
+    }
+}

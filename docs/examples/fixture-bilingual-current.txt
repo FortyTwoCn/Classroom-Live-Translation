@@ -1,0 +1,14 @@
+Course: Fixture 课程
+Lesson: Fixture Урок
+Created: 2026-10-09T10:00:00Z
+Source language: en
+Target language: zh
+Exported: 2026-10-09T11:00:00Z
+Text version: current
+Layout: bilingual
+Timing: approximate paragraph offsets; unavailable offsets are never invented
+
+[00:00:01.000 – 00:00:02.000]
+Hello, classroom.
+你好，课堂。 Привіт, аудиторіє. <special & characters>
+

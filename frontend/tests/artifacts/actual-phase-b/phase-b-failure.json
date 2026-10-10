@@ -1,0 +1,44 @@
+{
+  "status": "failed",
+  "check": "administrator user create, real Excel template/preview/async confirmation",
+  "error": "locator.click: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: '新增用户', exact: true })\u001b[22m\n",
+  "checks": [
+    {
+      "name": "90-day remember login and device list",
+      "status": "passed"
+    },
+    {
+      "name": "forced password dialog cannot escape and server rejects export",
+      "status": "passed"
+    },
+    {
+      "name": "local QR exact decode, image save, denied-copy fallback, focus restore",
+      "status": "passed"
+    },
+    {
+      "name": "optimistic correction conflict retains draft and broadcasts saved text",
+      "status": "passed"
+    },
+    {
+      "name": "four actual export files and current/original text difference",
+      "status": "passed"
+    },
+    {
+      "name": "restore original produces a new revision",
+      "status": "passed"
+    },
+    {
+      "name": "search/sort persists in route and rename keeps same classroom",
+      "status": "passed"
+    },
+    {
+      "name": "three-language large subtitles, size preferences, viewport and dialog focus",
+      "status": "passed"
+    }
+  ],
+  "jsErrors": [],
+  "classification": "ACTUAL_PHP_SYNTHETIC_CONTENT_ATTEMPT",
+  "dialogs": [
+    ""
+  ]
+}

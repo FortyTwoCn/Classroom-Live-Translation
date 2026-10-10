@@ -1,0 +1,54 @@
+{
+  "classification": "ACTUAL_PHP_WS_POSTGRESQL_AUDIOWORKLET_SYNTHETIC_TONE_MOCK_QWEN",
+  "status": "passed",
+  "testedAt": "2026-10-09T10:02:41.781Z",
+  "browser": "154.0.4258.62",
+  "checks": [
+    {
+      "name": "explicit capture starts one actual AudioWorklet stream",
+      "status": "passed"
+    },
+    {
+      "name": "large subtitles, QR, locale, font and fullscreen fallback keep same capture",
+      "status": "passed"
+    },
+    {
+      "name": "rejected invitation leaves the existing recorder active",
+      "status": "passed"
+    },
+    {
+      "name": "live handoff between two devices of one account prepares only by click and invalidates old epoch",
+      "status": "passed"
+    },
+    {
+      "name": "paused handoff preserves pause and stops prepared tracks until manual resume",
+      "status": "passed"
+    },
+    {
+      "name": "end flushes all acknowledgements, stops every device and persists shared mock output",
+      "status": "passed"
+    }
+  ],
+  "clients": 3,
+  "sameAccountDevices": 2,
+  "realPhp": true,
+  "realPostgreSql": true,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "synthetic_audio": true,
+  "real_model": false,
+  "real_oss": false,
+  "real_microphone": false,
+  "physicalDevice": false,
+  "guestMicrophoneRequests": 0,
+  "jsErrors": [],
+  "sourceMicrophoneRequests": 3,
+  "targetMicrophoneRequests": 1,
+  "audioPackets": 43,
+  "limitations": [
+    "Synthetic 440Hz tone replaces physical microphone",
+    "Qwen upstream is explicitly mocked",
+    "Private audio archiving is excluded from this suite",
+    "Fullscreen unavailability is explicitly injected to test fallback"
+  ]
+}

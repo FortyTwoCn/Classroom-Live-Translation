@@ -5,7 +5,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(web: __DIR__.'/../routes/web.php', commands: __DIR__.'/../routes/console.php', health: '/up')
-    ->withMiddleware(function (Middleware $middleware) {})
+    ->withMiddleware(function (Middleware $middleware) {$middleware->web(append: [App\Accounts\AccountMiddleware::class]);})
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->shouldRenderJsonWhen(fn(Request $r) => $r->is('api/*'));
         $exceptions->render(function (App\Domain\Failure $e, Request $r) { return response()->json(['code'=>$e->errorCode,'params'=>$e->params],$e->httpStatus); });

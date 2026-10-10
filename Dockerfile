@@ -13,6 +13,7 @@ WORKDIR /var/www/classroom
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-interaction --prefer-dist --classmap-authoritative
 COPY . .
+COPY deploy/php.ini /usr/local/etc/php/conf.d/classroom.ini
 COPY --from=browser /build/public/ ./public/
 RUN mkdir -p storage/app/recordings storage/framework/views storage/framework/sessions storage/logs bootstrap/cache && chown -R www-data:www-data storage bootstrap/cache && composer dump-autoload --no-dev --classmap-authoritative
 USER www-data

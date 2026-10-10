@@ -1,0 +1,22 @@
+<?php
+namespace App\Imports;
+use App\Accounts\DeviceAuth;
+use App\Domain\{Access,Failure};
+use Illuminate\Support\Facades\{DB,Hash};
+use Illuminate\Support\Str;
+final class UserImports {
+ public function template(string $locale):string{return (new XlsxUsers)->template($locale);}
+ public function preview(string $file,int $admin,string $policy='skip'):array {
+  if(!in_array($policy,['skip','update_name'],true))throw new Failure('import_policy_invalid',422);$rows=(new XlsxUsers)->parse($file);$known=DB::table('users')->whereIn('student_id',array_column($rows,'student_id'))->pluck('name','student_id')->all();$counts=['new'=>0,'update'=>0,'skip'=>0,'error'=>0];
+  foreach($rows as&$row){if(!$row['errors']&&isset($known[$row['student_id']]))$row['action']=$policy==='update_name'?'update':'skip';$counts[$row['action']]++;}unset($row);
+  $id=(string)Str::uuid();$hash=hash('sha256',json_encode([$policy,$rows],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR));DB::table('user_imports')->insert(['id'=>$id,'user_id'=>$admin,'status'=>'preview','duplicate_policy'=>$policy,'preview_hash'=>$hash,'rows'=>json_encode($rows,JSON_UNESCAPED_UNICODE),'counts'=>json_encode($counts),'expires_at'=>now()->addHours(24)]);return $this->show($id,$admin);
+ }
+ public function show(string $id,int $admin,int $page=1):array {$r=$this->owned($id,$admin);$rows=json_decode($r->rows,true);$page=max(1,$page);return ['import'=>['id'=>$r->id,'status'=>$r->status,'counts'=>json_decode($r->counts,true),'preview_hash'=>$r->preview_hash,'expires_at'=>$r->expires_at,'duplicate_policy'=>$r->duplicate_policy],'rows'=>array_slice($rows,($page-1)*50,50),'pagination'=>['page'=>$page,'per_page'=>50,'total'=>count($rows)]];}
+ private function owned(string $id,int $admin):object {$r=DB::table('user_imports')->where('id',$id)->where('user_id',$admin)->first();if(!$r)throw new Failure('import_unavailable',404);return $r;}
+ public function confirm(string $id,int $admin,string $hash):array {DB::transaction(function()use($id,$admin,$hash){$r=DB::table('user_imports')->where('id',$id)->where('user_id',$admin)->lockForUpdate()->first();if(!$r)throw new Failure('import_unavailable',404);if(!hash_equals($r->preview_hash,$hash))throw new Failure('import_preview_changed',409);if(in_array($r->status,['processing','completed'],true))return;if(strtotime($r->expires_at)<time())throw new Failure('import_expired',410);DB::table('user_imports')->where('id',$id)->update(['status'=>'processing','updated_at'=>now()]);ConfirmImport::dispatch($id);});return $this->show($id,$admin);}
+ public function execute(string $id):void {DB::transaction(function()use($id){$r=DB::table('user_imports')->where('id',$id)->lockForUpdate()->first();if(!$r||$r->status!=='processing')return;Access::admin(Access::user((int)$r->user_id));$rows=json_decode($r->rows,true);$counts=['new'=>0,'update'=>0,'skip'=>0,'error'=>0];
+  foreach($rows as&$row){if($row['errors']){$counts['error']++;continue;}$u=DB::table('users')->where('student_id',$row['student_id'])->first();if(!$u){$insert=DB::table('users')->insertOrIgnore(['name'=>$row['name'],'student_id'=>$row['student_id'],'password'=>Hash::make(mb_substr($row['student_id'],-6)),'role'=>'user','must_change_password'=>true]);if($insert){$row['action']='new';$counts['new']++;continue;}$u=DB::table('users')->where('student_id',$row['student_id'])->first();}
+   if($r->duplicate_policy==='update_name'){DB::table('users')->where('id',$u->id)->update(['name'=>$row['name'],'updated_at'=>now()]);$row['action']='update';$counts['update']++;}else{$row['action']='skip';$counts['skip']++;}
+  }unset($row);DB::table('user_imports')->where('id',$id)->update(['status'=>'completed','rows'=>json_encode($rows,JSON_UNESCAPED_UNICODE),'counts'=>json_encode($counts),'updated_at'=>now()]);DeviceAuth::audit((int)$r->user_id,'users.imported',['import_id'=>$id,'counts'=>$counts]);});}
+ public function errorsCsv(string $id,int $admin):string {$r=$this->owned($id,$admin);$dir=storage_path('app/imports');if(!is_dir($dir))mkdir($dir,0700,true);$path=$dir.'/errors-'.bin2hex(random_bytes(12)).'.csv';$f=fopen($path,'wb');fwrite($f,"\xEF\xBB\xBF");fputcsv($f,['row','name','student_id','error_codes'],',','"','');$safe=static fn(string $s)=>preg_match('/^[=+\-@\t\r]/u',$s)?"'".$s:$s;foreach(json_decode($r->rows,true)as$row)if($row['errors'])fputcsv($f,[$row['row'],$safe($row['name']),$safe($row['student_id']),implode('|',array_column($row['errors'],'code'))],',','"','');fclose($f);return $path;}
+}

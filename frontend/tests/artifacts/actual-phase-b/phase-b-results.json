@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "classification": "ACTUAL_PHP_WS_POSTGRESQL_SYNTHETIC_CONTENT_NO_MODEL_CALL",
+  "testedAt": "2026-10-09T09:53:55.987Z",
+  "browser": "154.0.4258.62",
+  "checks": [
+    {
+      "name": "90-day remember login and device list",
+      "status": "passed"
+    },
+    {
+      "name": "forced password dialog cannot escape and server rejects export",
+      "status": "passed"
+    },
+    {
+      "name": "local QR exact decode, image save, denied-copy fallback, focus restore",
+      "status": "passed"
+    },
+    {
+      "name": "optimistic correction conflict retains draft and broadcasts saved text",
+      "status": "passed"
+    },
+    {
+      "name": "four actual export files and current/original text difference",
+      "status": "passed"
+    },
+    {
+      "name": "restore original produces a new revision",
+      "status": "passed"
+    },
+    {
+      "name": "search/sort persists in route and rename keeps same classroom",
+      "status": "passed"
+    },
+    {
+      "name": "three-language large subtitles, size preferences, viewport and dialog focus",
+      "status": "passed"
+    },
+    {
+      "name": "administrator user create, real Excel template/preview/async confirmation",
+      "status": "passed"
+    },
+    {
+      "name": "admin course editing, sentence filtering and member admin denial",
+      "status": "passed"
+    },
+    {
+      "name": "private share lands on exact lesson with no microphone or export grant",
+      "status": "passed"
+    },
+    {
+      "name": "logout all devices revokes a second active session",
+      "status": "passed"
+    }
+  ],
+  "realPhp": true,
+  "realPostgreSql": true,
+  "httpMocks": false,
+  "webSocketMocks": false,
+  "synthetic_subtitles": true,
+  "real_model": false,
+  "real_oss": false,
+  "real_microphone": false,
+  "physicalDevice": false,
+  "microphoneRequests": 0,
+  "jsErrors": [],
+  "limitations": [
+    "No physical device test",
+    "Recording/handoff has a separate synthetic-audio mock-provider integration suite",
+    "No extra real model or OSS calls in this suite"
+  ]
+}
