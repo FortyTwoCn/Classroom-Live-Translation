@@ -1,0 +1,29 @@
+# Browser app — Phase A
+
+This is a live Vue 3 client for the PHP API and WebSocket gateway. It has no runtime fake subtitles or silent model fallback. The phase banner and empty states state the current verification boundary.
+
+## Build and development
+
+Use Node.js 22+ and pnpm. Run `pnpm install --frozen-lockfile`, `pnpm test`, and `pnpm build`. The build publishes `../public/app.html` and `../public/assets/` while preserving Laravel's `public/index.php`; serve them through the project's Nginx HTTPS origin. The Laravel fallback route serves `app.html`. `pnpm dev` proxies `/api` to `http://127.0.0.1:8080` and `/ws` to `ws://127.0.0.1:8081`. Override `API_PROXY_URL` / `WS_PROXY_URL` for local services. The API `/api/me` provides the browser WebSocket URL; configure its origin and port for the URL visitors actually use. HTTPS pages require WSS. No provider secret is read by this app or exposed via `VITE_*`.
+
+## Capture and verification boundary
+
+An authorized recorder must click **Local microphone test** or **Start recording**. Viewers never request microphone access. Preparation meters the local audio but never uploads it. Server `recorder.ready` authorizes transmitting PCM. AudioWorklet uses the actual input rate, a persistent 63-tap FIR low-pass filter and continuous rational resampling into mono 16 kHz PCM16 little endian. Normally each packet contains 1600 samples / 100 ms; an orderly stop can flush a shorter final packet. Binary header: `uint32be recorder_epoch`, `uint32be sequence`, then PCM. The server must acknowledge only durably accepted audio. At most 10 packets remain unacknowledged, and WebSocket buffered bytes are capped at 64 KB; exceeding either safely stops tracks and sends pause. The client does not replay uncertain audio to the model.
+
+Pause, end, navigation, logout, loss of recording permission, track termination, AudioContext suspension, and page backgrounding stop microphone tracks. Reconnecting viewers get a fresh authorization ticket and a server snapshot; reconnection never reopens a microphone. The screen wake lock is best effort. Physical devices and background restrictions still require explicit real-device tests. Sources: [MDN getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia), [MDN AudioWorklet](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorklet), [MDN Screen Wake Lock](https://developer.mozilla.org/en-US/docs/Web/API/Screen_Wake_Lock_API).
+
+Source and translation model units remain independent; the client does not invent ID associations or sentence alignment. Only real server `completed` units show as confirmed. Media positions missing from the server remain unavailable; server segment positions show as approximate. A native audio player appears only after archive status `playable` and an authorized playback response.
+
+## Tests
+
+`pnpm test`: synthetic signal conversion, block continuity, anti-alias rejection, PCM clipping and byte order, binary headers, bounded backpressure, and complete Phase A locale key parity. These are algorithm and simulated tests, not real model, OSS or physical microphone tests.
+
+`pnpm exec playwright install chromium webkit` then `pnpm test:e2e`: mocked HTTP and a loopback WebSocket test fixture in Chromium and WebKit for guest microphone isolation, language switching, a mobile-size Ukrainian layout, and an oscillator-generated MediaStream exercising the real AudioWorklet/PCM upload and track-stop code. Those are simulated browser tests; they do not verify actual iPhone, iPad, Android, Chrome/Edge/Safari microphones, model calls or OSS. Windows WebKit builds omitting AudioContext/MediaStream explicitly skip the audio test. On this machine, downloaded Chromium cannot launch due to its Windows side-by-side configuration; set `$env:PLAYWRIGHT_CHROMIUM_CHANNEL='msedge'` in PowerShell to run the Chromium engine through the installed Edge. See `TEST-RESULTS.md`. Orderly pause/end waits up to 1.5 seconds for durable acknowledgements of the final partial packet; timeout is shown explicitly and requests pause instead of reporting saved/end success.
+
+For a real HTTP empty-database deployment check, `pnpm test:actual-http` uses the actual localhost:8080 PHP app without API/WS mocks and captures three languages at three viewport sizes. For browser capture against the isolated actual PHP/Workerman/PostgreSQL services with a synthetic microphone and mocked Qwen, run `node tests/e2e/actual-browser-capture.mjs <gateway-fixture.json>` after preparing a fresh ready test lesson. These classifications and results are separated in `TEST-RESULTS.md`; neither suite verifies a real model, OSS or physical microphone.
+
+For the actual model/storage loop, first run the real PHP gateway, Qwen, archive and OSS upload workers using an isolated database, private OSS test prefix and a fresh ready lesson. Run `pnpm test:real-services <real-gateway-fixture.json> <synthetic-english-speech.wav>`. The supplied speech replaces hardware microphone input explicitly; it passes through the production AudioWorklet, actual PHP WebSocket gateway and Qwen. Three clients are checked against persisted text, followed by private OSS archiving, native audio playback and signed Range retrieval. The test stores no signed URLs or secrets. The recorded run passed; see `TEST-RESULTS.md` for exact counts and the remaining physical-device/deployment boundary.
+
+## Remaining scope
+
+Full course search/sort/pagination, recorder handoff, correction history, administration/import, remember-device login, QR sharing, large-subtitle mode and export belong to the preserved Phase B requirements. No placeholder buttons claim those functions exist. Comprehensive recovery, playback synchronization, terminology and long-session verification remain Phase C. The current renderer bounds subtitle DOM to the latest 500 units; complete historical pagination remains pending.

@@ -1,0 +1,85 @@
+{
+  "testedAt": "2026-10-09T08:37:10.084Z",
+  "origin": "http://localhost:8080",
+  "browser": "154.0.4258.62",
+  "backend": "actual PHP application and PostgreSQL, accessible course list empty",
+  "routeMocks": false,
+  "fakeDatabaseData": false,
+  "microphoneRequests": 0,
+  "jsErrors": [],
+  "failedRequests": [],
+  "httpErrors": [],
+  "cases": [
+    {
+      "language": "zh-CN",
+      "viewport": "desktop",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-zh-CN-desktop.png"
+    },
+    {
+      "language": "en",
+      "viewport": "desktop",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-en-desktop.png"
+    },
+    {
+      "language": "uk",
+      "viewport": "desktop",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-uk-desktop.png"
+    },
+    {
+      "language": "zh-CN",
+      "viewport": "mobile",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-zh-CN-mobile.png"
+    },
+    {
+      "language": "en",
+      "viewport": "mobile",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-en-mobile.png"
+    },
+    {
+      "language": "uk",
+      "viewport": "mobile",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-uk-mobile.png"
+    },
+    {
+      "language": "zh-CN",
+      "viewport": "tablet",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-zh-CN-tablet.png"
+    },
+    {
+      "language": "en",
+      "viewport": "tablet",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-en-tablet.png"
+    },
+    {
+      "language": "uk",
+      "viewport": "tablet",
+      "horizontalOverflow": false,
+      "microphoneRequests": 0,
+      "screenshot": "actual-empty-uk-tablet.png"
+    }
+  ],
+  "doesNotVerify": [
+    "Qwen real model",
+    "OSS",
+    "hardware microphone",
+    "physical phones/tablets",
+    "classroom WebSocket capture",
+    "HTTPS/WSS production"
+  ]
+}

@@ -1,0 +1,54 @@
+{
+    "test_kind": "real_model",
+    "started_at": "2026-10-09T08:47:04+00:00",
+    "status": "PASS",
+    "checks": {
+        "text_mode_session_updated": true,
+        "session_finish_acknowledged": true,
+        "source_nonempty_final": true,
+        "translation_nonempty_final": true,
+        "source_streaming_observed": true,
+        "translation_streaming_observed": true,
+        "no_failed_or_unfinished_response": true,
+        "no_failed_or_unfinished_unit": true,
+        "all_input_sent": true
+    },
+    "source_final_count": 1,
+    "translation_final_count": 1,
+    "source_delta_count": 22,
+    "translation_delta_count": 39,
+    "response_status_counts": {
+        "completed": 1
+    },
+    "usage": {
+        "resp_BOMD6P6ZcwoAVXPld9YE5": {
+            "total_tokens": 273,
+            "input_tokens": 169,
+            "output_tokens": 104,
+            "input_tokens_details": {
+                "text_tokens": 50,
+                "audio_tokens": 119
+            },
+            "output_tokens_details": {
+                "text_tokens": 104
+            }
+        }
+    },
+    "errors": [],
+    "transcript_storage": "counts_only_no_text",
+    "model": "qwen3.8-livetranslate-flash-realtime",
+    "region": "cn-beijing",
+    "target_language": "uk",
+    "input_samples": 271437,
+    "input_sha256": "e368b3fb817cf04f5d9ba8b4d21f7b81d11f5b76aee3f0d2555c1cb41e550aae",
+    "device_capture_verified": false,
+    "language_quality_verified": false,
+    "states": [
+        "connecting",
+        "configuring",
+        "ready",
+        "finishing",
+        "finished"
+    ],
+    "finished_at": "2026-10-09T08:47:24+00:00"
+}

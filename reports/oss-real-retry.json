@@ -1,0 +1,63 @@
+{
+    "test_type": "real_oss_s3",
+    "status": "passed",
+    "started_at": "2026-10-09T08:41:32+00:00",
+    "steps": [
+        {
+            "step": "configuration",
+            "status": "passed",
+            "elapsed_ms": 63
+        },
+        {
+            "step": "put",
+            "status": "passed",
+            "elapsed_ms": 328
+        },
+        {
+            "step": "get_and_sha256",
+            "status": "passed",
+            "elapsed_ms": 65
+        },
+        {
+            "step": "head",
+            "status": "passed",
+            "elapsed_ms": 64
+        },
+        {
+            "step": "signed_get",
+            "status": "passed",
+            "elapsed_ms": 278
+        },
+        {
+            "step": "signed_get_range",
+            "status": "passed",
+            "elapsed_ms": 50
+        },
+        {
+            "step": "unsigned_get_denied",
+            "status": "passed",
+            "elapsed_ms": 41
+        },
+        {
+            "step": "multipart_put_and_head",
+            "status": "passed",
+            "elapsed_ms": 1921
+        },
+        {
+            "step": "multipart_get_and_sha256",
+            "status": "passed",
+            "elapsed_ms": 4382
+        },
+        {
+            "step": "delete",
+            "status": "passed",
+            "elapsed_ms": 114
+        },
+        {
+            "step": "deleted_objects_absent",
+            "status": "passed",
+            "elapsed_ms": 90
+        }
+    ],
+    "finished_at": "2026-10-09T08:41:40+00:00"
+}

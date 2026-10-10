@@ -1,0 +1,72 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-classroom}
+      POSTGRES_USER: ${DB_USERNAME:-classroom}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      TZ: UTC
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+  redis:
+    image: redis:7-alpine
+    command: [redis-server, --appendonly, "yes"]
+    volumes: [redis_data:/data]
+    restart: unless-stopped
+  app: &php
+    build: {context: ., target: runtime}
+    env_file: .env
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      DB_HOST: db
+      DB_PORT: "5432"
+      CACHE_STORE: redis
+      REDIS_HOST: redis
+      QUEUE_CONNECTION: database
+      FFMPEG_BINARY: ffmpeg
+      FFPROBE_BINARY: ffprobe
+    volumes: [recordings:/var/www/classroom/storage, bootstrap_cache:/var/www/classroom/bootstrap/cache]
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_started}
+    restart: unless-stopped
+  gateway:
+    <<: *php
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      DB_HOST: db
+      DB_PORT: "5432"
+      CACHE_STORE: redis
+      REDIS_HOST: redis
+      QUEUE_CONNECTION: database
+      WS_LISTEN: websocket://0.0.0.0:8081
+      FFMPEG_BINARY: ffmpeg
+      FFPROBE_BINARY: ffprobe
+    command: [php, bin/gateway.php, start]
+    stop_grace_period: 30s
+  upload-worker:
+    <<: *php
+    command: [php, artisan, "queue:work", --queue=recordings, --timeout=150, --tries=6, --sleep=1]
+  archive-worker:
+    <<: *php
+    command: [php, artisan, "queue:work", --queue=archives, --timeout=7200, --tries=4, --sleep=1]
+    stop_grace_period: 5m
+  nginx:
+    build: {context: ., target: web}
+    ports: ["127.0.0.1:8080:80"]
+    volumes:
+      - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [app, gateway]
+    restart: unless-stopped
+volumes:
+  postgres_data:
+  redis_data:
+  recordings:
+  bootstrap_cache:

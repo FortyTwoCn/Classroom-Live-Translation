@@ -1,0 +1,30 @@
+{
+    "test_type": "real_oss_s3",
+    "status": "failed",
+    "started_at": "2026-10-09T08:29:24+00:00",
+    "steps": [
+        {
+            "step": "configuration",
+            "status": "passed",
+            "elapsed_ms": 52
+        },
+        {
+            "step": "put",
+            "status": "failed",
+            "error_type": "Aws\\S3\\Exception\\S3Exception",
+            "provider_error_code": "AccessDenied",
+            "http_status": 403
+        },
+        {
+            "step": "cleanup",
+            "status": "failed",
+            "error_type": "Aws\\S3\\Exception\\S3Exception"
+        },
+        {
+            "step": "cleanup",
+            "status": "failed",
+            "error_type": "Aws\\S3\\Exception\\S3Exception"
+        }
+    ],
+    "finished_at": "2026-10-09T08:29:26+00:00"
+}

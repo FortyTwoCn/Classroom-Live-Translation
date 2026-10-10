@@ -1,0 +1,21 @@
+# Use with a production DNS name and trusted certificate. Mount into the Nginx container.
+server { listen 80; server_name classroom.example.edu; return 301 https://$host$request_uri; }
+server {
+ listen 443 ssl;
+ server_name classroom.example.edu;
+ ssl_certificate /etc/nginx/certs/fullchain.pem;
+ ssl_certificate_key /etc/nginx/certs/privkey.pem;
+ ssl_protocols TLSv1.2 TLSv1.3;
+ root /var/www/classroom/public;
+ index index.php;
+ client_max_body_size 2m;
+ add_header Strict-Transport-Security "max-age=31536000" always;
+ add_header Referrer-Policy no-referrer always;
+ add_header X-Content-Type-Options nosniff always;
+ add_header Permissions-Policy "microphone=(self), camera=()" always;
+ location /ws { proxy_pass http://gateway:8081; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection upgrade; proxy_set_header Origin $http_origin; proxy_read_timeout 60s; proxy_buffering off; }
+ location / { try_files $uri $uri/ /index.php?$query_string; }
+ location ~ ^/index\.php$ { include fastcgi_params; fastcgi_param SCRIPT_FILENAME /var/www/classroom/public/index.php; fastcgi_pass app:9000; }
+ location ~ /\. { deny all; }
+ location ~ \.php$ { return 404; }
+}

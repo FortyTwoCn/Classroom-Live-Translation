@@ -1,0 +1,15 @@
+{
+  "classification": "REAL_SERVICES_SYNTHETIC_SPEECH_ATTEMPT",
+  "status": "failed",
+  "testedAt": "2026-10-09T08:49:56.455Z",
+  "elapsedSeconds": 25.5,
+  "error": "expect(received).toEqual(expected) // deep equality\n\n- Expected  - 1\n+ Received  + 6\n\n- Array []\n+ Array [\n+   Object {\n+     \"error\": \"net::ERR_ABORTED\",\n+     \"scope\": \"external-private-playback\",\n+   },\n+ ]",
+  "jsErrors": [],
+  "requestErrors": [
+    {
+      "scope": "external-private-playback",
+      "error": "net::ERR_ABORTED"
+    }
+  ],
+  "real_microphone": false
+}

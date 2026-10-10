@@ -1,0 +1,14 @@
+/.env
+/.env.*
+!/.env.example
+/vendor/
+/frontend/node_modules/
+/frontend/dist/
+/public/assets/
+/storage/**
+!/storage/.gitkeep
+/bootstrap/cache/**
+!/bootstrap/cache/.gitkeep
+/reports/private/
+/.phpunit.cache/
+*.log

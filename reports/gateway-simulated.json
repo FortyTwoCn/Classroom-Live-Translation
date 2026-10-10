@@ -1,0 +1,15 @@
+{
+  "classification": "SIMULATED_QWEN_REAL_PHP_POSTGRESQL",
+  "status": "passed",
+  "clients": 3,
+  "pcm_frames": 7,
+  "tail_samples": 512,
+  "media_samples": 10112,
+  "completed_source": 1,
+  "completed_translation": 1,
+  "duplicate_response_done_deduplicated": true,
+  "guest_start_denied": true,
+  "real_model": false,
+  "real_oss": false,
+  "real_microphone": false
+}
