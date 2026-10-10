@@ -1,0 +1,2109 @@
+{
+    "schema_version": 1,
+    "catalog_id": "aircraft-aerodynamics-en-uk-zh-20261010",
+    "title": "航空器设计与空气动力学：英语、乌克兰语到中文",
+    "source_languages": [
+        "en",
+        "uk"
+    ],
+    "target_language": "zh",
+    "concept_count": 127,
+    "entry_count": 254,
+    "categories": {
+        "航空器设计与部件": 19,
+        "机翼几何与翼型": 21,
+        "空气动力学与气动力": 22,
+        "流动与边界层": 17,
+        "可压缩流动与相似参数": 10,
+        "飞行稳定性与操纵": 23,
+        "结构与气动弹性": 10,
+        "计算与试验": 5
+    },
+    "references": [
+        {
+            "title": "NASA Glenn: Wing Geometry",
+            "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/wing-geometry/",
+            "scope": "机翼几何英文术语与概念"
+        },
+        {
+            "title": "NASA Glenn: Boundary Layer",
+            "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/boundary-layer/",
+            "scope": "边界层、黏性与分离概念"
+        },
+        {
+            "title": "NASA Glenn: Similarity Parameters",
+            "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/similarity-parameters/",
+            "scope": "马赫数、雷诺数与相似参数"
+        },
+        {
+            "title": "КАІ: Аеродинаміка та динаміка польоту",
+            "url": "https://er.kai.edu.ua/server/api/core/bitstreams/f4e974cc-b10b-49c4-8f63-d5b16bca69b0/content",
+            "scope": "乌克兰语机翼参数、气动力、飞行稳定性用词"
+        },
+        {
+            "title": "ХНУВС: 航空专业英语教材",
+            "url": "https://dspace.univd.edu.ua/server/api/core/bitstreams/1034f397-94eb-4ca1-8784-8e2872b9f46b/content",
+            "scope": "英乌航空器部件与操纵面用词"
+        },
+        {
+            "title": "КАІ: Вступ до спеціальності",
+            "url": "https://aki.kai.edu.ua/wp-content/uploads/%D0%A0%D0%9F_131_2.1.4_%D0%92%D1%81%D1%82%D1%83%D0%BF_%D0%B4%D0%BE_%D1%81%D0%BF%D0%B5%D1%86%D1%96%D0%B0%D0%BB%D1%8C%D0%BD%D0%BE%D1%81%D1%82%D1%96.pdf",
+            "scope": "乌克兰语气动弹性、颤振、抖振与机翼发散用词"
+        },
+        {
+            "title": "航空学报：民机标准模型体系及空气动力学科数据库建设",
+            "url": "https://hkxb.buaa.edu.cn/EN/Y2025/V46/I24/132030",
+            "scope": "中文机翼几何、气动特性与试验用词"
+        },
+        {
+            "title": "ВНТУ: Ламінарна і турбулентна течія, число Рейнольдса",
+            "url": "https://web.posibnyky.vntu.edu.ua/fbteg/tkachenko_gidro_gazo_dunamika/page46.html",
+            "scope": "乌克兰语层流与湍流用词"
+        },
+        {
+            "title": "ЛНТУ: Дослідження ... методами обчислювальної гідродинаміки",
+            "url": "https://cit.lntu.edu.ua/index.php/cit/article/view/362",
+            "scope": "乌克兰语计算流体力学用词"
+        },
+        {
+            "title": "НУВГП: Modelling of hydraulics and hydraulic structures",
+            "url": "https://drp.nuwm.edu.ua/items/ef714037-098e-4f28-9438-1d7a41c28245",
+            "scope": "英乌数值方法用词"
+        }
+    ],
+    "editorial_policy": "面向航空课堂整理的常用术语，中文为人工选定对应词。参考资料用于核对概念及语言用词，不表示每条对应关系均出自单一官方三语词典。暂未逐条通过真实语音翻译验证。",
+    "entries": [
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aircraft design",
+            "target_text": "航空器设计",
+            "note": "航空术语｜航空器设计与部件｜EN: aircraft design｜UK: проєктування літальних апаратів｜航空器总体设计语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "проєктування літальних апаратів",
+            "target_text": "航空器设计",
+            "note": "航空术语｜航空器设计与部件｜EN: aircraft design｜UK: проєктування літальних апаратів｜航空器总体设计语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aircraft configuration",
+            "target_text": "航空器布局",
+            "note": "航空术语｜航空器设计与部件｜EN: aircraft configuration｜UK: компонування літального апарата｜总体布置与气动布局语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "компонування літального апарата",
+            "target_text": "航空器布局",
+            "note": "航空术语｜航空器设计与部件｜EN: aircraft configuration｜UK: компонування літального апарата｜总体布置与气动布局语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aircraft",
+            "target_text": "航空器",
+            "note": "航空术语｜航空器设计与部件｜EN: aircraft｜UK: літальний апарат｜泛指飞行器；不限定固定翼飞机。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "літальний апарат",
+            "target_text": "航空器",
+            "note": "航空术语｜航空器设计与部件｜EN: aircraft｜UK: літальний апарат｜泛指飞行器；不限定固定翼飞机。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airplane",
+            "target_text": "飞机",
+            "note": "航空术语｜航空器设计与部件｜EN: airplane｜UK: літак｜固定翼飞机。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "літак",
+            "target_text": "飞机",
+            "note": "航空术语｜航空器设计与部件｜EN: airplane｜UK: літак｜固定翼飞机。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airframe",
+            "target_text": "机体结构",
+            "note": "航空术语｜航空器设计与部件｜EN: airframe｜UK: планер літака｜不含动力装置；不要与 glider（滑翔机）混淆。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "планер літака",
+            "target_text": "机体结构",
+            "note": "航空术语｜航空器设计与部件｜EN: airframe｜UK: планер літака｜不含动力装置；不要与 glider（滑翔机）混淆。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "fuselage",
+            "target_text": "机身",
+            "note": "航空术语｜航空器设计与部件｜EN: fuselage｜UK: фюзеляж",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "фюзеляж",
+            "target_text": "机身",
+            "note": "航空术语｜航空器设计与部件｜EN: fuselage｜UK: фюзеляж",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing",
+            "target_text": "机翼",
+            "note": "航空术语｜航空器设计与部件｜EN: wing｜UK: крило｜航空器部件语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "крило",
+            "target_text": "机翼",
+            "note": "航空术语｜航空器设计与部件｜EN: wing｜UK: крило｜航空器部件语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "tail unit",
+            "target_text": "尾翼",
+            "note": "航空术语｜航空器设计与部件｜EN: tail unit｜UK: хвостове оперення｜也称尾翼组件。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "хвостове оперення",
+            "target_text": "尾翼",
+            "note": "航空术语｜航空器设计与部件｜EN: tail unit｜UK: хвостове оперення｜也称尾翼组件。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "horizontal tail",
+            "target_text": "水平尾翼",
+            "note": "航空术语｜航空器设计与部件｜EN: horizontal tail｜UK: горизонтальне оперення",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "горизонтальне оперення",
+            "target_text": "水平尾翼",
+            "note": "航空术语｜航空器设计与部件｜EN: horizontal tail｜UK: горизонтальне оперення",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "vertical tail",
+            "target_text": "垂直尾翼",
+            "note": "航空术语｜航空器设计与部件｜EN: vertical tail｜UK: вертикальне оперення",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "вертикальне оперення",
+            "target_text": "垂直尾翼",
+            "note": "航空术语｜航空器设计与部件｜EN: vertical tail｜UK: вертикальне оперення",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "landing gear",
+            "target_text": "起落架",
+            "note": "航空术语｜航空器设计与部件｜EN: landing gear｜UK: шасі",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "шасі",
+            "target_text": "起落架",
+            "note": "航空术语｜航空器设计与部件｜EN: landing gear｜UK: шасі",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "power plant",
+            "target_text": "动力装置",
+            "note": "航空术语｜航空器设计与部件｜EN: power plant｜UK: силова установка",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "силова установка",
+            "target_text": "动力装置",
+            "note": "航空术语｜航空器设计与部件｜EN: power plant｜UK: силова установка",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "propeller",
+            "target_text": "螺旋桨",
+            "note": "航空术语｜航空器设计与部件｜EN: propeller｜UK: повітряний гвинт｜航空推进语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "повітряний гвинт",
+            "target_text": "螺旋桨",
+            "note": "航空术语｜航空器设计与部件｜EN: propeller｜UK: повітряний гвинт｜航空推进语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "nacelle",
+            "target_text": "发动机短舱",
+            "note": "航空术语｜航空器设计与部件｜EN: nacelle｜UK: мотогондола",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "мотогондола",
+            "target_text": "发动机短舱",
+            "note": "航空术语｜航空器设计与部件｜EN: nacelle｜UK: мотогондола",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "canard configuration",
+            "target_text": "鸭式布局",
+            "note": "航空术语｜航空器设计与部件｜EN: canard configuration｜UK: схема «качка»｜前翼位于主翼之前的布局。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "схема «качка»",
+            "target_text": "鸭式布局",
+            "note": "航空术语｜航空器设计与部件｜EN: canard configuration｜UK: схема «качка»｜前翼位于主翼之前的布局。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "flying wing",
+            "target_text": "飞翼",
+            "note": "航空术语｜航空器设计与部件｜EN: flying wing｜UK: літаюче крило",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "літаюче крило",
+            "target_text": "飞翼",
+            "note": "航空术语｜航空器设计与部件｜EN: flying wing｜UK: літаюче крило",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "delta wing",
+            "target_text": "三角翼",
+            "note": "航空术语｜航空器设计与部件｜EN: delta wing｜UK: трикутне крило",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "трикутне крило",
+            "target_text": "三角翼",
+            "note": "航空术语｜航空器设计与部件｜EN: delta wing｜UK: трикутне крило",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "swept wing",
+            "target_text": "后掠翼",
+            "note": "航空术语｜航空器设计与部件｜EN: swept wing｜UK: стрілоподібне крило｜常规后掠机翼；前掠翼另列。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "стрілоподібне крило",
+            "target_text": "后掠翼",
+            "note": "航空术语｜航空器设计与部件｜EN: swept wing｜UK: стрілоподібне крило｜常规后掠机翼；前掠翼另列。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "forward-swept wing",
+            "target_text": "前掠翼",
+            "note": "航空术语｜航空器设计与部件｜EN: forward-swept wing｜UK: крило зворотної стрілоподібності",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "крило зворотної стрілоподібності",
+            "target_text": "前掠翼",
+            "note": "航空术语｜航空器设计与部件｜EN: forward-swept wing｜UK: крило зворотної стрілоподібності",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airfoil",
+            "target_text": "翼型",
+            "note": "航空术语｜机翼几何与翼型｜EN: airfoil｜UK: профіль крила｜二维机翼剖面。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "профіль крила",
+            "target_text": "翼型",
+            "note": "航空术语｜机翼几何与翼型｜EN: airfoil｜UK: профіль крила｜二维机翼剖面。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wingspan",
+            "target_text": "翼展",
+            "note": "航空术语｜机翼几何与翼型｜EN: wingspan｜UK: розмах крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "розмах крила",
+            "target_text": "翼展",
+            "note": "航空术语｜机翼几何与翼型｜EN: wingspan｜UK: розмах крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing area",
+            "target_text": "机翼面积",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing area｜UK: площа крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "площа крила",
+            "target_text": "机翼面积",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing area｜UK: площа крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aspect ratio",
+            "target_text": "展弦比",
+            "note": "航空术语｜机翼几何与翼型｜EN: aspect ratio｜UK: подовження крила｜翼展平方与机翼参考面积之比。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "подовження крила",
+            "target_text": "展弦比",
+            "note": "航空术语｜机翼几何与翼型｜EN: aspect ratio｜UK: подовження крила｜翼展平方与机翼参考面积之比。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing chord",
+            "target_text": "翼弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing chord｜UK: хорда крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "хорда крила",
+            "target_text": "翼弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing chord｜UK: хорда крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "chord line",
+            "target_text": "弦线",
+            "note": "航空术语｜机翼几何与翼型｜EN: chord line｜UK: лінія хорди",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "лінія хорди",
+            "target_text": "弦线",
+            "note": "航空术语｜机翼几何与翼型｜EN: chord line｜UK: лінія хорди",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "root chord",
+            "target_text": "根弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: root chord｜UK: коренева хорда",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "коренева хорда",
+            "target_text": "根弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: root chord｜UK: коренева хорда",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "tip chord",
+            "target_text": "梢弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: tip chord｜UK: кінцева хорда",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кінцева хорда",
+            "target_text": "梢弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: tip chord｜UK: кінцева хорда",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "mean aerodynamic chord",
+            "target_text": "平均气动弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: mean aerodynamic chord｜UK: середня аеродинамічна хорда｜MAC；不把孤立缩写 MAC 加入强制映射。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "середня аеродинамічна хорда",
+            "target_text": "平均气动弦",
+            "note": "航空术语｜机翼几何与翼型｜EN: mean aerodynamic chord｜UK: середня аеродинамічна хорда｜MAC；不把孤立缩写 MAC 加入强制映射。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "leading edge",
+            "target_text": "前缘",
+            "note": "航空术语｜机翼几何与翼型｜EN: leading edge｜UK: передня кромка｜翼型或机翼语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "передня кромка",
+            "target_text": "前缘",
+            "note": "航空术语｜机翼几何与翼型｜EN: leading edge｜UK: передня кромка｜翼型或机翼语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "trailing edge",
+            "target_text": "后缘",
+            "note": "航空术语｜机翼几何与翼型｜EN: trailing edge｜UK: задня кромка｜翼型或机翼语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "задня кромка",
+            "target_text": "后缘",
+            "note": "航空术语｜机翼几何与翼型｜EN: trailing edge｜UK: задня кромка｜翼型或机翼语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing root",
+            "target_text": "翼根",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing root｜UK: корінь крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "корінь крила",
+            "target_text": "翼根",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing root｜UK: корінь крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing tip",
+            "target_text": "翼尖",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing tip｜UK: закінцівка крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "закінцівка крила",
+            "target_text": "翼尖",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing tip｜UK: закінцівка крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing sweep angle",
+            "target_text": "机翼后掠角",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing sweep angle｜UK: кут стрілоподібності крила｜须结合前缘或四分之一弦线等具体测量基准。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут стрілоподібності крила",
+            "target_text": "机翼后掠角",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing sweep angle｜UK: кут стрілоподібності крила｜须结合前缘或四分之一弦线等具体测量基准。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing dihedral angle",
+            "target_text": "机翼上反角",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing dihedral angle｜UK: кут поперечного V крила｜正的横向 V 角；负值为下反角。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут поперечного V крила",
+            "target_text": "机翼上反角",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing dihedral angle｜UK: кут поперечного V крила｜正的横向 V 角；负值为下反角。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing twist",
+            "target_text": "机翼扭转",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing twist｜UK: крутка крила｜几何扭转与气动扭转须结合上下文区分。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "крутка крила",
+            "target_text": "机翼扭转",
+            "note": "航空术语｜机翼几何与翼型｜EN: wing twist｜UK: крутка крила｜几何扭转与气动扭转须结合上下文区分。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airfoil camber",
+            "target_text": "翼型弯度",
+            "note": "航空术语｜机翼几何与翼型｜EN: airfoil camber｜UK: кривизна профілю",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кривизна профілю",
+            "target_text": "翼型弯度",
+            "note": "航空术语｜机翼几何与翼型｜EN: airfoil camber｜UK: кривизна профілю",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airfoil thickness",
+            "target_text": "翼型厚度",
+            "note": "航空术语｜机翼几何与翼型｜EN: airfoil thickness｜UK: товщина профілю",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "товщина профілю",
+            "target_text": "翼型厚度",
+            "note": "航空术语｜机翼几何与翼型｜EN: airfoil thickness｜UK: товщина профілю",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "thickness-to-chord ratio",
+            "target_text": "相对厚度",
+            "note": "航空术语｜机翼几何与翼型｜EN: thickness-to-chord ratio｜UK: відносна товщина профілю｜翼型最大厚度与弦长之比。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "відносна товщина профілю",
+            "target_text": "相对厚度",
+            "note": "航空术语｜机翼几何与翼型｜EN: thickness-to-chord ratio｜UK: відносна товщина профілю｜翼型最大厚度与弦长之比。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "symmetric airfoil",
+            "target_text": "对称翼型",
+            "note": "航空术语｜机翼几何与翼型｜EN: symmetric airfoil｜UK: симетричний профіль",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "симетричний профіль",
+            "target_text": "对称翼型",
+            "note": "航空术语｜机翼几何与翼型｜EN: symmetric airfoil｜UK: симетричний профіль",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "supercritical airfoil",
+            "target_text": "超临界翼型",
+            "note": "航空术语｜机翼几何与翼型｜EN: supercritical airfoil｜UK: надкритичний профіль",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "надкритичний профіль",
+            "target_text": "超临界翼型",
+            "note": "航空术语｜机翼几何与翼型｜EN: supercritical airfoil｜UK: надкритичний профіль",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aerodynamics",
+            "target_text": "空气动力学",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamics｜UK: аеродинаміка",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеродинаміка",
+            "target_text": "空气动力学",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamics｜UK: аеродинаміка",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aerodynamic force",
+            "target_text": "气动力",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamic force｜UK: аеродинамічна сила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеродинамічна сила",
+            "target_text": "气动力",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamic force｜UK: аеродинамічна сила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "lift",
+            "target_text": "升力",
+            "note": "航空术语｜空气动力学与气动力｜EN: lift｜UK: підйомна сила｜气动力分量语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "підйомна сила",
+            "target_text": "升力",
+            "note": "航空术语｜空气动力学与气动力｜EN: lift｜UK: підйомна сила｜气动力分量语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aerodynamic drag",
+            "target_text": "气动阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamic drag｜UK: лобовий опір｜沿相对来流方向的阻力。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "лобовий опір",
+            "target_text": "气动阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamic drag｜UK: лобовий опір｜沿相对来流方向的阻力。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "thrust",
+            "target_text": "推力",
+            "note": "航空术语｜空气动力学与气动力｜EN: thrust｜UK: тяга｜航空推进语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "тяга",
+            "target_text": "推力",
+            "note": "航空术语｜空气动力学与气动力｜EN: thrust｜UK: тяга｜航空推进语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "lift coefficient",
+            "target_text": "升力系数",
+            "note": "航空术语｜空气动力学与气动力｜EN: lift coefficient｜UK: коефіцієнт підйомної сили｜无量纲气动系数。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "коефіцієнт підйомної сили",
+            "target_text": "升力系数",
+            "note": "航空术语｜空气动力学与气动力｜EN: lift coefficient｜UK: коефіцієнт підйомної сили｜无量纲气动系数。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "drag coefficient",
+            "target_text": "阻力系数",
+            "note": "航空术语｜空气动力学与气动力｜EN: drag coefficient｜UK: коефіцієнт лобового опору｜无量纲气动系数。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "коефіцієнт лобового опору",
+            "target_text": "阻力系数",
+            "note": "航空术语｜空气动力学与气动力｜EN: drag coefficient｜UK: коефіцієнт лобового опору｜无量纲气动系数。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "lift-to-drag ratio",
+            "target_text": "升阻比",
+            "note": "航空术语｜空气动力学与气动力｜EN: lift-to-drag ratio｜UK: аеродинамічна якість｜升力与阻力之比；乌克兰语航空教材常称气动品质。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеродинамічна якість",
+            "target_text": "升阻比",
+            "note": "航空术语｜空气动力学与气动力｜EN: lift-to-drag ratio｜UK: аеродинамічна якість｜升力与阻力之比；乌克兰语航空教材常称气动品质。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "angle of attack",
+            "target_text": "迎角",
+            "note": "航空术语｜空气动力学与气动力｜EN: angle of attack｜UK: кут атаки｜翼弦与来流之间的夹角；区别于俯仰角及安装角。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут атаки",
+            "target_text": "迎角",
+            "note": "航空术语｜空气动力学与气动力｜EN: angle of attack｜UK: кут атаки｜翼弦与来流之间的夹角；区别于俯仰角及安装角。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "critical angle of attack",
+            "target_text": "临界迎角",
+            "note": "航空术语｜空气动力学与气动力｜EN: critical angle of attack｜UK: критичний кут атаки",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "критичний кут атаки",
+            "target_text": "临界迎角",
+            "note": "航空术语｜空气动力学与气动力｜EN: critical angle of attack｜UK: критичний кут атаки",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "zero-lift angle of attack",
+            "target_text": "零升力迎角",
+            "note": "航空术语｜空气动力学与气动力｜EN: zero-lift angle of attack｜UK: кут атаки нульової підйомної сили",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут атаки нульової підйомної сили",
+            "target_text": "零升力迎角",
+            "note": "航空术语｜空气动力学与气动力｜EN: zero-lift angle of attack｜UK: кут атаки нульової підйомної сили",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "induced drag",
+            "target_text": "诱导阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: induced drag｜UK: індуктивний опір",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "індуктивний опір",
+            "target_text": "诱导阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: induced drag｜UK: індуктивний опір",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "profile drag",
+            "target_text": "型阻",
+            "note": "航空术语｜空气动力学与气动力｜EN: profile drag｜UK: профільний опір｜翼型或机翼剖面阻力语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "профільний опір",
+            "target_text": "型阻",
+            "note": "航空术语｜空气动力学与气动力｜EN: profile drag｜UK: профільний опір｜翼型或机翼剖面阻力语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "skin friction drag",
+            "target_text": "摩擦阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: skin friction drag｜UK: опір тертя",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "опір тертя",
+            "target_text": "摩擦阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: skin friction drag｜UK: опір тертя",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "pressure drag",
+            "target_text": "压差阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: pressure drag｜UK: опір тиску",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "опір тиску",
+            "target_text": "压差阻力",
+            "note": "航空术语｜空气动力学与气动力｜EN: pressure drag｜UK: опір тиску",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wave drag",
+            "target_text": "波阻",
+            "note": "航空术语｜空气动力学与气动力｜EN: wave drag｜UK: хвильовий опір",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "хвильовий опір",
+            "target_text": "波阻",
+            "note": "航空术语｜空气动力学与气动力｜EN: wave drag｜UK: хвильовий опір",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "drag polar",
+            "target_text": "阻力极曲线",
+            "note": "航空术语｜空气动力学与气动力｜EN: drag polar｜UK: поляра крила｜升力系数与阻力系数关系的气动极曲线。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "поляра крила",
+            "target_text": "阻力极曲线",
+            "note": "航空术语｜空气动力学与气动力｜EN: drag polar｜UK: поляра крила｜升力系数与阻力系数关系的气动极曲线。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "center of pressure",
+            "target_text": "压力中心",
+            "note": "航空术语｜空气动力学与气动力｜EN: center of pressure｜UK: центр тиску｜区别于气动中心与重心。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "центр тиску",
+            "target_text": "压力中心",
+            "note": "航空术语｜空气动力学与气动力｜EN: center of pressure｜UK: центр тиску｜区别于气动中心与重心。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aerodynamic center",
+            "target_text": "气动中心",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamic center｜UK: аеродинамічний фокус｜气动焦点；区别于压力中心。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеродинамічний фокус",
+            "target_text": "气动中心",
+            "note": "航空术语｜空气动力学与气动力｜EN: aerodynamic center｜UK: аеродинамічний фокус｜气动焦点；区别于压力中心。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "downwash",
+            "target_text": "下洗",
+            "note": "航空术语｜空气动力学与气动力｜EN: downwash｜UK: скіс потоку｜机翼后方气流向下偏转的语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "скіс потоку",
+            "target_text": "下洗",
+            "note": "航空术语｜空气动力学与气动力｜EN: downwash｜UK: скіс потоку｜机翼后方气流向下偏转的语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wingtip vortex",
+            "target_text": "翼尖涡",
+            "note": "航空术语｜空气动力学与气动力｜EN: wingtip vortex｜UK: кінцевий вихор",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кінцевий вихор",
+            "target_text": "翼尖涡",
+            "note": "航空术语｜空气动力学与气动力｜EN: wingtip vortex｜UK: кінцевий вихор",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "ground effect",
+            "target_text": "地面效应",
+            "note": "航空术语｜空气动力学与气动力｜EN: ground effect｜UK: екранний ефект｜机翼接近地面时的气动效应。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "екранний ефект",
+            "target_text": "地面效应",
+            "note": "航空术语｜空气动力学与气动力｜EN: ground effect｜UK: екранний ефект｜机翼接近地面时的气动效应。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "airflow",
+            "target_text": "气流",
+            "note": "航空术语｜流动与边界层｜EN: airflow｜UK: повітряний потік",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "повітряний потік",
+            "target_text": "气流",
+            "note": "航空术语｜流动与边界层｜EN: airflow｜UK: повітряний потік",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "streamline",
+            "target_text": "流线",
+            "note": "航空术语｜流动与边界层｜EN: streamline｜UK: лінія течії",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "лінія течії",
+            "target_text": "流线",
+            "note": "航空术语｜流动与边界层｜EN: streamline｜UK: лінія течії",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "boundary layer",
+            "target_text": "边界层",
+            "note": "航空术语｜流动与边界层｜EN: boundary layer｜UK: примежовий шар｜乌克兰语也常见 прикордонний шар。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "примежовий шар",
+            "target_text": "边界层",
+            "note": "航空术语｜流动与边界层｜EN: boundary layer｜UK: примежовий шар｜乌克兰语也常见 прикордонний шар。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "laminar flow",
+            "target_text": "层流",
+            "note": "航空术语｜流动与边界层｜EN: laminar flow｜UK: ламінарна течія",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "ламінарна течія",
+            "target_text": "层流",
+            "note": "航空术语｜流动与边界层｜EN: laminar flow｜UK: ламінарна течія",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "turbulent flow",
+            "target_text": "湍流",
+            "note": "航空术语｜流动与边界层｜EN: turbulent flow｜UK: турбулентна течія",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "турбулентна течія",
+            "target_text": "湍流",
+            "note": "航空术语｜流动与边界层｜EN: turbulent flow｜UK: турбулентна течія",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "flow separation",
+            "target_text": "流动分离",
+            "note": "航空术语｜流动与边界层｜EN: flow separation｜UK: відрив потоку｜区别于整机失速状态。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "відрив потоку",
+            "target_text": "流动分离",
+            "note": "航空术语｜流动与边界层｜EN: flow separation｜UK: відрив потоку｜区别于整机失速状态。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "stall",
+            "target_text": "失速",
+            "note": "航空术语｜流动与边界层｜EN: stall｜UK: звалювання｜飞机或机翼失速；不指发动机停车或压气机失速。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "звалювання",
+            "target_text": "失速",
+            "note": "航空术语｜流动与边界层｜EN: stall｜UK: звалювання｜飞机或机翼失速；不指发动机停车或压气机失速。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wake",
+            "target_text": "尾流",
+            "note": "航空术语｜流动与边界层｜EN: wake｜UK: аеродинамічний слід",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеродинамічний слід",
+            "target_text": "尾流",
+            "note": "航空术语｜流动与边界层｜EN: wake｜UK: аеродинамічний слід",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "vortex",
+            "target_text": "涡",
+            "note": "航空术语｜流动与边界层｜EN: vortex｜UK: вихор｜流体力学语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "вихор",
+            "target_text": "涡",
+            "note": "航空术语｜流动与边界层｜EN: vortex｜UK: вихор｜流体力学语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "circulation",
+            "target_text": "环量",
+            "note": "航空术语｜流动与边界层｜EN: circulation｜UK: циркуляція швидкості｜速度沿闭合曲线的线积分。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "циркуляція швидкості",
+            "target_text": "环量",
+            "note": "航空术语｜流动与边界层｜EN: circulation｜UK: циркуляція швидкості｜速度沿闭合曲线的线积分。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "viscosity",
+            "target_text": "黏度",
+            "note": "航空术语｜流动与边界层｜EN: viscosity｜UK: в'язкість",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "в'язкість",
+            "target_text": "黏度",
+            "note": "航空术语｜流动与边界层｜EN: viscosity｜UK: в'язкість",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "air density",
+            "target_text": "空气密度",
+            "note": "航空术语｜流动与边界层｜EN: air density｜UK: густина повітря",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "густина повітря",
+            "target_text": "空气密度",
+            "note": "航空术语｜流动与边界层｜EN: air density｜UK: густина повітря",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "static pressure",
+            "target_text": "静压",
+            "note": "航空术语｜流动与边界层｜EN: static pressure｜UK: статичний тиск",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "статичний тиск",
+            "target_text": "静压",
+            "note": "航空术语｜流动与边界层｜EN: static pressure｜UK: статичний тиск",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "dynamic pressure",
+            "target_text": "动压",
+            "note": "航空术语｜流动与边界层｜EN: dynamic pressure｜UK: швидкісний напір｜q=ρV²/2；不把全压误作动压。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "швидкісний напір",
+            "target_text": "动压",
+            "note": "航空术语｜流动与边界层｜EN: dynamic pressure｜UK: швидкісний напір｜q=ρV²/2；不把全压误作动压。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "total pressure",
+            "target_text": "全压",
+            "note": "航空术语｜流动与边界层｜EN: total pressure｜UK: повний тиск",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "повний тиск",
+            "target_text": "全压",
+            "note": "航空术语｜流动与边界层｜EN: total pressure｜UK: повний тиск",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "pressure distribution",
+            "target_text": "压力分布",
+            "note": "航空术语｜流动与边界层｜EN: pressure distribution｜UK: розподіл тиску",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "розподіл тиску",
+            "target_text": "压力分布",
+            "note": "航空术语｜流动与边界层｜EN: pressure distribution｜UK: розподіл тиску",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "Bernoulli equation",
+            "target_text": "伯努利方程",
+            "note": "航空术语｜流动与边界层｜EN: Bernoulli equation｜UK: рівняння Бернуллі",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "рівняння Бернуллі",
+            "target_text": "伯努利方程",
+            "note": "航空术语｜流动与边界层｜EN: Bernoulli equation｜UK: рівняння Бернуллі",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "Mach number",
+            "target_text": "马赫数",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: Mach number｜UK: число Маха",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "число Маха",
+            "target_text": "马赫数",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: Mach number｜UK: число Маха",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "Reynolds number",
+            "target_text": "雷诺数",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: Reynolds number｜UK: число Рейнольдса",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "число Рейнольдса",
+            "target_text": "雷诺数",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: Reynolds number｜UK: число Рейнольдса",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "speed of sound",
+            "target_text": "声速",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: speed of sound｜UK: швидкість звуку",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "швидкість звуку",
+            "target_text": "声速",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: speed of sound｜UK: швидкість звуку",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "compressibility",
+            "target_text": "可压缩性",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: compressibility｜UK: стисливість",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "стисливість",
+            "target_text": "可压缩性",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: compressibility｜UK: стисливість",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "subsonic flow",
+            "target_text": "亚声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: subsonic flow｜UK: дозвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "дозвукова течія",
+            "target_text": "亚声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: subsonic flow｜UK: дозвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "transonic flow",
+            "target_text": "跨声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: transonic flow｜UK: трансзвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "трансзвукова течія",
+            "target_text": "跨声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: transonic flow｜UK: трансзвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "supersonic flow",
+            "target_text": "超声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: supersonic flow｜UK: надзвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "надзвукова течія",
+            "target_text": "超声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: supersonic flow｜UK: надзвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "hypersonic flow",
+            "target_text": "高超声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: hypersonic flow｜UK: гіперзвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "гіперзвукова течія",
+            "target_text": "高超声速流动",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: hypersonic flow｜UK: гіперзвукова течія",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "shock wave",
+            "target_text": "激波",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: shock wave｜UK: ударна хвиля",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "ударна хвиля",
+            "target_text": "激波",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: shock wave｜UK: ударна хвиля",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "critical Mach number",
+            "target_text": "临界马赫数",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: critical Mach number｜UK: критичне число Маха",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "критичне число Маха",
+            "target_text": "临界马赫数",
+            "note": "航空术语｜可压缩流动与相似参数｜EN: critical Mach number｜UK: критичне число Маха",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "flight dynamics",
+            "target_text": "飞行动力学",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: flight dynamics｜UK: динаміка польоту",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "динаміка польоту",
+            "target_text": "飞行动力学",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: flight dynamics｜UK: динаміка польоту",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "center of gravity",
+            "target_text": "重心",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: center of gravity｜UK: центр ваги｜区别于压力中心与气动中心。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "центр ваги",
+            "target_text": "重心",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: center of gravity｜UK: центр ваги｜区别于压力中心与气动中心。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "center of mass",
+            "target_text": "质心",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: center of mass｜UK: центр мас｜均匀重力场中与重心重合，术语分别保留。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "центр мас",
+            "target_text": "质心",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: center of mass｜UK: центр мас｜均匀重力场中与重心重合，术语分别保留。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "static stability",
+            "target_text": "静稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: static stability｜UK: статична стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "статична стійкість",
+            "target_text": "静稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: static stability｜UK: статична стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "dynamic stability",
+            "target_text": "动稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: dynamic stability｜UK: динамічна стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "динамічна стійкість",
+            "target_text": "动稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: dynamic stability｜UK: динамічна стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "longitudinal stability",
+            "target_text": "纵向稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: longitudinal stability｜UK: поздовжня стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "поздовжня стійкість",
+            "target_text": "纵向稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: longitudinal stability｜UK: поздовжня стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "lateral stability",
+            "target_text": "横向稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: lateral stability｜UK: поперечна стійкість｜滚转方向稳定性；区别于横航向综合稳定性。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "поперечна стійкість",
+            "target_text": "横向稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: lateral stability｜UK: поперечна стійкість｜滚转方向稳定性；区别于横航向综合稳定性。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "directional stability",
+            "target_text": "航向稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: directional stability｜UK: шляхова стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "шляхова стійкість",
+            "target_text": "航向稳定性",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: directional stability｜UK: шляхова стійкість",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "pitch angle",
+            "target_text": "俯仰角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: pitch angle｜UK: кут тангажу｜区别于迎角。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут тангажу",
+            "target_text": "俯仰角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: pitch angle｜UK: кут тангажу｜区别于迎角。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "roll angle",
+            "target_text": "滚转角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: roll angle｜UK: кут крену",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут крену",
+            "target_text": "滚转角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: roll angle｜UK: кут крену",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "yaw angle",
+            "target_text": "偏航角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: yaw angle｜UK: кут нишпорення",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут нишпорення",
+            "target_text": "偏航角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: yaw angle｜UK: кут нишпорення",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "sideslip angle",
+            "target_text": "侧滑角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: sideslip angle｜UK: кут ковзання",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кут ковзання",
+            "target_text": "侧滑角",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: sideslip angle｜UK: кут ковзання",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "pitching moment",
+            "target_text": "俯仰力矩",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: pitching moment｜UK: момент тангажу",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "момент тангажу",
+            "target_text": "俯仰力矩",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: pitching moment｜UK: момент тангажу",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "rolling moment",
+            "target_text": "滚转力矩",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: rolling moment｜UK: момент крену",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "момент крену",
+            "target_text": "滚转力矩",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: rolling moment｜UK: момент крену",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "yawing moment",
+            "target_text": "偏航力矩",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: yawing moment｜UK: момент нишпорення",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "момент нишпорення",
+            "target_text": "偏航力矩",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: yawing moment｜UK: момент нишпорення",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aileron",
+            "target_text": "副翼",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: aileron｜UK: елерон",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "елерон",
+            "target_text": "副翼",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: aileron｜UK: елерон",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "elevator",
+            "target_text": "升降舵",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: elevator｜UK: кермо висоти｜航空舵面语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кермо висоти",
+            "target_text": "升降舵",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: elevator｜UK: кермо висоти｜航空舵面语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "rudder",
+            "target_text": "方向舵",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: rudder｜UK: кермо напрямку",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "кермо напрямку",
+            "target_text": "方向舵",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: rudder｜UK: кермо напрямку",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "flap",
+            "target_text": "襟翼",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: flap｜UK: закрилок",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "закрилок",
+            "target_text": "襟翼",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: flap｜UK: закрилок",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "slat",
+            "target_text": "缝翼",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: slat｜UK: передкрилок",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "передкрилок",
+            "target_text": "缝翼",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: slat｜UK: передкрилок",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "spoiler",
+            "target_text": "扰流板",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: spoiler｜UK: інтерцептор",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "інтерцептор",
+            "target_text": "扰流板",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: spoiler｜UK: інтерцептор",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "trim tab",
+            "target_text": "调整片",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: trim tab｜UK: тример｜航空舵面语境；不是软件修剪操作。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "тример",
+            "target_text": "调整片",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: trim tab｜UK: тример｜航空舵面语境；不是软件修剪操作。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "flight control surface",
+            "target_text": "操纵面",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: flight control surface｜UK: поверхня керування польотом",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "поверхня керування польотом",
+            "target_text": "操纵面",
+            "note": "航空术语｜飞行稳定性与操纵｜EN: flight control surface｜UK: поверхня керування польотом",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing spar",
+            "target_text": "翼梁",
+            "note": "航空术语｜结构与气动弹性｜EN: wing spar｜UK: лонжерон крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "лонжерон крила",
+            "target_text": "翼梁",
+            "note": "航空术语｜结构与气动弹性｜EN: wing spar｜UK: лонжерон крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing rib",
+            "target_text": "翼肋",
+            "note": "航空术语｜结构与气动弹性｜EN: wing rib｜UK: нервюра крила",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "нервюра крила",
+            "target_text": "翼肋",
+            "note": "航空术语｜结构与气动弹性｜EN: wing rib｜UK: нервюра крила",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "stringer",
+            "target_text": "长桁",
+            "note": "航空术语｜结构与气动弹性｜EN: stringer｜UK: стрингер｜航空结构语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "стрингер",
+            "target_text": "长桁",
+            "note": "航空术语｜结构与气动弹性｜EN: stringer｜UK: стрингер｜航空结构语境。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aircraft skin",
+            "target_text": "飞机蒙皮",
+            "note": "航空术语｜结构与气动弹性｜EN: aircraft skin｜UK: обшивка літака",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "обшивка літака",
+            "target_text": "飞机蒙皮",
+            "note": "航空术语｜结构与气动弹性｜EN: aircraft skin｜UK: обшивка літака",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "load factor",
+            "target_text": "过载系数",
+            "note": "航空术语｜结构与气动弹性｜EN: load factor｜UK: перевантаження｜航空力学无量纲载荷因子；不指运输超载。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "перевантаження",
+            "target_text": "过载系数",
+            "note": "航空术语｜结构与气动弹性｜EN: load factor｜UK: перевантаження｜航空力学无量纲载荷因子；不指运输超载。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aeroelasticity",
+            "target_text": "气动弹性",
+            "note": "航空术语｜结构与气动弹性｜EN: aeroelasticity｜UK: аеропружність",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеропружність",
+            "target_text": "气动弹性",
+            "note": "航空术语｜结构与气动弹性｜EN: aeroelasticity｜UK: аеропружність",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "flutter",
+            "target_text": "颤振",
+            "note": "航空术语｜结构与气动弹性｜EN: flutter｜UK: флатер｜自激气动弹性振动；区别于抖振。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "флатер",
+            "target_text": "颤振",
+            "note": "航空术语｜结构与气动弹性｜EN: flutter｜UK: флатер｜自激气动弹性振动；区别于抖振。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "buffeting",
+            "target_text": "抖振",
+            "note": "航空术语｜结构与气动弹性｜EN: buffeting｜UK: бафтинг｜非定常气流引起的强迫振动；区别于颤振。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "бафтинг",
+            "target_text": "抖振",
+            "note": "航空术语｜结构与气动弹性｜EN: buffeting｜UK: бафтинг｜非定常气流引起的强迫振动；区别于颤振。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wing divergence",
+            "target_text": "机翼发散",
+            "note": "航空术语｜结构与气动弹性｜EN: wing divergence｜UK: дивергенція крила｜静气动弹性发散。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "дивергенція крила",
+            "target_text": "机翼发散",
+            "note": "航空术语｜结构与气动弹性｜EN: wing divergence｜UK: дивергенція крила｜静气动弹性发散。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "aileron reversal",
+            "target_text": "副翼反效",
+            "note": "航空术语｜结构与气动弹性｜EN: aileron reversal｜UK: реверс елеронів｜气动弹性引起的操纵反效。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "реверс елеронів",
+            "target_text": "副翼反效",
+            "note": "航空术语｜结构与气动弹性｜EN: aileron reversal｜UK: реверс елеронів｜气动弹性引起的操纵反效。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wind tunnel",
+            "target_text": "风洞",
+            "note": "航空术语｜计算与试验｜EN: wind tunnel｜UK: аеродинамічна труба",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "аеродинамічна труба",
+            "target_text": "风洞",
+            "note": "航空术语｜计算与试验｜EN: wind tunnel｜UK: аеродинамічна труба",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "wind tunnel test",
+            "target_text": "风洞试验",
+            "note": "航空术语｜计算与试验｜EN: wind tunnel test｜UK: випробування в аеродинамічній трубі",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "випробування в аеродинамічній трубі",
+            "target_text": "风洞试验",
+            "note": "航空术语｜计算与试验｜EN: wind tunnel test｜UK: випробування в аеродинамічній трубі",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "computational fluid dynamics",
+            "target_text": "计算流体力学",
+            "note": "航空术语｜计算与试验｜EN: computational fluid dynamics｜UK: обчислювальна гідродинаміка｜CFD；涵盖液体与气体流动计算。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "обчислювальна гідродинаміка",
+            "target_text": "计算流体力学",
+            "note": "航空术语｜计算与试验｜EN: computational fluid dynamics｜UK: обчислювальна гідродинаміка｜CFD；涵盖液体与气体流动计算。",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "finite element method",
+            "target_text": "有限元法",
+            "note": "航空术语｜计算与试验｜EN: finite element method｜UK: метод скінченних елементів",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "метод скінченних елементів",
+            "target_text": "有限元法",
+            "note": "航空术语｜计算与试验｜EN: finite element method｜UK: метод скінченних елементів",
+            "enabled": true
+        },
+        {
+            "source_language": "en",
+            "target_language": "zh",
+            "source_text": "Navier-Stokes equations",
+            "target_text": "纳维斯托克斯方程",
+            "note": "航空术语｜计算与试验｜EN: Navier-Stokes equations｜UK: рівняння Нав'є-Стокса｜中文也常写纳维–斯托克斯方程。",
+            "enabled": true
+        },
+        {
+            "source_language": "uk",
+            "target_language": "zh",
+            "source_text": "рівняння Нав'є-Стокса",
+            "target_text": "纳维斯托克斯方程",
+            "note": "航空术语｜计算与试验｜EN: Navier-Stokes equations｜UK: рівняння Нав'є-Стокса｜中文也常写纳维–斯托克斯方程。",
+            "enabled": true
+        }
+    ]
+}

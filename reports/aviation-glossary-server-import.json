@@ -1,0 +1,46 @@
+{
+  "checked_at_utc": "2026-10-10T01:33:50+00:00",
+  "mode": "apply",
+  "database": "real_production_postgresql",
+  "course_id": 2,
+  "catalog_id": "aircraft-aerodynamics-en-uk-zh-20261010",
+  "catalog_sha256": "fecc990181edf65e72614f994a00e75ada91997fd6111029a4b9bfaf07126a3d",
+  "version_before": 1,
+  "version_after": 255,
+  "inserted": 254,
+  "inserted_directions": {
+    "en-zh": 127,
+    "uk-zh": 127
+  },
+  "skipped_existing": 0,
+  "conflicts": 0,
+  "listing_total": 254,
+  "direction_totals": {
+    "en-zh": 127,
+    "uk-zh": 127
+  },
+  "last_page_count": 14,
+  "snapshot_count": 254,
+  "snapshot_hash": "09b48c604165383663d149def01d4d1156459e053a111e306a95553bae22e023",
+  "session_update_bytes": 9581,
+  "existing_snapshots_unchanged": true,
+  "snapshot_test_lesson": "rolled_back",
+  "effective_policy": "next_lesson_first_start",
+  "real_qwen_test": "not_run",
+  "real_oss_test": "not_run",
+  "physical_device_test": "not_run",
+  "committed": true,
+  "permanent_test_lessons_created": 0,
+  "database_term_delta": 254,
+  "audit_delta": 255,
+  "saved_version": 255,
+  "verification": {
+    "repeat_import_inserted": 0,
+    "repeat_import_skipped": 254,
+    "repeat_import_saved_version": 255,
+    "fpm_active": true,
+    "gateway_active": true,
+    "backup_mode": "0600",
+    "existing_course_1_terms": 0
+  }
+}

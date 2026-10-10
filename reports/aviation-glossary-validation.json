@@ -1,0 +1,25 @@
+{
+    "status": "passed",
+    "concepts": 127,
+    "entries": 254,
+    "directions": {
+        "en-zh": 127,
+        "uk-zh": 127
+    },
+    "categories": {
+        "航空器设计与部件": 19,
+        "机翼几何与翼型": 21,
+        "空气动力学与气动力": 22,
+        "流动与边界层": 17,
+        "可压缩流动与相似参数": 10,
+        "飞行稳定性与操纵": 23,
+        "结构与气动弹性": 10,
+        "计算与试验": 5
+    },
+    "max_source_bytes": 67,
+    "max_target_bytes": 24,
+    "session_update_bytes": 9581,
+    "phrase_hash": "09b48c604165383663d149def01d4d1156459e053a111e306a95553bae22e023",
+    "catalog_sha256": "fecc990181edf65e72614f994a00e75ada91997fd6111029a4b9bfaf07126a3d",
+    "live_translation_test": "not_run"
+}
