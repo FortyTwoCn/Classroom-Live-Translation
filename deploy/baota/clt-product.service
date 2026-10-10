@@ -1,0 +1,35 @@
+[Unit]
+Description=Classroom translation exports imports and maintenance worker
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/www/wwwroot/t.xuanknow.cn
+ConditionPathExists=/www/wwwroot/t.xuanknow.cn/.env
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=cltweb
+Group=cltweb
+WorkingDirectory=/www/wwwroot/t.xuanknow.cn
+Environment=APP_ENV=production
+Environment=APP_DEBUG=false
+Environment=LARAVEL_STORAGE_PATH=/www/wwwroot/t.xuanknow.cn/storage
+Environment=PHP_INI_SCAN_DIR=:/www/wwwroot/t.xuanknow.cn/deploy/baota/php-cli.d
+ExecStart=/www/server/php/85/bin/php /www/wwwroot/t.xuanknow.cn/artisan queue:work --queue=exports,imports,maintenance --timeout=1800 --tries=3 --sleep=1
+Restart=always
+RestartSec=10s
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=1900s
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/www/wwwroot/t.xuanknow.cn/storage /www/wwwroot/t.xuanknow.cn/bootstrap/cache
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clt-product
+
+[Install]
+WantedBy=multi-user.target

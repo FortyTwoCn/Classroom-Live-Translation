@@ -1,0 +1,37 @@
+[Unit]
+Description=Classroom translation audio WebSocket gateway
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/www/wwwroot/t.xuanknow.cn
+ConditionPathExists=/www/wwwroot/t.xuanknow.cn/.env
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=cltweb
+Group=cltweb
+WorkingDirectory=/www/wwwroot/t.xuanknow.cn
+Environment=APP_ENV=production
+Environment=APP_DEBUG=false
+Environment=LARAVEL_STORAGE_PATH=/www/wwwroot/t.xuanknow.cn/storage
+Environment=WS_LISTEN=websocket://127.0.0.1:8081
+Environment=PHP_INI_SCAN_DIR=:/www/wwwroot/t.xuanknow.cn/deploy/baota/php-cli.d
+ExecStart=/www/server/php/85/bin/php /www/wwwroot/t.xuanknow.cn/bin/gateway.php start
+Restart=always
+RestartSec=10s
+KillSignal=SIGTERM
+KillMode=mixed
+TimeoutStopSec=35s
+UMask=0077
+LimitNOFILE=8192
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/www/wwwroot/t.xuanknow.cn/storage /www/wwwroot/t.xuanknow.cn/bootstrap/cache
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clt-gateway
+
+[Install]
+WantedBy=multi-user.target

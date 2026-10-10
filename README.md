@@ -4,6 +4,8 @@
 
 阶段交付：[A：真实服务闭环](reports/PHASE-A.md)、[B：完整产品](reports/PHASE-B.md)、[C：恢复与课堂体验](reports/PHASE-C.md)。设计见[架构](docs/architecture.md)、[账户与导入](docs/accounts.md)、[录音权交接](docs/recorder-handoffs.md)、[校对、分享与导出](docs/B-content-sharing-exports.md)、[设置与恢复](docs/C-settings-recovery.md)、[术语与用量](docs/C-glossary-usage-qwen.md)。
 
+服务器部署另见[宝塔部署记录](docs/server-deployment.md)：代码及生产依赖已安装到211.159.166.184，独立PHP-FPM/Nginx/真实北京模型和OSS探测通过。用户明早填写clt数据库密码后继续迁移和应用/WSS验证；当前网站维护模式，五个后台服务停止，不将准备完成报告为上线验收通过。
+
 ## 当前验证
 
 | 类别 | 结果与边界 |

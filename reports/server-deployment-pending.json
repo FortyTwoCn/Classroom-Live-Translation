@@ -1,0 +1,130 @@
+{
+  "status": "awaiting_user_database_password",
+  "checked_at": "2026-10-09T23:30:26.729330+08:00",
+  "server": "211.159.166.184",
+  "domain": "https://t.xuanknow.cn",
+  "origin": "https://esa.t.xuanknow.cn",
+  "project_path": "/www/wwwroot/t.xuanknow.cn",
+  "document_root": "/www/wwwroot/t.xuanknow.cn/public",
+  "source_commit": "474088c",
+  "source_archive_sha256": "418a03ab65b5112d0f4d75c90ef8683d9033e0e61ef35cc8100ab3550d14df02",
+  "composer_lock_sha256": "a232f5b6ff553b9d0242b0a0277e66894d8564a0ac24bb93b41393b53eabc29b",
+  "php": "8.5.11",
+  "postgresql": "18.0",
+  "ffmpeg": "5.1.9",
+  "production_dependencies": 80,
+  "private_key_in_release": false,
+  "maintenance_mode": true,
+  "services": {
+    "clt-fpm": {
+      "ActiveState": "active",
+      "SubState": "running",
+      "UnitFileState": "enabled"
+    },
+    "clt-gateway": {
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled"
+    },
+    "clt-recordings": {
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled"
+    },
+    "clt-archives": {
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled"
+    },
+    "clt-product": {
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled"
+    },
+    "clt-scheduler": {
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "UnitFileState": "disabled"
+    }
+  },
+  "cli_preflight": {
+    "php": "8.5.11",
+    "php_sapi": "cli",
+    "extensions": {
+      "pdo_pgsql": true,
+      "fileinfo": true,
+      "pcntl": true,
+      "posix": true,
+      "bcmath": true,
+      "dom": true,
+      "xmlreader": true,
+      "zip": true,
+      "mbstring": true,
+      "curl": true,
+      "openssl": true,
+      "sockets": true
+    },
+    "functions": {
+      "proc_open": true,
+      "readlink": true,
+      "putenv": true
+    },
+    "production": true,
+    "debug_off": true,
+    "key_configured": true,
+    "secure_cookie": true,
+    "database_name": "clt",
+    "database_user": "clt",
+    "password_configured": false,
+    "database_connection": "not_checked_password_missing",
+    "qwen_key_configured": true,
+    "qwen_region": "cn-beijing"
+  },
+  "fpm_preflight": {
+    "php": "8.5.11",
+    "php_sapi": "fpm-fcgi",
+    "extensions": {
+      "pdo_pgsql": true,
+      "fileinfo": true,
+      "pcntl": true,
+      "posix": true,
+      "bcmath": true,
+      "dom": true,
+      "xmlreader": true,
+      "zip": true,
+      "mbstring": true,
+      "curl": true,
+      "openssl": true,
+      "sockets": true
+    },
+    "functions": {
+      "proc_open": true,
+      "readlink": true,
+      "putenv": true
+    },
+    "production": true,
+    "debug_off": true,
+    "key_configured": true,
+    "secure_cookie": true,
+    "database_name": "clt",
+    "database_user": "clt",
+    "password_configured": false,
+    "database_connection": "not_checked_password_missing",
+    "qwen_key_configured": true,
+    "qwen_region": "cn-beijing"
+  },
+  "nginx_configuration_validation": "passed",
+  "systemd_unit_validation": "passed_with_existing_unrelated_monitor_and_tat_agent_warnings",
+  "real_qwen": "server-qwen-real.json",
+  "real_oss": "server-oss-real.json",
+  "real_esa": "server-esa-origin.json",
+  "unverified": [
+    "clt_password_authentication",
+    "production_database_migrations",
+    "authenticated_application_and_secure_login",
+    "valid_ticket_WSS_through_ESA",
+    "real_microphone_browser_to_model_on_public_domain",
+    "strict_ESA_origin_certificate_hostname_validation"
+  ],
+  "credentials_or_cookie_values_in_report": false
+}

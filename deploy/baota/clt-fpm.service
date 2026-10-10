@@ -1,0 +1,41 @@
+[Unit]
+Description=Classroom translation dedicated PHP8.5 FPM master
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/www/wwwroot/t.xuanknow.cn
+ConditionPathExists=/www/wwwroot/t.xuanknow.cn/.env
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# Only the master is root; the site's pool runs as cltweb.
+User=root
+Group=root
+WorkingDirectory=/www/wwwroot/t.xuanknow.cn
+RuntimeDirectory=clt
+RuntimeDirectoryMode=0755
+Environment=APP_ENV=production
+Environment=APP_DEBUG=false
+Environment=LARAVEL_STORAGE_PATH=/www/wwwroot/t.xuanknow.cn/storage
+# Scan only this site's ini overlay. Dynamic extensions are in php-fpm.ini;
+# do not inherit a BaoTa scan directory that may disable required functions.
+Environment=PHP_INI_SCAN_DIR=/www/wwwroot/t.xuanknow.cn/deploy/baota/php-cli.d
+ExecStart=/www/server/php/85/sbin/php-fpm -F -c /www/wwwroot/t.xuanknow.cn/deploy/baota/php-fpm.ini -y /www/wwwroot/t.xuanknow.cn/deploy/baota/php-fpm.master.conf
+Restart=always
+RestartSec=10s
+KillSignal=SIGQUIT
+KillMode=mixed
+TimeoutStopSec=135s
+UMask=0077
+NoNewPrivileges=true
+# Nginx must see the site's socket; it is under /run/clt, not a private /tmp.
+PrivateTmp=false
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/www/wwwroot/t.xuanknow.cn/storage /www/wwwroot/t.xuanknow.cn/bootstrap/cache /run/clt
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=clt-fpm
+
+[Install]
+WantedBy=multi-user.target

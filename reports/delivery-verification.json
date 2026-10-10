@@ -1,13 +1,13 @@
 {
-  "deliverable_files": 430,
-  "findings": [],
-  "requirements_sha256": "83c2d50a5d63ac456c93565b00dd446720efd5696457d015e00852458dc1ecf8",
-  "log_files": 261,
-  "asset_files": 32,
-  "attachment_identical": true,
-  "scan_kind": "exact configured credential values plus signed URL report pattern",
-  "status": "passed",
-  "not_a_general_security_audit": true,
+  "deliverable_files": 447,
   "values_printed": false,
-  "configured_sensitive_fields": 5
+  "attachment_identical": true,
+  "asset_files": 32,
+  "log_files": 264,
+  "status": "passed",
+  "scan_kind": "exact configured credential values plus signed URL report pattern",
+  "configured_sensitive_fields": 5,
+  "not_a_general_security_audit": true,
+  "findings": [],
+  "requirements_sha256": "83c2d50a5d63ac456c93565b00dd446720efd5696457d015e00852458dc1ecf8"
 }

@@ -1,0 +1,14 @@
+{
+  "classification": "real_esa_https_origin_header_check",
+  "headers": {
+    "http": "HTTP/1.1 200 OK",
+    "server": "ESA",
+    "content-type": "text/html; charset=utf-8",
+    "cache-control": "no-store, private",
+    "via": "ens-cache32.cn8004[80,0,DP], ens-cache32.cn8004[107,0]",
+    "x-site-cache-status": "DYNAMIC"
+  },
+  "observed_origin_host_sni": [
+    "host=t.xuanknow.cn sni=t.xuanknow.cn scheme=https"
+  ]
+}
