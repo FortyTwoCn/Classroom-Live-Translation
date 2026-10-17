@@ -53,14 +53,14 @@
 - `GlossaryCopyTest`：跨页复制、冲突保留、停用和已删除词条、重复复制、原快照不变、容量回滚、鉴权与版本冲突。
 - `reading-improvements.spec.ts`：320/390/430px 与三种语言、横屏大字幕、简介提交、重复控件移除、历史阅读与跟随、词表复制交互。已有真实服务测试的控件定位也同步更新。
 
-本地环境没有 PHP/Composer/PostgreSQL，npm 下载被网络权限阻止，Chromium 启动被进程沙箱阻止，因此本地未运行完整构建与运行时测试。仓库新增 `.github/workflows/reading-regression.yml`，在 GitHub Actions 中执行生产构建、Vitest、Chromium 浏览器测试及独立 PostgreSQL 后端回归，并保存 27 张手机与横屏截图；最新结果见 [PR #1 的检查](https://github.com/FortyTwoCn/Classroom-Live-Translation/pull/1/checks)。真实手机、Safari、麦克风、模型与音频归档不在本轮自动验证范围内。以下命令可复现检查：
+本地环境没有 PHP/Composer/PostgreSQL，npm 下载被网络权限阻止，Chromium 启动被进程沙箱阻止，因此本地未运行完整构建与运行时测试。仓库新增 `.github/workflows/reading-regression.yml`，在 GitHub Actions 中执行生产构建、Vitest、Chromium 与 WebKit 浏览器测试及独立 PostgreSQL 后端回归，并保存手机与横屏截图；最新结果见 [PR #1 的检查](https://github.com/FortyTwoCn/Classroom-Live-Translation/pull/1/checks)。WebKit 模拟不等于 iPhone 真机验收，真实麦克风、模型与音频归档也不在本轮自动验证范围内。以下命令可复现检查：
 
 ```sh
 cd frontend
 pnpm install --frozen-lockfile
 pnpm build
 pnpm test
-pnpm exec playwright test tests/e2e/reading-improvements.spec.ts --project=chromium-simulated
+pnpm exec playwright test tests/e2e/reading-improvements.spec.ts
 ```
 
 后端在项目现有 PHP 8.5、依赖与 `classroom_test` PostgreSQL 环境中运行：
