@@ -10,7 +10,7 @@ Route::get('/api/courses',function(Request $r)use($user){
  $q=DB::table('courses')->where('enabled',true)->whereNull('deleted_at');$u=$user($r);if(!$u||$u->must_change_password)$q->where('guest_access','public');
  return ['courses'=>$q->select('courses.*')->selectRaw("(SELECT count(*) FROM lessons WHERE course_id=courses.id AND deleted_at IS NULL) AS lesson_count, (SELECT id FROM lessons WHERE course_id=courses.id AND status IN ('live','paused') AND deleted_at IS NULL LIMIT 1) AS active_lesson_id")->orderByRaw("EXISTS(SELECT 1 FROM lessons WHERE course_id=courses.id AND status IN ('live','paused') AND deleted_at IS NULL) DESC")->orderBy('sort_order')->orderBy('id')->limit(200)->get()];
 });
-Route::post('/api/courses',function(Request $r)use($user){Access::admin($user($r));$v=$r->validate(['name'=>'required|string|max:200','description'=>'sometimes|string|max:2000','target_language'=>'in:zh,en,uk','guest_access'=>'in:public,link']);return ['course'=>DB::table('courses')->find(DB::table('courses')->insertGetId($v))];});
+Route::post('/api/courses',function(Request $r)use($user){$u=$user($r);Access::admin($u);$v=$r->validate(['name'=>'required|string|max:200','description'=>'sometimes|nullable|string|max:5000','target_language'=>'in:zh,en,uk','guest_access'=>'in:public,link']);return ['course'=>\App\Accounts\Management::course((int)$u->id,null,$v)];});
 Route::get('/api/courses/{course}/lessons',function(Request $r,int $course)use($user){
  $c=DB::table('courses')->where('id',$course)->where('enabled',true)->whereNull('deleted_at')->first();if(!$c)throw new Failure('course_unavailable',404);
  $u=$user($r);if((!$u||$u->must_change_password)&&$c->guest_access!=='public')throw new Failure('forbidden',403);
@@ -56,3 +56,4 @@ Route::get('/api/lessons/{lesson}/playback',function(Request $r,int $lesson)use(
  try{$storage=\App\Storage\StorageRegistry::resolve($recording->storage_version);}catch(\Throwable){throw new Failure('storage_configuration_version_unavailable',503);}return ['url'=>$storage->presignedGet($recording->object_key),'expires_at'=>now()->addSeconds($storage->configuration->presignSeconds)->toIso8601String()];
 });
 Route::get('/{path?}',function(){$p=public_path('app.html');if(!is_file($p))return response('Build frontend: cd frontend && pnpm install && pnpm build',503);return response()->file($p);})->where('path','(?!api|up).*');
+

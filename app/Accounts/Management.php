@@ -22,6 +22,7 @@ final class Management {
  }
  public static function resetPassword(int $admin,int $id):void {DB::transaction(function()use($admin,$id){$u=DB::table('users')->where('id',$id)->lockForUpdate()->first();if(!$u)throw new Failure('user_unavailable',404);self::normalizeUser(['student_id'=>$u->student_id]);DB::table('users')->where('id',$id)->update(['password'=>Hash::make(mb_substr($u->student_id,-6)),'must_change_password'=>true,'updated_at'=>now()]);DeviceAuth::revokeUser($id);DeviceAuth::audit($admin,'user.password_reset',['user_id'=>$id]);});}
  public static function course(int $admin,?int $id,array $v):array {
+  if(array_key_exists('description',$v))$v['description']=$v['description']??'';
   return DB::transaction(function()use($admin,$id,$v){$c=$id?DB::table('courses')->where('id',$id)->whereNull('deleted_at')->lockForUpdate()->first():null;if($id&&!$c)throw new Failure('course_unavailable',404);
    if(array_key_exists('archived',$v)){$v['archived_at']=$v['archived']?now():null;unset($v['archived']);}if(!$id){$id=DB::table('courses')->insertGetId($v);}else{DB::table('courses')->where('id',$id)->update([...$v,'updated_at'=>now()]);}
    foreach(DB::table('lessons')->where('course_id',$id)->pluck('id')as$lid){if(($v['guest_access']??$c?->guest_access)==='link')\App\Sharing\SharingService::ensure((int)$lid);Access::lessonEvent((int)$lid);}
@@ -30,3 +31,4 @@ final class Management {
  }
  public static function deleteCourse(int $admin,int $id):void {DB::transaction(function()use($admin,$id){$c=DB::table('courses')->where('id',$id)->whereNull('deleted_at')->lockForUpdate()->first();if(!$c)throw new Failure('course_unavailable',404);if(DB::table('lessons')->where('course_id',$id)->where('status','<>','ended')->exists())throw new Failure('course_has_active_lesson',409);DB::table('courses')->where('id',$id)->update(['enabled'=>false,'deleted_at'=>now(),'updated_at'=>now()]);foreach(DB::table('lessons')->where('course_id',$id)->pluck('id')as$lid)Access::lessonEvent((int)$lid);DeviceAuth::audit($admin,'course.deleted',['course_id'=>$id,'lesson_count'=>DB::table('lessons')->where('course_id',$id)->count()]);});}
 }
+

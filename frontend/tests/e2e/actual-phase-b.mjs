@@ -422,7 +422,9 @@ try {
         await guest.locator(".site-header select").selectOption(language);
         await expect(guest.locator(".large-mode")).toBeVisible();
       }
-      await guest.locator(".lesson-tools select").selectOption("64");
+      await guest.locator('[aria-controls="reader-options"]').click();
+      await guest.locator(".reader-options select").selectOption("64");
+      await guest.locator('[aria-controls="reader-options"]').click();
       expect(
         await guest
           .locator(".subtitle-unit p")
@@ -439,13 +441,10 @@ try {
         .click();
       const dialog = guest.getByRole("dialog");
       await expect(dialog.locator("canvas")).toBeVisible();
-      await dialog
-        .getByRole("combobox", { name: "Мова інтерфейсу", exact: true })
-        .selectOption("en");
-      await expect(
-        dialog.getByRole("heading", { name: "Share lesson", exact: true }),
-      ).toBeVisible();
-      await dialog.getByRole("button", { name: "Close", exact: true }).last().click();
+      await expect(dialog.getByRole("combobox", { name: "Мова інтерфейсу", exact: true })).toHaveCount(0);
+      await expect(dialog.locator(".modal-title h2")).toHaveCount(1);
+      await dialog.getByRole("button", { name: "Закрити", exact: true }).last().click();
+      await guest.locator(".site-header select").selectOption("en");
       await guest.screenshot({
         path: fileURLToPath(
           new URL(
@@ -674,3 +673,4 @@ try {
   for (const item of contexts) await item.close();
   await browser.close();
 }
+

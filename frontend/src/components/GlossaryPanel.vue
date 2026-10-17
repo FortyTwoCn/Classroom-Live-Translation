@@ -37,6 +37,64 @@ const courses = ref<Course[]>([]),
   confirm = ref<{ entry: Entry; operation: "delete" | "restore" } | null>(null);
 const { busy, error, reauth, password, run, cancel, authorize } =
   useProtectedAction();
+const showCopy = ref(false),
+  copySourceId = ref(""),
+  copyTargetId = ref(""),
+  copyTargetVersion = ref<number | null>(null),
+  copyTargetTotal = ref(0),
+  copyLoading = ref(false),
+  copyNotice = ref<{ source: string; target: string; copied: number; skipped: number } | null>(null);
+let copyRequest = 0;
+const copyTargets = computed(() => courses.value.filter((item) => String(item.id) !== copySourceId.value));
+function openCopy() {
+  copySourceId.value = courseId.value;
+  copyTargetId.value = "";
+  copyTargetVersion.value = null;
+  copyNotice.value = null;
+  error.value = "";
+  showCopy.value = true;
+}
+async function loadCopyTarget() {
+  const request = ++copyRequest;
+  copyTargetVersion.value = null;
+  if (!copyTargetId.value) { copyLoading.value = false; return; }
+  copyLoading.value = true;
+  error.value = "";
+  try {
+    const result = await api.request<{ version: number; total: number }>(
+      `/api/admin/courses/${copyTargetId.value}/glossary`,
+    );
+    if (request !== copyRequest) return;
+    copyTargetVersion.value = result.version;
+    copyTargetTotal.value = result.total;
+  } catch (e) {
+    if (request === copyRequest) error.value = errorCode(e);
+  } finally {
+    if (request === copyRequest) copyLoading.value = false;
+  }
+}
+async function copyGlossary() {
+  if (copyTargetVersion.value === null || !copyTargetId.value || copyLoading.value) return;
+  const sourceId = copySourceId.value, targetId = copyTargetId.value,
+    expectedVersion = copyTargetVersion.value;
+  await run(async () => {
+    try {
+      const result = await api.request<{ copied: number; skipped: number }>(
+        `/api/admin/courses/${targetId}/glossary/copy`,
+        { source_course_id: Number(sourceId), expected_glossary_version: expectedVersion, confirmed: true },
+      );
+      copyNotice.value = {
+        source: courses.value.find((item) => String(item.id) === sourceId)?.name || sourceId,
+        target: courses.value.find((item) => String(item.id) === targetId)?.name || targetId,
+        ...result,
+      };
+      showCopy.value = false;
+    } catch (e) {
+      if (e instanceof ApiError && e.code === "glossary_version_conflict") await loadCopyTarget();
+      throw e;
+    }
+  });
+}
 const termTooLarge = computed(
   () =>
     !!draft.value &&
@@ -208,9 +266,15 @@ onMounted(async () => {
       ><button>{{ t("search") }}</button>
     </form>
     <p v-if="error" role="alert" class="alert">{{ t(`error_${error}`) }}</p>
-    <button class="primary" @click="add" :disabled="!courseId || loading">
+    <p v-if="copyNotice" class="notice" role="status">{{ t("copyGlossaryResult", copyNotice) }}</p>
+    <div class="inline-actions">
+    <button class="primary" @click="add" :disabled="!courseId || loading || busy">
       {{ t("addTerm") }}
     </button>
+    <button @click="openCopy" :disabled="!courseId || loading || busy || !version || courses.length < 2">
+      {{ t("copyGlossary") }}
+    </button>
+    </div>
     <div class="table-wrap">
       <table>
         <thead>
@@ -273,6 +337,26 @@ onMounted(async () => {
         {{ t("next") }}
       </button>
     </div>
+    <Modal v-if="showCopy" :title="t('copyGlossary')" :locked="busy || reauth" @close="showCopy = false">
+      <form @submit.prevent="copyGlossary">
+        <p>{{ t("copyGlossarySource") }}: <strong>{{ courses.find((item) => String(item.id) === copySourceId)?.name }}</strong></p>
+        <p class="muted">{{ t("copyGlossaryHelp") }}</p>
+        <label>{{ t("copyGlossaryTarget") }}
+          <select v-model="copyTargetId" required :disabled="busy || reauth" @change="loadCopyTarget">
+            <option value="" disabled>{{ t("chooseCourse") }}</option>
+            <option v-for="item in copyTargets" :key="item.id" :value="String(item.id)">{{ item.name }}</option>
+          </select>
+        </label>
+        <p v-if="copyLoading" role="status">{{ t("loading") }}</p>
+        <p v-else-if="copyTargetVersion !== null">{{ t("copyGlossaryTargetInfo", { n: copyTargetTotal, version: copyTargetVersion }) }}</p>
+        <p v-if="error" class="alert" role="alert">{{ t(`error_${error}`) }}</p>
+        <button v-if="copyTargetId && !copyLoading" type="button" :disabled="busy || reauth" @click="loadCopyTarget">{{ t("reloadLatest") }}</button>
+        <div class="dialog-actions">
+          <button type="button" :disabled="busy || reauth" @click="showCopy = false">{{ t("cancel") }}</button>
+          <button class="primary" :disabled="busy || reauth || copyLoading || copyTargetVersion === null">{{ t("copyGlossary") }}</button>
+        </div>
+      </form>
+    </Modal>
     <Modal
       v-if="draft"
       :title="t(draft.id ? 'edit' : 'addTerm')"
@@ -362,3 +446,4 @@ onMounted(async () => {
     />
   </section>
 </template>
+
