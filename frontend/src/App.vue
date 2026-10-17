@@ -52,7 +52,8 @@ const showLogin = ref(false),
 const studentId = ref(""),
   password = ref(""),
   newPassword = ref(""),
-  newName = ref("");
+  newName = ref(""),
+  newDescription = ref("");
 const existingLessonId = ref<number | null>(null);
 const targetLanguage = ref("zh"),
   publicAccess = ref(true),
@@ -93,6 +94,19 @@ const captions = ref<HTMLElement | null>(null),
   autoFollow = ref(true),
   unseen = ref(0);
 const selectedView = ref("both");
+const compactMedia = window.matchMedia("(max-width: 900px)");
+const compactLayout = ref(compactMedia.matches),
+  showReaderOptions = ref(false),
+  showCaptionActions = ref(false),
+  readingFontSize = ref([16, 18, 20, 24, 28].includes(Number(localStorage.getItem("classroom.readingFontSize")))
+    ? Number(localStorage.getItem("classroom.readingFontSize")) : 18);
+let followFrame: number | null = null;
+function updateCompactLayout(event: MediaQueryListEvent) { compactLayout.value = event.matches; }
+function setCaptionSize(event: Event) {
+  const size = Number((event.target as HTMLSelectElement).value);
+  if (largeMode.value) fontSize.value = size;
+  else readingFontSize.value = size;
+}
 const view = ref("courses"),
   showShare = ref(false),
   showExport = ref(false),
@@ -265,6 +279,7 @@ function openCreation(kind: "course" | "lesson") {
   existingLessonId.value = null;
   errorCode.value = "";
   showCreate.value = kind;
+  newDescription.value = "";
   newName.value = kind === "lesson" ? t("newLesson") : "";
 }
 async function create() {
@@ -272,6 +287,7 @@ async function create() {
     if (showCreate.value === "course") {
       await api.request("/api/courses", {
         name: newName.value,
+        description: newDescription.value,
         target_language: targetLanguage.value,
         guest_access: publicAccess.value ? "public" : "link",
       });
@@ -294,6 +310,9 @@ async function navigate(path: string) {
 }
 async function loadView() {
   const generation = ++viewGeneration;
+  if (followFrame !== null) { cancelAnimationFrame(followFrame); followFrame = null; }
+  showReaderOptions.value = false;
+  showCaptionActions.value = false;
   await stopCapture(true);
   socketClient?.close();
   socketClient = null;
@@ -448,6 +467,7 @@ function applySnapshot(snapshot: Snapshot) {
     );
   if (snapshot.issues) issues.value = snapshot.issues;
   lastLessonSeq = Math.max(lastLessonSeq, snapshot.last_seq);
+  if (autoFollow.value) void nextTick(followCaptions);
 }
 function upsertUnit(unit: Unit) {
   const index = units.value.findIndex((existing) => existing.id === unit.id);
@@ -605,7 +625,12 @@ function receiveMessage(message: WireMessage) {
   }
 }
 function followCaptions() {
-  if (captions.value) captions.value.scrollTop = captions.value.scrollHeight;
+  if (followFrame !== null) return;
+  followFrame = requestAnimationFrame(() => {
+    followFrame = null;
+    if (autoFollow.value && captions.value)
+      captions.value.scrollTop = captions.value.scrollHeight;
+  });
 }
 function returnToLive() {
   autoFollow.value = true;
@@ -675,9 +700,9 @@ async function toggleLarge() {
   if (!largeMode.value) normalScroll = captions.value?.scrollTop || 0;
   largeMode.value = !largeMode.value;
   await nextTick();
-  if (!largeMode.value && captions.value)
+  if (autoFollow.value) followCaptions();
+  else if (!largeMode.value && captions.value)
     captions.value.scrollTop = normalScroll;
-  else if (autoFollow.value) followCaptions();
 }
 async function toggleFullscreen() {
   try {
@@ -1226,6 +1251,10 @@ watch(playbackRate, (value) => {
 watch(fontSize, (value) =>
   localStorage.setItem("classroom.fontSize", String(value)),
 );
+watch(readingFontSize, (value) => localStorage.setItem("classroom.readingFontSize", String(value)));
+watch([selectedView, fontSize, readingFontSize, showReaderOptions, compactLayout], () => {
+  if (autoFollow.value) void nextTick(followCaptions);
+});
 watch(selectedView, (value) =>
   localStorage.setItem("classroom.captionView", value),
 );
@@ -1233,6 +1262,7 @@ watch(autoFollow, (value) =>
   localStorage.setItem("classroom.autoFollow", String(value)),
 );
 onMounted(async () => {
+  compactMedia.addEventListener("change", updateCompactLayout);
   document.documentElement.lang = locale.value;
   selectedView.value = localStorage.getItem("classroom.captionView") || "both";
   document.addEventListener("fullscreenchange", () => {
@@ -1251,6 +1281,8 @@ onMounted(async () => {
   }
 });
 onUnmounted(() => {
+  compactMedia.removeEventListener("change", updateCompactLayout);
+  if (followFrame !== null) cancelAnimationFrame(followFrame);
   onUnload();
   document.removeEventListener("visibilitychange", onVisibility);
   window.removeEventListener("pagehide", onUnload);
@@ -1261,8 +1293,8 @@ onUnmounted(() => {
 <template>
   <div
     class="app-shell"
-    :class="{ 'large-mode': largeMode, 'has-lesson': !!lesson }"
-    :style="{ '--caption-size': `${fontSize}px` }"
+    :class="{ 'large-mode': largeMode, 'has-lesson': !!lesson, 'show-caption-actions': showCaptionActions }"
+    :style="{ '--caption-size': `${fontSize}px`, '--reading-caption-size': `${readingFontSize}px` }"
   >
     <header class="site-header">
       <button
@@ -1338,7 +1370,7 @@ onUnmounted(() => {
         >
       </div>
     </header>
-    <main>
+    <main :class="{ 'lesson-main': !!lesson }">
       <div v-if="message" class="alert" role="alert">{{ message }}</div>
       <p v-if="loading" aria-live="polite">{{ t("loading") }}</p>
       <Admin
@@ -1366,6 +1398,11 @@ onUnmounted(() => {
             t(`status_${lesson.status}`)
           }}</span>
         </div>
+        <details class="lesson-details" :open="!compactLayout" @toggle="autoFollow && nextTick(followCaptions)">
+          <summary>
+            <span>{{ t(lesson.status === 'ended' ? "lessonDetailsPlayback" : "lessonDetails") }}</span>
+            <span class="lesson-summary-status">{{ duration(lesson.media_samples) }} · {{ t(`connection_${connection}`) }}</span>
+          </summary>
         <section class="lesson-meta" :aria-label="t('status_' + lesson.status)">
           <div>
             <span>{{ t("mediaDuration") }}</span
@@ -1401,10 +1438,8 @@ onUnmounted(() => {
             >
           </div>
         </section>
-        <div class="lesson-tools">
-          <button @click="toggleLarge">
-            <Icon name="screen" /> {{ t("largeSubtitles") }}</button
-          ><button
+        <div v-if="permitted" class="lesson-tools">
+          <button
             v-if="permitted && !largeMode"
             @click="
               showRename = true;
@@ -1416,23 +1451,6 @@ onUnmounted(() => {
             <Icon name="export" /> {{ t("export") }}</button
           ><button v-if="permitted && !largeMode" @click="showUsage = true">
             {{ t("usage") }}</button
-          ><button v-if="largeMode" @click="toggleFullscreen">
-            {{ t(fullScreen ? "exitFullscreen" : "fullscreen") }}</button
-          ><label v-if="largeMode"
-            >{{ t("fontSize") }}
-            <select v-model.number="fontSize">
-              <option
-                v-for="size in [24, 32, 40, 48, 64]"
-                :key="size"
-                :value="size"
-              >
-                {{ size }} px
-              </option>
-            </select></label
-          ><label v-if="largeMode" class="consent"
-            ><input v-model="autoFollow" type="checkbox" />{{
-              t("autoFollow")
-            }}</label
           >
         </div>
         <LessonAdmin
@@ -1518,21 +1536,34 @@ onUnmounted(() => {
             }}</label
           >
         </section>
+        </details>
         <section class="subtitle-panel panel">
-          <div class="section-header">
-            <h2>{{ t("subtitles") }}</h2>
-            <label
-              ><span class="sr-only">{{ t("subtitles") }}</span
-              ><select v-model="selectedView">
-                <option value="both">
-                  {{ t("original") }} + {{ t("translation") }}
-                </option>
-                <option value="translation">{{ t("translation") }}</option>
-                <option value="source">{{ t("original") }}</option>
-              </select></label
-            >
+          <div class="section-header caption-header">
+            <h2 class="subtitle-heading">{{ t("subtitles") }}</h2>
+            <div class="caption-controls">
+              <label><span class="sr-only">{{ t("subtitles") }}</span>
+                <select v-model="selectedView">
+                  <option value="both">{{ t("original") }} + {{ t("translation") }}</option>
+                  <option value="translation">{{ t("translation") }}</option>
+                  <option value="source">{{ t("original") }}</option>
+                </select>
+              </label>
+              <button v-if="!largeMode" class="icon-button" @click="toggleLarge" :aria-label="t('largeSubtitles')" :title="t('largeSubtitles')"><Icon name="screen" /></button>
+              <button class="icon-button" :aria-expanded="showReaderOptions" aria-controls="reader-options" @click="showReaderOptions = !showReaderOptions" :aria-label="t('readerOptions')" :title="t('readerOptions')"><Icon name="settings" /></button>
+            </div>
           </div>
-          <p class="muted caption-note">{{ t("sourceAndTranslation") }}</p>
+          <div v-if="showReaderOptions" id="reader-options" class="reader-options">
+            <div class="inline-actions">
+              <label>{{ t("fontSize") }}
+                <select :value="largeMode ? fontSize : readingFontSize" @change="setCaptionSize">
+                  <option v-for="size in (largeMode ? [24, 32, 40, 48, 64] : [16, 18, 20, 24, 28])" :key="size" :value="size">{{ size }} px</option>
+                </select>
+              </label>
+              <label class="consent"><input v-model="autoFollow" type="checkbox" />{{ t("autoFollow") }}</label>
+              <label v-if="permitted && !largeMode && compactLayout" class="consent"><input v-model="showCaptionActions" type="checkbox" />{{ t("captionActions") }}</label>
+              <button v-if="largeMode" @click="toggleFullscreen">{{ t(fullScreen ? "exitFullscreen" : "fullscreen") }}</button>
+            </div>
+            <p class="muted caption-note">{{ t("sourceAndTranslation") }}</p>
           <p v-if="lesson.editing_frozen" class="muted">
             {{ t("editingFrozen") }}
           </p>
@@ -1566,9 +1597,12 @@ onUnmounted(() => {
           >
             {{ t("loadEarlier") }}
           </button>
+          </div>
           <div
             ref="captions"
             class="captions"
+            tabindex="0"
+            :aria-label="t('subtitles')"
             @scroll="captionScroll"
             @mouseup="pauseForSelection"
             @touchend="pauseForSelection"
@@ -1595,7 +1629,7 @@ onUnmounted(() => {
                 <span>{{
                   t(unit.kind === "source" ? "original" : "translation")
                 }}</span
-                ><span :class="{ uncertain: unit.status !== 'completed' }">{{
+                ><span class="unit-status" :class="{ uncertain: unit.status !== 'completed', completed: unit.status === 'completed' }">{{
                   t(`unit_${unit.status}`)
                 }}</span
                 ><button
@@ -1610,7 +1644,7 @@ onUnmounted(() => {
                   ></button
                 ><span v-else>{{ t("noTiming") }}</span
                 ><span v-if="(unit.version || 1) > 1">{{ t("edited") }}</span
-                ><template
+                ><span class="unit-edit-actions"
                   v-if="permitted && unit.status === 'completed' && !largeMode"
                   ><button
                     v-if="!lesson.editing_frozen"
@@ -1631,7 +1665,7 @@ onUnmounted(() => {
                     v-if="user?.role === 'admin'"
                     :lesson="lesson"
                     :unit="unit"
-                /></template>
+                /></span>
               </div>
               <p>{{ unit.text }}</p>
             </article>
@@ -1756,7 +1790,7 @@ onUnmounted(() => {
             </button>
           </div>
         </section>
-        <p v-else class="muted">{{ t("permissionViewer") }}</p>
+        <p v-else-if="!isRecorder" class="muted viewer-note">{{ t("permissionViewer") }}</p>
         <p v-if="recoveryNotice" role="status" class="muted">
           {{
             t(
@@ -2037,7 +2071,6 @@ onUnmounted(() => {
       "
     >
       <form v-if="user?.must_change_password" @submit.prevent="savePassword">
-        <h2>{{ t("requiredPassword") }}</h2>
         <p>{{ t("passwordHelp") }}</p>
         <label
           >{{ t("newPassword")
@@ -2059,7 +2092,6 @@ onUnmounted(() => {
         </div>
       </form>
       <form v-else-if="showLogin" @submit.prevent="login">
-        <h2>{{ t("login") }}</h2>
         <p class="muted">{{ t("loginHelp") }}</p>
         <label
           >{{ t("studentId")
@@ -2096,7 +2128,6 @@ onUnmounted(() => {
         </div>
       </form>
       <form v-else-if="showCreate" @submit.prevent="create">
-        <h2>{{ t(showCreate === "course" ? "newCourse" : "newLesson") }}</h2>
         <label
           >{{ t("name")
           }}<input
@@ -2105,7 +2136,9 @@ onUnmounted(() => {
             maxlength="200"
             autofocus /></label
         ><template v-if="showCreate === 'course'"
-          ><label
+          ><label>{{ t("courseDescriptionOptional") }}
+            <textarea v-model="newDescription" rows="3" maxlength="5000"></textarea>
+          </label><label
             >{{ t("targetLanguage")
             }}<select v-model="targetLanguage">
               <option value="zh">中文</option>
@@ -2128,7 +2161,6 @@ onUnmounted(() => {
         </div>
       </form>
       <div v-else-if="showEnd">
-        <h2>{{ t("end") }}</h2>
         <p>{{ t("endConfirm") }}</p>
         <div class="dialog-actions">
           <button @click="showEnd = false">{{ t("cancel") }}</button
@@ -2232,3 +2264,4 @@ onUnmounted(() => {
     >
   </div>
 </template>
+

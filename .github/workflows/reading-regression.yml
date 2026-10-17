@@ -1,0 +1,79 @@
+name: Reading and glossary regression
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright test tests/e2e/reading-improvements.spec.ts --project=chromium-simulated
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reading-browser-results
+          path: frontend/test-results/
+          if-no-files-found: ignore
+
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: classroom_test
+          POSTGRES_USER: classroom
+          POSTGRES_PASSWORD: fixture-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U classroom -d classroom_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      APP_ENV: testing
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_DATABASE: classroom_test
+      DB_USERNAME: classroom
+      DB_PASSWORD: fixture-only
+      LARAVEL_STORAGE_PATH: storage/phpunit
+      SESSION_DRIVER: array
+      CACHE_STORE: array
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: bcmath, pdo_pgsql, mbstring, zip, sockets
+          coverage: none
+          tools: composer:v2
+      - run: mkdir -p bootstrap/cache storage/phpunit/framework/{views,sessions,cache/data} storage/phpunit/logs
+      - run: composer install --prefer-dist --no-interaction --no-progress
+      - run: php artisan migrate --force
+      - run: vendor/bin/phpunit --filter 'ClassroomManagementTest|GlossaryCopyTest'
