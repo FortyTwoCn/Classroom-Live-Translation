@@ -101,7 +101,32 @@ const compactLayout = ref(compactMedia.matches),
   readingFontSize = ref([16, 18, 20, 24, 28].includes(Number(localStorage.getItem("classroom.readingFontSize")))
     ? Number(localStorage.getItem("classroom.readingFontSize")) : 18);
 let followFrame: number | null = null;
+let layoutFrame: number | null = null;
+let captionLayoutChanging = false;
+let captionLayoutGeneration = 0;
 function updateCompactLayout(event: MediaQueryListEvent) { compactLayout.value = event.matches; }
+function cancelCaptionLayout() {
+  captionLayoutGeneration++;
+  if (layoutFrame !== null) cancelAnimationFrame(layoutFrame);
+  layoutFrame = null;
+  captionLayoutChanging = false;
+}
+function settleCaptionLayout() {
+  if (!autoFollow.value) return;
+  cancelCaptionLayout();
+  const generation = captionLayoutGeneration;
+  captionLayoutChanging = true;
+  void nextTick(() => {
+    if (generation !== captionLayoutGeneration) return;
+    followCaptions();
+    layoutFrame = requestAnimationFrame(() => {
+      layoutFrame = requestAnimationFrame(() => {
+        layoutFrame = null;
+        captionLayoutChanging = false;
+      });
+    });
+  });
+}
 function setCaptionSize(event: Event) {
   const size = Number((event.target as HTMLSelectElement).value);
   if (largeMode.value) fontSize.value = size;
@@ -311,6 +336,7 @@ async function navigate(path: string) {
 async function loadView() {
   const generation = ++viewGeneration;
   if (followFrame !== null) { cancelAnimationFrame(followFrame); followFrame = null; }
+  cancelCaptionLayout();
   showReaderOptions.value = false;
   showCaptionActions.value = false;
   await stopCapture(true);
@@ -641,6 +667,7 @@ function returnToLive() {
   void nextTick(followCaptions);
 }
 function captionScroll() {
+  if (captionLayoutChanging) return;
   const element = captions.value;
   if (
     element &&
@@ -1252,9 +1279,7 @@ watch(fontSize, (value) =>
   localStorage.setItem("classroom.fontSize", String(value)),
 );
 watch(readingFontSize, (value) => localStorage.setItem("classroom.readingFontSize", String(value)));
-watch([selectedView, fontSize, readingFontSize, showReaderOptions, compactLayout], () => {
-  if (autoFollow.value) void nextTick(followCaptions);
-});
+watch([selectedView, fontSize, readingFontSize, showReaderOptions, compactLayout, largeMode], settleCaptionLayout);
 watch(selectedView, (value) =>
   localStorage.setItem("classroom.captionView", value),
 );
@@ -1263,6 +1288,7 @@ watch(autoFollow, (value) =>
 );
 onMounted(async () => {
   compactMedia.addEventListener("change", updateCompactLayout);
+  window.addEventListener("resize", settleCaptionLayout);
   document.documentElement.lang = locale.value;
   selectedView.value = localStorage.getItem("classroom.captionView") || "both";
   document.addEventListener("fullscreenchange", () => {
@@ -1282,7 +1308,9 @@ onMounted(async () => {
 });
 onUnmounted(() => {
   compactMedia.removeEventListener("change", updateCompactLayout);
+  window.removeEventListener("resize", settleCaptionLayout);
   if (followFrame !== null) cancelAnimationFrame(followFrame);
+  cancelCaptionLayout();
   onUnload();
   document.removeEventListener("visibilitychange", onVisibility);
   window.removeEventListener("pagehide", onUnload);

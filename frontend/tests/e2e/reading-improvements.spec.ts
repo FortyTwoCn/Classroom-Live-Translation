@@ -51,6 +51,8 @@ for (const language of ['zh-CN', 'en', 'uk']) {
       await page.screenshot({ path: testInfo.outputPath('focused-reading.png') });
       await page.setViewportSize({ width: 844, height: 390 });
       expect((await page.locator('.captions').boundingBox())!.height).toBeGreaterThan(390 * .6);
+      await expect(page.locator('.follow-button')).toHaveCount(0);
+      await expect.poll(() => page.locator('.captions').evaluate(el => el.scrollHeight - el.clientHeight - el.scrollTop)).toBeLessThan(2);
       await page.screenshot({ path: testInfo.outputPath('landscape-reading.png') });
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     });
