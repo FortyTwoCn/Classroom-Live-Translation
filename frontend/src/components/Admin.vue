@@ -641,7 +641,7 @@ onUnmounted(() => {
           required
           autofocus /></label
       ><label
-        >{{ t("courseDescription")
+        >{{ t("courseDescriptionOptional")
         }}<textarea
           v-model="courseForm.description"
           rows="3"
@@ -739,3 +739,4 @@ onUnmounted(() => {
     </form></Modal
   >
 </template>
+

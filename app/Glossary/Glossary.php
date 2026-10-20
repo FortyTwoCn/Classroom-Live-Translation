@@ -54,6 +54,34 @@ final class Glossary
         },$deleted?'glossary.deleted':'glossary.restored');
     }
 
+    /** Merge the complete active glossary, including disabled terms, without replacing target entries. */
+    public function copy(int $sourceId,int $targetId,?object $actor,int $expectedVersion):array
+    {
+        Access::admin($actor);
+        if($sourceId===$targetId)throw new Failure('glossary_copy_same_course',422);
+        return DB::transaction(function()use($sourceId,$targetId,$actor,$expectedVersion){
+            // A consistent order also makes simultaneous A→B and B→A copies safe.
+            $courses=DB::table('courses')->whereIn('id',[$sourceId,$targetId])->whereNull('deleted_at')->orderBy('id')->lockForUpdate()->get();
+            if($courses->count()!==2)throw new Failure('course_unavailable',404);
+            return $this->mutate($targetId,$actor,$expectedVersion,function()use($sourceId,$targetId){
+                $existing=[];
+                foreach(DB::table('course_terms')->where('course_id',$targetId)->whereNull('deleted_at')->get()as$term){
+                    $existing[json_encode([$term->target_language,$term->source_text],JSON_THROW_ON_ERROR)]=true;
+                }
+                $rows=[];$skipped=0;
+                foreach(DB::table('course_terms')->where('course_id',$sourceId)->whereNull('deleted_at')->orderBy('id')->get()as$term){
+                    // The provider has one source-text key per target language, regardless of source language.
+                    $key=json_encode([$term->target_language,$term->source_text],JSON_THROW_ON_ERROR);
+                    if(isset($existing[$key])){$skipped++;continue;}
+                    $rows[]=self::validateEntry((array)$term,null)+['course_id'=>$targetId];
+                }
+                if($rows)DB::table('course_terms')->insert($rows);
+                $this->validateActive($targetId);
+                return ['source_course_id'=>$sourceId,'copied'=>count($rows),'skipped'=>$skipped];
+            },'glossary.copied');
+        });
+    }
+
     /** Root calls under the lesson lock. One SQL MVCC view avoids course/lesson lock inversion. */
     public static function snapshot(int $lessonId,int $courseId,string $targetLanguage):array
     {
@@ -81,7 +109,7 @@ final class Glossary
             if((int)$course->glossary_version!==$expectedVersion)throw new Failure('glossary_version_conflict',409,['latest_version'=>(int)$course->glossary_version]);
             $result=$operation($course);$version=(int)$course->glossary_version+1;
             DB::table('courses')->where('id',$courseId)->update(['glossary_version'=>$version,'updated_at'=>now()]);
-            DB::table('audit')->insert(['user_id'=>$fresh->id,'action'=>$action,'details'=>json_encode(['course_id'=>$courseId,'version'=>$version,'term_id'=>$result['entry']['id']??null])]);
+            DB::table('audit')->insert(['user_id'=>$fresh->id,'action'=>$action,'details'=>json_encode(['course_id'=>$courseId,'version'=>$version,'term_id'=>$result['entry']['id']??null]+array_intersect_key($result,array_flip(['source_course_id','copied','skipped'])))]);
             return ['version'=>$version]+$result;
         });
     }
@@ -115,3 +143,4 @@ final class Glossary
     private static function entry(object $r):array{$v=(array)$r;$v['id']=(int)$v['id'];$v['row_version']=(int)$v['row_version'];return $v;}
     private static function limits():array{return ['max_entries'=>self::MAX_ENTRIES,'max_term_bytes'=>self::MAX_TERM_BYTES,'max_source_bytes'=>self::MAX_TERM_BYTES,'max_target_bytes'=>self::MAX_TARGET_BYTES,'max_payload_bytes'=>self::MAX_PAYLOAD_BYTES];}
 }
+

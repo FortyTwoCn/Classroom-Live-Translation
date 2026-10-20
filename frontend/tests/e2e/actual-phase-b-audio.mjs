@@ -173,7 +173,8 @@ try {
         .getByRole("button", { name: "大字幕模式", exact: true })
         .click();
       await source.locator(".site-header select").selectOption("uk");
-      await source.locator(".lesson-tools select").selectOption("48");
+      await source.locator('[aria-controls="reader-options"]').click();
+      await source.locator(".reader-options select").selectOption("48");
       await source
         .getByRole("button", { name: "На весь екран", exact: true })
         .click();
@@ -437,3 +438,4 @@ try {
   for (const context of contexts) await context.close();
   await browser.close();
 }
+

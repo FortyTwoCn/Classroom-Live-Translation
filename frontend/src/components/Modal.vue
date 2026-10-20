@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, ref } from "vue";
-import { t, locale, setLocale, type Locale } from "../i18n";
+import { t } from "../i18n";
 const props = defineProps<{
   title: string;
   locked?: boolean;
@@ -38,10 +38,10 @@ onMounted(async () => {
   dialog.value?.showModal();
   await nextTick();
   (
-    dialog.value?.querySelector<HTMLElement>(
-      "[autofocus],input,textarea,select,button",
-    ) || dialog.value
-  )?.focus();
+    dialog.value?.querySelector<HTMLElement>("[autofocus]") ||
+    dialog.value?.querySelector<HTMLElement>("input:not([disabled]),textarea:not([disabled]),select:not([disabled])") ||
+    dialog.value?.querySelector<HTMLElement>("button:not([disabled])") || dialog.value
+  )?.focus({ preventScroll: true });
 });
 onUnmounted(() => {
   dialog.value?.close();
@@ -60,17 +60,6 @@ onUnmounted(() => {
     >
       <div class="section-header modal-title">
         <h2>{{ title }}</h2>
-        <select
-          :value="locale"
-          :aria-label="t('language')"
-          @change="
-            setLocale(($event.target as HTMLSelectElement).value as Locale)
-          "
-        >
-          <option value="zh-CN">中文</option>
-          <option value="en">English</option>
-          <option value="uk">Українська</option>
-        </select>
         <button
           v-if="!locked"
           type="button"
@@ -85,3 +74,4 @@ onUnmounted(() => {
       <slot /></dialog
   ></Teleport>
 </template>
+
