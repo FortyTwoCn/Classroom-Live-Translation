@@ -18,6 +18,7 @@ import { MicrophoneCapture } from "./audio/capture";
 import { audioFrame, exceedsBackpressure } from "./audio/dsp";
 import Modal from "./components/Modal.vue";
 import Icon from "./components/Icon.vue";
+import CaptionText from "./components/CaptionText.vue";
 import ShareDialog from "./components/ShareDialog.vue";
 import ExportDialog from "./components/ExportDialog.vue";
 import CorrectionDialog from "./components/CorrectionDialog.vue";
@@ -139,6 +140,14 @@ const view = ref("courses"),
   showRename = ref(false),
   renameText = ref(""),
   remember = ref(false);
+const courseView = computed(
+  () => view.value === "courses" && !lesson.value,
+);
+const courseLanguageNames = computed(() =>
+  typeof Intl.DisplayNames === "function"
+    ? new Intl.DisplayNames(locale.value, { type: "language" })
+    : null,
+);
 const largeMode = ref(false),
   fontSize = ref(Number(localStorage.getItem("classroom.fontSize")) || 32),
   fullScreen = ref(false);
@@ -153,7 +162,8 @@ const lessonSearch = ref(""),
   lessonDirection = ref("desc"),
   lessonStatus = ref("all"),
   lessonPage = ref(1),
-  lessonTotal = ref(0);
+  lessonTotal = ref(0),
+  lessonListFiltered = ref(false);
 const subtitleSearch = ref(""),
   subtitleMatches = ref<Unit[] | null>(null),
   searchingSubtitles = ref(false);
@@ -173,11 +183,16 @@ let socketClient: LessonSocket | null = null,
 let startTimer: number | null = null,
   startGeneration = 0,
   viewGeneration = 0;
-const outstanding = new Set<number>();
+const outstanding = new Map<number, ArrayBuffer>();
+const reconnecting = ref(false);
+let reconnectTimer: number | null = null;
+let sentThrough = -1;
+const audioQueueLimit = 230; // 100 ms frames, kept only in this page's memory.
 const microphone = new MicrophoneCapture();
 let wakeLock: WakeLockSentinel | null = null;
 let lastLessonSeq = 0;
 let lastAckSequence = -1;
+let nextRecordingSessionRefresh = 0;
 let playbackLoading = false,
   lastPlaybackQuery = -1;
 const pendingCaptureIssues = ref<
@@ -214,6 +229,8 @@ const hasExportable = computed(() =>
       unit.status === "completed" && hasSubtitleText(unit.text) && !unit.deleted_at,
   ),
 );
+const latestUnitId = computed(() => lesson.value?.status === "live" && autoFollow.value &&
+  !historyUnits.value && !subtitleMatches.value ? displayedUnits.value.at(-1)?.id : undefined);
 const microphoneRunning = computed(
   () => recording.value || testing.value || preparing.value,
 );
@@ -333,6 +350,10 @@ async function navigate(path: string) {
   history.pushState({}, "", path);
   await loadView();
 }
+function followCourseLink(event: MouseEvent) {
+  const link = event.currentTarget as HTMLAnchorElement;
+  return navigate(link.pathname);
+}
 async function loadView() {
   const generation = ++viewGeneration;
   if (followFrame !== null) { cancelAnimationFrame(followFrame); followFrame = null; }
@@ -349,6 +370,8 @@ async function loadView() {
   outstanding.clear();
   lesson.value = null;
   course.value = null;
+  lessons.value = [];
+  lessonTotal.value = 0;
   units.value = [];
   playbackUrl.value = "";
   online.value = null;
@@ -411,9 +434,11 @@ async function loadView() {
       };
       socketClient.onMessage = receiveMessage;
       socketClient.onDisconnect = () => {
-        if (microphoneRunning.value) void safePause("connection_lost", false);
+        if (recording.value && socketClient?.recorderToken) beginRecorderReconnect();
+        else if (microphoneRunning.value) void safePause("connection_lost", false);
       };
       socketClient.onError = (code) => {
+        if (code === "network_error" && recording.value && socketClient?.recorderToken) return;
         errorCode.value = code;
         // A rejected invitation must not stop the valid current recorder.
         const fatal = new Set([
@@ -459,13 +484,15 @@ async function loadView() {
         lessonDirection.value = query.get("direction") || "desc";
         lessonStatus.value = query.get("status") || "all";
         lessonPage.value = Number(query.get("page")) || 1;
+        const filters = lessonQuery();
         const resultLessons = await api.request<{
           lessons: Lesson[];
           total?: number;
-        }>(`/api/courses/${courseRoute[1]}/lessons?${lessonQuery()}`);
+        }>(`/api/courses/${courseRoute[1]}/lessons?${filters}`);
         if (generation !== viewGeneration) return;
         lessons.value = resultLessons.lessons;
-        lessonTotal.value = resultLessons.total || resultLessons.lessons.length;
+        lessonTotal.value = resultLessons.total ?? resultLessons.lessons.length;
+        lessonListFiltered.value = Boolean(filters.get("search")) || filters.get("status") !== "all";
       }
     }
   } catch (error) {
@@ -519,6 +546,19 @@ function upsertUnit(unit: Unit) {
 function receiveMessage(message: WireMessage) {
   if (message.type === "snapshot") {
     applySnapshot(message as unknown as Snapshot);
+    if (reconnecting.value && recording.value) {
+      const resumed = message.recorder_resume;
+      if (resumed?.epoch === epoch && Number.isSafeInteger(resumed.next_sequence) &&
+          resumed.next_sequence > lastAckSequence && resumed.next_sequence <= sequence &&
+          lesson.value?.status === "live" && isRecorder.value) {
+        sentThrough = resumed.next_sequence - 1;
+        acknowledgeAudio(sentThrough);
+        clearRecorderReconnect();
+        flushAudio();
+      } else {
+        void safePause("connection_lost", resumed?.epoch === epoch);
+      }
+    }
     if (message.recovery)
       recoveryNotice.value = {
         mode: message.recovery.mode,
@@ -568,13 +608,14 @@ function receiveMessage(message: WireMessage) {
       if (lesson.value && update.recorder_epoch < lesson.value.recorder_epoch)
         return;
       if (
-        (recording.value || preparing.value) &&
-        (update.status === "ended" ||
-          update.recorder_user_id !== user.value?.id ||
-          (recording.value && epoch > 0 && update.recorder_epoch !== epoch))
+        !reconnecting.value && (recording.value || preparing.value) &&
+        update.status !== "ended" &&
+        (update.recorder_user_id !== user.value?.id ||
+          (recording.value && epoch > 0 && update.recorder_epoch > epoch))
       )
         void safePause("stale_epoch", false);
-      else if (recording.value && update.status === "paused")
+      else if (!reconnecting.value && (recording.value || preparing.value) &&
+        (update.status === "ended" || (recording.value && update.status === "paused")))
         // An authoritative server pause (for example a rotation deadline)
         // must stop capture immediately, even if holder and epoch remain.
         void stopCapture(false);
@@ -606,11 +647,10 @@ function receiveMessage(message: WireMessage) {
     if (!recording.value) void stopCapture(false);
   }
   if (message.type === "audio.ack" && message.sequence !== undefined) {
-    lastAckSequence = Math.max(lastAckSequence, message.sequence);
-    for (const sentSequence of outstanding)
-      if (sentSequence <= message.sequence) outstanding.delete(sentSequence);
+    acknowledgeAudio(message.sequence);
     if (lesson.value && typeof message.media_samples === "number")
       lesson.value.media_samples = message.media_samples;
+    flushAudio();
   }
   if (message.type === "recorder.ready") {
     // Handoff readiness can arrive before the outbox's lesson.updated.
@@ -633,7 +673,10 @@ function receiveMessage(message: WireMessage) {
     epoch = message.epoch!;
     sequence = message.next_sequence!;
     lastAckSequence = sequence - 1;
+    sentThrough = lastAckSequence;
     outstanding.clear();
+    nextRecordingSessionRefresh = Date.now() + 5 * 60_000;
+    if (socketClient) socketClient.recorderToken = message.recorder_token || null;
     if (lesson.value) lesson.value.recorder_epoch = epoch;
     if (lesson.value && message.media_samples !== undefined)
       lesson.value.media_samples = message.media_samples;
@@ -678,29 +721,31 @@ function captionScroll() {
 function pauseForSelection() {
   if (window.getSelection()?.toString()) autoFollow.value = false;
 }
-function lessonQuery() {
+function lessonQuery(page = lessonPage.value) {
   return new URLSearchParams({
-    search: lessonSearch.value,
+    search: lessonSearch.value.trim(),
     sort: lessonSort.value,
     direction: lessonDirection.value,
     status: lessonStatus.value,
-    page: String(lessonPage.value),
-  }).toString();
+    page: String(page),
+  });
 }
-async function filterLessons(reset = true) {
-  if (!course.value) return;
-  if (reset) lessonPage.value = 1;
-  history.replaceState(
-    {},
-    "",
-    `/courses/${course.value.id}/lessons?${lessonQuery()}`,
-  );
+async function filterLessons(page?: number) {
+  if (!course.value || busy.value) return;
+  const generation = viewGeneration;
+  const path = `/courses/${course.value.id}/lessons`;
+  const filters = page === undefined ? lessonQuery(1) : new URLSearchParams(location.search);
+  filters.set("page", String(page ?? 1));
   await action(async () => {
     const result = await api.request<{ lessons: Lesson[]; total: number }>(
-      `/api/courses/${course.value!.id}/lessons?${lessonQuery()}`,
+      `/api${path}?${filters}`,
     );
+    if (generation !== viewGeneration) return;
+    history.replaceState({}, "", `${path}?${filters}`);
     lessons.value = result.lessons;
     lessonTotal.value = result.total;
+    lessonPage.value = page ?? 1;
+    lessonListFiltered.value = Boolean(filters.get("search")) || (filters.get("status") || "all") !== "all";
   });
 }
 function openCorrection(unit: Unit, mode: "edit" | "history") {
@@ -941,6 +986,54 @@ function clearStartTimer() {
   if (startTimer !== null) window.clearTimeout(startTimer);
   startTimer = null;
 }
+function acknowledgeAudio(through: number) {
+  lastAckSequence = Math.max(lastAckSequence, through);
+  for (const pending of outstanding.keys()) {
+    if (pending > lastAckSequence) break;
+    outstanding.delete(pending);
+  }
+}
+function clearRecorderReconnect() {
+  if (reconnectTimer !== null) window.clearTimeout(reconnectTimer);
+  reconnectTimer = null;
+  reconnecting.value = false;
+}
+function beginRecorderReconnect() {
+  if (reconnectTimer !== null) return;
+  reconnecting.value = true;
+  reconnectTimer = window.setTimeout(() => void safePause("connection_lost", false), 22000);
+}
+function flushAudio() {
+  const socket = socketClient?.socket;
+  if (reconnecting.value || connection.value !== "connected" || socket?.readyState !== WebSocket.OPEN) return;
+  for (const [pending, frame] of outstanding) {
+    if (pending <= sentThrough) continue;
+    if (exceedsBackpressure(socket.bufferedAmount, sentThrough - lastAckSequence)) break;
+    try {
+      socket.send(frame);
+      sentThrough = pending;
+    } catch {
+      if (socketClient?.recorderToken && recording.value) beginRecorderReconnect();
+      socket.close();
+      return;
+    }
+  }
+}
+async function refreshRecordingSession() {
+  const client = socketClient;
+  const captureEpoch = epoch;
+  nextRecordingSessionRefresh = Date.now() + 5 * 60_000;
+  try {
+    // The page must renew its HTTP cookie during a long WebSocket-only session.
+    const identity = await api.request<{ user: User | null; csrf_token: string }>("/api/me");
+    if (!recording.value || client !== socketClient || captureEpoch !== epoch) return;
+    if (identity.user?.id !== user.value?.id) void safePause("session_revoked");
+    else api.csrf = identity.csrf_token;
+  } catch {
+    if (recording.value && client === socketClient && captureEpoch === epoch)
+      nextRecordingSessionRefresh = Date.now() + 30_000;
+  }
+}
 async function stopCapture(flush: boolean): Promise<boolean> {
   startGeneration++;
   clearStartTimer();
@@ -958,6 +1051,8 @@ async function stopCapture(flush: boolean): Promise<boolean> {
   const lock = wakeLock;
   wakeLock = null;
   await lock?.release().catch(() => {});
+  clearRecorderReconnect();
+  if (socketClient) socketClient.recorderToken = null;
   if (waitForAcknowledgements && outstanding.size) {
     const acknowledged = await new Promise<boolean>((resolve) => {
       const deadline = performance.now() + 1500;
@@ -982,6 +1077,7 @@ async function stopCapture(flush: boolean): Promise<boolean> {
       return false;
     }
   }
+  outstanding.clear();
   return true;
 }
 let pausing = false;
@@ -1018,6 +1114,7 @@ async function endLesson() {
   });
 }
 async function requestWakeLock() {
+  if (wakeLock && !wakeLock.released) return;
   if ("wakeLock" in navigator && document.visibilityState === "visible")
     try {
       const lock = await navigator.wakeLock.request("screen");
@@ -1035,22 +1132,14 @@ microphone.onFailure = (code) => {
 };
 microphone.onPacket = (pcm) => {
   if (!recording.value) return;
-  const socket = socketClient?.socket;
-  if (!socket || socket.readyState !== WebSocket.OPEN) {
-    void safePause("connection_lost", false);
-    return;
-  }
-  if (exceedsBackpressure(socket.bufferedAmount, outstanding.size)) {
+  if (!reconnecting.value && Date.now() >= nextRecordingSessionRefresh) void refreshRecordingSession();
+  if (outstanding.size >= audioQueueLimit) {
     void safePause("network_backpressure");
     return;
   }
-  const sentSequence = sequence++;
-  try {
-    socket.send(audioFrame(epoch, sentSequence, pcm));
-    outstanding.add(sentSequence);
-  } catch {
-    void safePause("connection_lost", false);
-  }
+  const pending = sequence++;
+  outstanding.set(pending, audioFrame(epoch, pending, pcm));
+  flushAudio();
 };
 async function loadPlayback() {
   await action(async () => {
@@ -1240,7 +1329,8 @@ async function retryCaptureIssues() {
   }
 }
 function onVisibility() {
-  if (document.visibilityState !== "visible" && microphoneRunning.value)
+  if (document.visibilityState === "visible" && recording.value) void requestWakeLock();
+  else if (document.visibilityState !== "visible" && !recording.value && microphoneRunning.value)
     void safePause("page_hidden");
 }
 function onUnload() {
@@ -1257,8 +1347,7 @@ function onUnload() {
       },
       body: JSON.stringify(issueBody("page_hidden")),
     }).catch(() => {});
-  microphone.onPacket = () => {};
-  void microphone.stop(false);
+  void stopCapture(false);
   if (hadCapture && isRecorder.value)
     socketClient?.command("pause", {
       epoch: lesson.value?.recorder_epoch || epoch,
@@ -1267,6 +1356,9 @@ function onUnload() {
 }
 function onPopState() {
   void safePause().then(loadView);
+}
+function onPageShow(event: PageTransitionEvent) {
+  if (event.persisted) void loadView();
 }
 watch(locale, (value) => {
   document.documentElement.lang = value;
@@ -1296,6 +1388,7 @@ onMounted(async () => {
   });
   document.addEventListener("visibilitychange", onVisibility);
   window.addEventListener("pagehide", onUnload);
+  window.addEventListener("pageshow", onPageShow);
   window.addEventListener("popstate", onPopState);
   try {
     await loadPublicSettings();
@@ -1314,6 +1407,7 @@ onUnmounted(() => {
   onUnload();
   document.removeEventListener("visibilitychange", onVisibility);
   window.removeEventListener("pagehide", onUnload);
+  window.removeEventListener("pageshow", onPageShow);
   window.removeEventListener("popstate", onPopState);
 });
 </script>
@@ -1321,7 +1415,13 @@ onUnmounted(() => {
 <template>
   <div
     class="app-shell"
-    :class="{ 'large-mode': largeMode, 'has-lesson': !!lesson, 'show-caption-actions': showCaptionActions }"
+    :class="{
+      'course-view': courseView,
+      'large-mode': largeMode,
+      'has-lesson': !!lesson,
+      'show-caption-actions': showCaptionActions,
+      'has-record-dock': recording && !largeMode,
+    }"
     :style="{ '--caption-size': `${fontSize}px`, '--reading-caption-size': `${readingFontSize}px` }"
   >
     <header class="site-header">
@@ -1332,6 +1432,7 @@ onUnmounted(() => {
         :title="t('app')"
         @click="navigate('/courses')"
       >
+        <span v-if="courseView" class="course-brand-mark"><Icon name="book" /></span>
         <span class="brand-full">{{ t("app") }}</span>
         <span class="brand-compact" aria-hidden="true">{{
           t("appCompact")
@@ -1400,7 +1501,7 @@ onUnmounted(() => {
     </header>
     <main :class="{ 'lesson-main': !!lesson }">
       <div v-if="message" class="alert" role="alert">{{ message }}</div>
-      <p v-if="loading" aria-live="polite">{{ t("loading") }}</p>
+      <p v-if="loading" class="page-loading" aria-live="polite">{{ t("loading") }}</p>
       <Admin
         v-if="
           !loading && view === 'admin' && user?.role === 'admin' && permitted
@@ -1411,8 +1512,8 @@ onUnmounted(() => {
         {{ t("shareUnavailable") }}
       </h1>
       <template v-else-if="lesson">
-        <div class="title-row">
-          <div>
+        <div class="title-row room-titlebar">
+          <div class="room-identity">
             <button
               class="back"
               @click="navigate(`/courses/${lesson.course_id}/lessons`)"
@@ -1422,14 +1523,24 @@ onUnmounted(() => {
             <p class="eyebrow">{{ lesson.course_name }}</p>
             <h1>{{ lesson.name }}</h1>
           </div>
-          <span class="state-pill" :class="lesson.status">{{
-            t(`status_${lesson.status}`)
-          }}</span>
+          <div class="room-summary">
+            <span class="state-pill" :class="[lesson.status, { 'room-recording': recording }]">
+              <span v-if="recording" class="status-dot" aria-hidden="true"></span>
+              {{ t(recording ? "recordingLive" : `status_${lesson.status}`) }}
+            </span>
+            <strong class="room-time" :aria-label="t('mediaDuration')">{{ duration(lesson.media_samples) }}</strong>
+            <span class="room-connection" :class="{ online: connection === 'connected' }" role="status">
+              <span class="status-dot" aria-hidden="true"></span>{{ t(reconnecting ? 'recordingReconnecting' : `connection_${connection}`) }}
+            </span>
+            <button v-if="permitted" class="room-export" @click="showExport = true" :aria-label="t('export')" :title="t('export')">
+              <Icon name="export" /> <span>{{ t('export') }}</span>
+            </button>
+          </div>
         </div>
-        <details class="lesson-details" :open="!compactLayout" @toggle="autoFollow && nextTick(followCaptions)">
+        <details class="lesson-details" @toggle="autoFollow && nextTick(followCaptions)">
           <summary>
             <span>{{ t(lesson.status === 'ended' ? "lessonDetailsPlayback" : "lessonDetails") }}</span>
-            <span class="lesson-summary-status">{{ duration(lesson.media_samples) }} · {{ t(`connection_${connection}`) }}</span>
+            <span v-if="online !== null" class="lesson-summary-status">{{ t('online') }} {{ online }}</span>
           </summary>
         <section class="lesson-meta" :aria-label="t('status_' + lesson.status)">
           <div>
@@ -1475,8 +1586,6 @@ onUnmounted(() => {
             "
           >
             <Icon name="edit" /> {{ t("rename") }}</button
-          ><button v-if="permitted && !largeMode" @click="showExport = true">
-            <Icon name="export" /> {{ t("export") }}</button
           ><button v-if="permitted && !largeMode" @click="showUsage = true">
             {{ t("usage") }}</button
           >
@@ -1565,6 +1674,7 @@ onUnmounted(() => {
           >
         </section>
         </details>
+        <p v-if="lesson.translation_status === 'recovering'" class="room-notice" role="status">{{ t('translation_recovering') }}</p>
         <section class="subtitle-panel panel">
           <div class="section-header caption-header">
             <h2 class="subtitle-heading">{{ t("subtitles") }}</h2>
@@ -1649,6 +1759,7 @@ onUnmounted(() => {
                 {
                   'playback-active': playbackUnitIds.has(String(unit.id)),
                   'located-unit': locatedUnitId === String(unit.id),
+                  'latest-unit': latestUnitId === unit.id,
                 },
               ]"
               :data-unit-id="String(unit.id)"
@@ -1695,7 +1806,7 @@ onUnmounted(() => {
                     :unit="unit"
                 /></span>
               </div>
-              <p>{{ unit.text }}</p>
+              <CaptionText :text="unit.text" />
             </article>
           </div>
           <div v-if="subtitleMatches" class="pagination">
@@ -1811,13 +1922,16 @@ onUnmounted(() => {
               :disabled="!consent || preparing || connection !== 'connected'"
             >
               {{ t(lesson.status === "ready" ? "start" : "resume") }}</button
-            ><button v-else class="primary" @click="safePause()">
+            ><button v-else-if="largeMode" class="primary" @click="safePause()">
               ⏸ {{ t("pause") }}</button
             ><button v-if="canEnd" class="danger" @click="showEnd = true">
               {{ t("end") }}
             </button>
           </div>
         </section>
+        <div v-if="isRecorder && recording && !largeMode" class="room-record-dock">
+          <button class="primary" @click="safePause()">⏸ {{ t("pause") }}</button>
+        </div>
         <p v-else-if="!isRecorder" class="muted viewer-note">{{ t("permissionViewer") }}</p>
         <p v-if="recoveryNotice" role="status" class="muted">
           {{
@@ -1891,13 +2005,12 @@ onUnmounted(() => {
           {{ t("end") }}
         </button>
       </template>
-      <template v-else-if="course">
-        <CourseSubtitleSearch :course-id="course.id" @navigate="navigate" />
-        <div class="title-row">
-          <div>
-            <button class="back" @click="navigate('/courses')">
-              ← {{ t("courses") }}
-            </button>
+      <template v-else-if="course && !loading">
+        <div class="course-index-heading">
+          <div class="course-heading-title">
+            <a href="/courses" class="course-back" @click.left.exact.prevent="followCourseLink">
+              <span aria-hidden="true">←</span> {{ t("courses") }}
+            </a>
             <h1>{{ course.name }}</h1>
           </div>
           <button
@@ -1905,136 +2018,156 @@ onUnmounted(() => {
             class="primary"
             @click="openCreation('lesson')"
           >
-            + {{ t("newLesson") }}
+            <Icon name="plus" />{{ t("newLesson") }}
           </button>
         </div>
-        <form class="filter-bar" @submit.prevent="filterLessons()">
-          <label
-            >{{ t("search")
-            }}<input
-              v-model="lessonSearch"
-              :placeholder="t('searchLesson')" /></label
-          ><label
-            >{{ t("sort")
-            }}<select v-model="lessonSort" :aria-label="t('sort')">
-              <option value="created_at">{{ t("createdAt") }}</option>
-              <option value="name">{{ t("name") }}</option>
-              <option value="duration">{{ t("mediaDuration") }}</option>
-            </select></label
-          ><label
-            >{{ t("direction")
-            }}<select v-model="lessonDirection" :aria-label="t('direction')">
-              <option value="desc">{{ t("descending") }}</option>
-              <option value="asc">{{ t("ascending") }}</option>
-            </select></label
-          ><label
-            >{{ t("status")
-            }}<select v-model="lessonStatus" :aria-label="t('status')">
-              <option value="all">{{ t("all") }}</option>
-              <option
-                v-for="status in ['ready', 'live', 'paused', 'ended']"
-                :key="status"
-                :value="status"
+        <div class="course-index-content">
+          <div class="course-search-tools">
+            <form
+              class="course-search-panel"
+              role="search"
+              aria-labelledby="lesson-name-search-heading"
+              @submit.prevent="filterLessons()"
+            >
+              <h2 id="lesson-name-search-heading">{{ t("lessonNameSearch") }}</h2>
+              <div class="course-search-row">
+                <div class="course-search-field">
+                  <Icon name="search" />
+                  <input
+                    v-model="lessonSearch"
+                    type="search"
+                    maxlength="200"
+                    :aria-label="t('searchLesson')"
+                    :placeholder="t('searchLesson')"
+                  />
+                </div>
+                <button type="submit" class="primary" :disabled="busy">{{ t("search") }}</button>
+              </div>
+              <div class="lesson-list-filters">
+                <label>
+                  {{ t("sort") }}
+                  <select v-model="lessonSort" :aria-label="t('sort')">
+                    <option value="created_at">{{ t("createdAt") }}</option>
+                    <option value="name">{{ t("name") }}</option>
+                    <option value="duration">{{ t("lessonSortDuration") }}</option>
+                  </select>
+                </label>
+                <label>
+                  {{ t("direction") }}
+                  <select v-model="lessonDirection" :aria-label="t('direction')">
+                    <option value="desc">{{ t("descending") }}</option>
+                    <option value="asc">{{ t("ascending") }}</option>
+                  </select>
+                </label>
+                <label>
+                  {{ t("status") }}
+                  <select v-model="lessonStatus" :aria-label="t('status')">
+                    <option value="all">{{ t("all") }}</option>
+                    <option
+                      v-for="status in ['ready', 'live', 'paused', 'ended']"
+                      :key="status"
+                      :value="status"
+                    >
+                      {{ t(`status_${status}`) }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+            </form>
+            <CourseSubtitleSearch :key="course.id" :course-id="course.id" @navigate="navigate" />
+          </div>
+
+          <div class="lesson-list-results" :aria-busy="busy">
+            <div v-if="lessons.length" class="course-index-grid">
+              <a
+                v-for="item in lessons"
+                :key="item.id"
+                class="course-index-card lesson-preview-card"
+                :href="`/lessons/${item.id}`"
+                :aria-labelledby="`lesson-title-${item.id}`"
+                @click.left.exact.prevent="followCourseLink"
               >
-                {{ t(`status_${status}`) }}
-              </option>
-            </select></label
-          ><button class="primary">{{ t("search") }}</button>
-        </form>
-        <p v-if="!lessons.length" class="empty-state">
-          {{ t("emptyLessons") }}
-        </p>
-        <div class="card-grid">
-          <button
-            v-for="item in lessons"
-            :key="item.id"
-            class="course-card"
-            @click="navigate(`/lessons/${item.id}`)"
-          >
-            <span class="state-pill" :class="item.status">{{
-              t(`status_${item.status}`)
-            }}</span>
-            <h2>{{ item.name }}</h2>
-            <p v-if="item.created_at">
-              {{ t("createdAt") }} ·
-              {{ displayDate(item.created_at) }}
+                <div class="lesson-preview-heading">
+                  <span class="state-pill" :class="item.status">{{ t(`status_${item.status}`) }}</span>
+                  <Icon name="chevron-right" class="course-entry-chevron" />
+                </div>
+                <h2 :id="`lesson-title-${item.id}`">{{ item.name }}</h2>
+                <dl class="lesson-preview-meta">
+                  <div v-if="item.created_at">
+                    <dt>{{ t("createdAt") }}</dt>
+                    <dd>{{ displayDate(item.created_at) }}</dd>
+                  </div>
+                  <div>
+                    <dt>{{ t("mediaDuration") }}</dt>
+                    <dd>{{ duration(item.media_samples) }}</dd>
+                  </div>
+                </dl>
+              </a>
+            </div>
+            <p v-else-if="!errorCode" class="empty-state" role="status">
+              {{ t(lessonListFiltered ? "emptyLessonSearch" : "emptyLessons") }}
             </p>
-            <p>{{ t("mediaDuration") }} · {{ duration(item.media_samples) }}</p>
-          </button>
-        </div>
-        <div class="pagination">
-          <button
-            @click="
-              lessonPage--;
-              filterLessons(false);
-            "
-            :disabled="lessonPage === 1"
-          >
-            {{ t("previous") }}</button
-          ><span>{{
-            t("pageOf", { page: lessonPage, total: lessonTotal })
-          }}</span
-          ><button
-            @click="
-              lessonPage++;
-              filterLessons(false);
-            "
-            :disabled="lessonPage * 30 >= lessonTotal"
-          >
-            {{ t("next") }}
-          </button>
+            <div v-if="lessonTotal" class="pagination course-pagination">
+              <button v-if="lessonTotal > 30" :disabled="lessonPage === 1 || busy" @click="filterLessons(lessonPage - 1)">
+                {{ t("previous") }}
+              </button>
+              <span role="status">{{ t("pageOf", { page: lessonPage, total: lessonTotal }) }}</span>
+              <button v-if="lessonTotal > 30" :disabled="lessonPage * 30 >= lessonTotal || busy" @click="filterLessons(lessonPage + 1)">
+                {{ t("next") }}
+              </button>
+            </div>
+          </div>
         </div>
       </template>
-      <template v-else>
-        <div class="title-row">
+      <template v-else-if="!loading">
+        <div class="course-index-heading">
           <h1>{{ t("courses") }}</h1>
           <button
             v-if="user?.role === 'admin' && permitted"
             class="primary"
             @click="openCreation('course')"
           >
-            + {{ t("newCourse") }}
+            <Icon name="plus" />{{ t("newCourse") }}
           </button>
         </div>
-        <p v-if="!courses.length" class="empty-state">
-          {{ t("emptyCourses") }}
-        </p>
-        <div class="card-grid">
-          <article v-for="item in courses" :key="item.id" class="course-card">
-            <button
-              class="card-main"
-              @click="
-                navigate(
-                  item.active_lesson_id
-                    ? `/lessons/${item.active_lesson_id}`
-                    : `/courses/${item.id}/lessons`,
-                )
-              "
+        <div class="course-index-content">
+          <div v-if="courses.length" class="course-index-grid">
+            <a
+              v-for="item in courses"
+              :key="item.id"
+              class="course-index-card"
+              :href="`/courses/${item.id}/lessons`"
+              :aria-labelledby="`course-title-${item.id}`"
+              @click.left.exact.prevent="followCourseLink"
             >
-              <h2>{{ item.name }}</h2>
-              <p v-if="item.description">{{ item.description }}</p>
-              <p>
-                {{ t("targetLanguage") }} · {{ item.target_language }}
-              </p></button
-            ><button
-              class="history-link"
-              @click="navigate(`/courses/${item.id}/lessons`)"
-            >
-              {{ t("allHistory") }} →
-            </button>
-          </article>
+              <div class="course-entry-heading">
+                <span class="course-book-mark"><Icon name="book" /></span>
+                <h2 :id="`course-title-${item.id}`">{{ item.name }}</h2>
+                <Icon name="chevron-right" class="course-entry-chevron" />
+              </div>
+              <dl class="course-language">
+                <dt>{{ t("targetLanguage") }}</dt>
+                <dd>{{ courseLanguageNames?.of(item.target_language) ?? item.target_language }}</dd>
+              </dl>
+              <p v-if="item.description?.trim()" class="course-description">{{ item.description }}</p>
+            </a>
+          </div>
+          <p v-else-if="!errorCode" class="empty-state">
+            {{ t("emptyCourses") }}
+          </p>
+          <button
+            v-if="errorCode"
+            class="course-retry"
+            @click="
+              action(async () => {
+                await refreshIdentity();
+                await loadView();
+              })
+            "
+          >
+            {{ t("retry") }}
+          </button>
         </div>
-        <button
-          v-if="errorCode"
-          @click="
-            action(async () => {
-              await refreshIdentity();
-              await loadView();
-            })
-          "
-        >
-          {{ t("retry") }}
-        </button>
       </template>
     </main>
 

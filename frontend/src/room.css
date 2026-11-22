@@ -1,0 +1,140 @@
+.has-lesson {
+  --room-ink: #152e2a;
+  --room-muted: #526763;
+  --room-accent: #0b6d63;
+  --room-line: #d5e2de;
+  --room-tint: #e7f5f1;
+  color: var(--room-ink);
+}
+
+body:has(.has-lesson) { background: #f5f8f6; }
+.has-lesson .site-header { min-height: 62px; border-color: var(--room-line); }
+.has-lesson .lesson-main { padding-top: 16px; }
+.has-lesson .room-titlebar {
+  min-width: 0;
+  margin: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--room-line);
+  border-radius: 12px;
+  background: #fff;
+  align-items: center;
+}
+.has-lesson .room-titlebar > .room-identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+}
+.room-identity .back { color: var(--room-accent); white-space: nowrap; }
+.room-identity .eyebrow { display: none; }
+.room-identity h1 { min-width: 0; margin: 0; font-size: clamp(18px, 3vw, 25px); overflow-wrap: anywhere; }
+.has-lesson .room-titlebar > .room-summary {
+  display: flex;
+  min-width: 0;
+  flex: 0 1 auto;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.room-summary .state-pill { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.room-summary .room-recording { background: #fff2dd; color: #984607; }
+.room-recording .status-dot { color: #c45610; }
+.room-time { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.room-connection { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--room-muted); }
+.room-connection.online { color: var(--room-accent); }
+.room-connection .status-dot { width: 6px; height: 6px; }
+.room-summary .room-export { display: inline-flex; gap: 6px; align-items: center; border-color: var(--room-line); color: var(--room-accent); }
+.has-lesson .lesson-details { margin: 5px 0 10px; }
+.has-lesson .lesson-details > summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 4px;
+  color: var(--room-muted);
+  cursor: pointer;
+  font-size: 13px;
+}
+.has-lesson .lesson-summary-status { margin-left: auto; }
+.has-lesson .subtitle-panel { border-color: var(--room-line); border-radius: 14px; padding: 14px 16px; }
+.has-lesson .caption-header { padding-bottom: 8px; }
+.has-lesson .caption-header .subtitle-heading { font-size: 19px; }
+.has-lesson .subtitle-unit { border-color: var(--room-line); border-inline-start: 3px solid transparent; padding: 12px 14px; }
+.has-lesson .subtitle-unit.latest-unit { background: var(--room-tint); border-inline-start-color: var(--room-accent); border-radius: 7px; }
+.has-lesson .subtitle-unit.source p { color: var(--room-muted); }
+.has-lesson .subtitle-unit.translation p { color: var(--room-ink); font-weight: 550; }
+.unit-text p + p { margin-top: .65em; }
+.has-lesson .unit-meta { color: var(--room-muted); }
+.room-notice { padding: 9px 13px; border-radius: 7px; background: #fff1d9; color: #794614; }
+.has-lesson .primary { background: var(--room-accent); border-color: var(--room-accent); }
+.has-lesson .primary:hover:not(:disabled) { background: #095951; color: white; }
+.has-record-dock { padding-bottom: calc(84px + env(safe-area-inset-bottom)); }
+.room-record-dock {
+  position: fixed;
+  inset: auto 0 0;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  z-index: 9;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.room-record-dock > button {
+  width: min(100%, 320px);
+  min-height: 46px;
+  border-radius: 11px;
+  box-shadow: 0 4px 19px #16352f36;
+  font-weight: 650;
+  pointer-events: auto;
+}
+
+@media (max-width: 900px) {
+  .has-lesson .lesson-main { padding-top: 8px; }
+  .has-lesson .room-titlebar { flex-direction: column; align-items: stretch; gap: 4px; padding: 6px 10px; }
+  .has-lesson .room-titlebar > .room-summary { gap: 6px; flex-wrap: nowrap; }
+  .room-summary .state-pill,
+  .room-summary .room-time,
+  .room-summary .room-export,
+  .room-summary .status-dot { flex-shrink: 0; }
+  .room-summary .room-connection {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    line-height: 1.25;
+  }
+  .has-lesson .room-identity { gap: 10px; }
+  .has-lesson .room-identity h1 { font-size: 18px; }
+  .room-summary .room-export { margin-inline-start: auto; padding-inline: 10px; }
+  .room-summary .room-export span { display: none; }
+  .has-lesson .subtitle-panel { padding: 8px 9px; }
+  .has-lesson .caption-header { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px; }
+  .has-lesson .caption-header .subtitle-heading {
+    position: static;
+    width: auto;
+    height: auto;
+    clip-path: none;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .has-lesson .caption-controls { min-width: 0; justify-content: flex-end; }
+  .has-lesson .caption-controls label { min-width: 0; flex: 0 1 auto; }
+  .has-lesson .caption-controls select { text-overflow: ellipsis; }
+  .has-lesson .subtitle-unit { padding: 9px 9px; }
+  .has-lesson:not(.large-mode) .captions { height: calc(100dvh - 258px); }
+  .has-lesson:not(.large-mode) .subtitle-panel:has(.follow-button) .captions { height: calc(100dvh - 314px); }
+  .has-lesson:not(.large-mode) .subtitle-panel:has(.pagination) .captions { height: calc(100dvh - 376px); }
+}
+
+@media (max-width: 360px) {
+  .has-lesson .caption-header { grid-template-columns: minmax(0, 1fr); }
+  .has-lesson .caption-header .subtitle-heading {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .has-lesson .caption-controls label { flex: 1; }
+}
+
+.has-lesson.large-mode .lesson-main { padding-top: 8px; }

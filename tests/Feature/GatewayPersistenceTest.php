@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Tests\Feature;
 
 use App\Realtime\Gateway;
-use App\Translation\QwenEvents;
+use App\Domain\Access;
+use App\Translation\{QwenConfig, QwenEvents, QwenSession};
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Tests\TestCase;
+use Workerman\Connection\TcpConnection;
 
 /** Real PostgreSQL persistence, with explicitly constructed provider events. */
 final class GatewayPersistenceTest extends TestCase
@@ -82,6 +84,70 @@ final class GatewayPersistenceTest extends TestCase
         self::assertSame('incomplete', DB::table('subtitle_units')->where('lesson_id',$this->lesson)->value('status'));
         self::assertSame('unfinished', DB::table('subtitle_units')->where('lesson_id',$this->lesson)->value('original_text'));
         self::assertNull(DB::table('subtitle_units')->where('lesson_id',$this->lesson)->value('start_sample'));
+    }
+
+    public function test_short_recorder_disconnect_preserves_epoch_and_only_the_same_login_can_reconnect(): void
+    {
+        $owner = $this->liveRecorder();
+        $token = str_repeat('a', 64);
+        $old = $this->connection('old-device');
+        $new = $this->connection('same-device-new-socket');
+        $other = $this->connection('different-login');
+        $clients = new \ReflectionProperty(Gateway::class, 'clients');
+        $clients->setValue($this->gateway, [
+            'old-device' => ['lesson_id'=>$this->lesson, 'session_id'=>'original-login'],
+            'same-device-new-socket' => ['lesson_id'=>$this->lesson, 'session_id'=>'original-login', 'reconnect'=>true],
+            'different-login' => ['lesson_id'=>$this->lesson, 'session_id'=>'different-login', 'reconnect'=>true],
+        ]);
+        (new \ReflectionProperty(Gateway::class, 'recorderReconnect'))->setValue($this->gateway, [$this->lesson=>[
+            'key'=>'old-device', 'epoch'=>3, 'session'=>'original-login', 'token'=>$token,
+            'until'=>null, 'audio_start'=>1, 'received_frames'=>0,
+        ]]);
+        (new \ReflectionMethod(Gateway::class, 'disconnect'))->invoke($this->gateway, $old);
+        $resume = new \ReflectionMethod(Gateway::class, 'resumeRecorder');
+        self::assertSame('live', DB::table('lessons')->find($this->lesson)->status);
+        self::assertNull($resume->invoke($this->gateway, $other, $owner, $token));
+        self::assertNull($resume->invoke($this->gateway, $new, $owner, str_repeat('b', 64)));
+        self::assertSame(['epoch'=>3,'next_sequence'=>12], $resume->invoke($this->gateway, $new, $owner, $token));
+        self::assertSame(17, $new->context->receivedFrames);
+        self::assertSame('same-device-new-socket', DB::table('lessons')->find($this->lesson)->recorder_connection);
+    }
+
+    public function test_failed_upstream_keeps_the_recorder_and_schedules_translation_recovery(): void
+    {
+        $this->liveRecorder();
+        $config = new QwenConfig(['api_key'=>'test-key-not-real','workspace_id'=>'test','region'=>'cn-beijing',
+            'endpoint'=>'ws://127.0.0.1:9','allow_test_endpoint'=>true], true);
+        $context = (object)['base'=>16000,'key'=>'old-device','epoch'=>3];
+        $peer = new QwenSession($config, 'zh', fn () => null, fn () => null);
+        (new \ReflectionProperty(Gateway::class, 'upstreams'))->setValue($this->gateway, [$this->lesson=>[
+            'sid'=>$this->modelSession,'cfg'=>$config,'language'=>'zh','context'=>$context,'peer'=>$peer,'meta'=>[],
+        ]]);
+        (new \ReflectionMethod(Gateway::class, 'modelState'))->invoke($this->gateway, $this->lesson, $this->modelSession, 'failed', $context);
+        $lesson = DB::table('lessons')->find($this->lesson);
+        self::assertSame('live', $lesson->status);
+        self::assertSame('recovering', $lesson->translation_status);
+        self::assertSame('old-device', $lesson->recorder_connection);
+        self::assertSame(3, $lesson->recorder_epoch);
+        self::assertSame(1, DB::table('recording_issues')->where('lesson_id',$this->lesson)->count());
+        self::assertArrayHasKey($this->lesson, (new \ReflectionProperty(Gateway::class, 'recovering'))->getValue($this->gateway));
+    }
+
+    private function liveRecorder(): object
+    {
+        $owner = Access::user((int)DB::table('lessons')->find($this->lesson)->creator_id);
+        DB::table('lessons')->where('id',$this->lesson)->update([
+            'recorder_user_id'=>$owner->id, 'recorder_connection'=>'old-device', 'recorder_epoch'=>3,
+            'status'=>'live', 'lease_until'=>now()->addSeconds(20), 'media_samples'=>19200, 'next_sequence'=>12,
+        ]);
+        return $owner;
+    }
+
+    private function connection(string $key): TcpConnection
+    {
+        $connection = (new \ReflectionClass(TcpConnection::class))->newInstanceWithoutConstructor();
+        $connection->context = (object)['key'=>$key,'authorized'=>true,'audioStart'=>microtime(true)-2,'receivedFrames'=>17];
+        return $connection;
     }
 
     private function unit(string $id, string $kind, string $item, string $text): array

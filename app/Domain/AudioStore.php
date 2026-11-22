@@ -23,7 +23,7 @@ final class AudioStore {
    if (!rename($temp,$path)) throw new Failure('storage_unavailable',503);
    $segmentId=DB::table('audio_segments')->insertGetId(['lesson_id'=>$lessonId,'recorder_user_id'=>$userId,'epoch'=>$epoch,'sequence'=>$sequence,'start_sample'=>$l->media_samples,'sample_count'=>$samples,'sha256'=>$hash,'local_path'=>$path,'storage_version'=>$l->storage_version]);
    ChunkPlanner::attachFrame($l,$segmentId,$epoch,$sequence,(int)$l->media_samples,$samples);
-   DB::table('lessons')->where('id',$lessonId)->update(['media_samples'=>(int)$l->media_samples+$samples,'next_sequence'=>$sequence+1,'updated_at'=>now()]);
+   DB::table('lessons')->where('id',$lessonId)->update(['media_samples'=>(int)$l->media_samples+$samples,'next_sequence'=>$sequence+1,'lease_until'=>now()->addSeconds(config('classroom.lease_seconds')),'updated_at'=>now()]);
    return ['duplicate'=>false,'sequence'=>$sequence,'segment_id'=>$segmentId,'media_samples'=>(int)$l->media_samples+$samples];
   });
  }
