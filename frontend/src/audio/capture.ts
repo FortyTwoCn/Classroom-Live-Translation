@@ -8,6 +8,8 @@ export class MicrophoneCapture {
   private stopping = false;
   private stopResolver: (() => void) | null = null;
   private generation = 0;
+  private suspensionTimer: number | null = null;
+  private stopTask: Promise<void> | null = null;
   onPacket: (buffer: ArrayBuffer) => void = () => {};
   onMeter: (rms: number) => void = () => {};
   onFailure: (code: string) => void = () => {};
@@ -47,7 +49,18 @@ export class MicrophoneCapture {
     };
     this.node.onprocessorerror = () => this.fail('audio_processor_failed');
     for (const track of stream.getAudioTracks()) track.addEventListener('ended', () => this.fail('microphone_ended'));
-    context.onstatechange = () => { if (!this.stopping && context.state !== 'running') this.fail('audio_context_suspended'); };
+    context.onstatechange = () => {
+      if (this.context !== context) return;
+      if (this.stopping || context.state === 'running') {
+        this.clearSuspensionTimer();
+      } else if (this.suspensionTimer === null) {
+        this.suspensionTimer = window.setTimeout(() => {
+          this.suspensionTimer = null;
+          if (context.state !== 'running') this.fail('audio_context_suspended');
+        }, 4000);
+        if (document.visibilityState === 'visible') void context.resume().catch(() => {});
+      }
+    };
     if (context.state !== 'running') throw new Error('audio_context_suspended');
   }
   start(): void {
@@ -55,9 +68,19 @@ export class MicrophoneCapture {
     this.node.port.postMessage({ type: 'start' });
   }
   private fail(code: string): void { if (!this.stopping) { this.stopping = true; this.onFailure(code); } }
+  private clearSuspensionTimer(): void {
+    if (this.suspensionTimer !== null) window.clearTimeout(this.suspensionTimer);
+    this.suspensionTimer = null;
+  }
   async stop(flush = true): Promise<void> {
+    if (this.stopTask) return this.stopTask;
+    this.stopTask = this.stopDevices(flush);
+    try { await this.stopTask; } finally { this.stopTask = null; }
+  }
+  private async stopDevices(flush: boolean): Promise<void> {
     this.generation++;
     this.stopping = true;
+    this.clearSuspensionTimer();
     this.stream?.getTracks().forEach(track => track.stop());
     this.stream = null;
     if (this.node) {

@@ -669,6 +669,8 @@ const entries: Record<string, [string, string, string]> = {
     "Search subtitles across this course",
     "Шукати субтитри всіх занять курсу",
   ],
+  searchCourseSubtitles: ["搜索字幕", "Search subtitles", "Знайти субтитри"],
+  courseSubtitleResults: ["字幕搜索结果", "Subtitle search results", "Результати пошуку субтитрів"],
   openAtSegment: [
     "打开课堂并定位片段",
     "Open lesson at segment",

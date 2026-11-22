@@ -18,6 +18,8 @@ export type WireMessage = {
   last_seq?: number;
   unit?: Unit;
   epoch?: number;
+  recorder_token?: string;
+  recorder_resume?: { epoch: number; next_sequence: number };
   next_sequence?: number;
   media_samples?: number;
   sequence?: number;
@@ -45,6 +47,7 @@ export type WireMessage = {
 };
 export class LessonSocket {
   socket: WebSocket | null = null;
+  recorderToken: string | null = null;
   lastSeq = 0;
   private generation = 0;
   private stopped = true;
@@ -83,7 +86,8 @@ export class LessonSocket {
           return;
         }
         socket.send(
-          JSON.stringify({ type: "subscribe", ticket, last_seq: this.lastSeq }),
+          JSON.stringify({ type: "subscribe", ticket, last_seq: this.lastSeq,
+            recorder_reconnect: true, ...(this.recorderToken ? { recorder_token: this.recorderToken } : {}) }),
         );
         this.heartbeat = window.setInterval(
           () => this.command("heartbeat"),
@@ -197,6 +201,7 @@ export class LessonSocket {
   }
   close(): void {
     this.stopped = true;
+    this.recorderToken = null;
     this.generation++;
     this.cleanupHeartbeat();
     if (this.retryTimer !== null) window.clearTimeout(this.retryTimer);

@@ -181,6 +181,9 @@ const entries: Record<string, [string, string, string]> = {
   unfreezeEditing: ["解除冻结", "Unfreeze editing", "Дозволити редагування"],
   search: ["搜索", "Search", "Пошук"],
   searchLesson: ["搜索课堂名称", "Search lesson names", "Шукати назву заняття"],
+  lessonNameSearch: ["课堂名称", "Lesson name", "Назва заняття"],
+  lessonSortDuration: ["录音时长", "Recording length", "Тривалість запису"],
+  emptyLessonSearch: ["没有匹配的课堂。", "No matching lessons.", "Немає відповідних занять."],
   searchSubtitle: [
     "搜索字幕关键词",
     "Search subtitle keywords",

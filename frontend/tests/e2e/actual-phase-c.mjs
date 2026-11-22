@@ -392,17 +392,14 @@ try {
       async () => {
         await member.goto(`${origin}/courses/${fixture.course_id}/lessons`);
         await member
-          .getByText("搜索课程内全部课堂字幕", { exact: true })
-          .click();
-        await member
           .getByLabel("搜索字幕关键词", { exact: true })
           .fill(earlyUnit.text);
         await member
           .locator(".course-search")
-          .getByRole("button", { name: "搜索", exact: true })
+          .getByRole("button", { name: "搜索字幕", exact: true })
           .click();
         const result = member
-          .locator(".course-search article")
+          .locator(".course-subtitle-results article")
           .filter({ hasText: earlyUnit.text })
           .first();
         await expect(result).toBeVisible();

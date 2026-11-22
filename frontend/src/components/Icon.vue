@@ -1,6 +1,18 @@
 <script setup lang="ts">
 defineProps<{
-  name: "qr" | "edit" | "history" | "screen" | "export" | "person" | "close" | "settings";
+  name:
+    | "qr"
+    | "edit"
+    | "history"
+    | "screen"
+    | "export"
+    | "person"
+    | "close"
+    | "settings"
+    | "book"
+    | "chevron-right"
+    | "plus"
+    | "search";
 }>();
 </script>
 <template>
@@ -32,6 +44,18 @@ defineProps<{
       d="M12 3v12m-4-4 4 4 4-4M4 15v6h16v-6"
     />
     <path v-else-if="name === 'close'" d="m6 6 12 12M18 6 6 18" />
+    <path
+      v-else-if="name === 'book'"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M12 20c-2.2-1.8-5.5-2.3-9-1.3V5.4c3.5-1 6.8-.5 9 1.3 2.2-1.8 5.5-2.3 9-1.3v13.3c-3.5-1-6.8-.5-9 1.3Zm0-13.3V20"
+    />
+    <path v-else-if="name === 'chevron-right'" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7" />
+    <path v-else-if="name === 'plus'" stroke-linecap="round" d="M12 5v14M5 12h14" />
+    <template v-else-if="name === 'search'">
+      <circle cx="10.5" cy="10.5" r="5.5" />
+      <path stroke-linecap="round" d="m15 15 4 4" />
+    </template>
     <template v-else-if="name === 'settings'">
       <path d="M4 7h16M4 17h16" />
       <circle cx="9" cy="7" r="3" fill="white" />

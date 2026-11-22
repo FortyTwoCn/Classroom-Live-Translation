@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 final class Settings {
  public static function defaults():array {return [
   'default_locale'=>'zh-CN','time_zone'=>'Asia/Shanghai','retention_days'=>0,'auto_purge'=>false,'audio_download'=>false,
-  'max_lesson_seconds'=>(int)config('classroom.max_seconds',5400),'max_active_lessons'=>(int)config('classroom.max_active',3),
+  'max_lesson_seconds'=>(int)config('classroom.max_seconds',14400),'max_active_lessons'=>(int)config('classroom.max_active',3),
   'max_daily_audio_seconds'=>32400,'warning_ratio'=>0.8,'rotation_soft_seconds'=>600,'rotation_hard_seconds'=>720,
   'min_disk_bytes'=>(int)config('classroom.min_disk_bytes',536870912),'max_import_bytes'=>4194304,'max_import_rows'=>2000,'prices'=>[],
  ];}

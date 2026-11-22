@@ -1,5 +1,9 @@
 export const readingMessages = {
   "zh-CN": {
+    recordingLive: "录音中",
+    recordingReconnecting: "正在重新连接",
+    translation_recovering: "翻译正在重新连接，录音仍在保存。",
+    translation_ready: "翻译已连接",
     courseDescriptionOptional: "课程简介（可选）",
     lessonDetails: "课堂信息与操作",
     lessonDetailsPlayback: "回放与课堂操作",
@@ -15,6 +19,10 @@ export const readingMessages = {
     error_glossary_copy_same_course: "请选择另一个课程作为复制目标。",
   },
   en: {
+    recordingLive: "Recording",
+    recordingReconnecting: "Reconnecting",
+    translation_recovering: "Translation is reconnecting. Recording continues to save.",
+    translation_ready: "Translation connected",
     courseDescriptionOptional: "Course description (optional)",
     lessonDetails: "Lesson details and actions",
     lessonDetailsPlayback: "Playback and lesson actions",
@@ -30,6 +38,10 @@ export const readingMessages = {
     error_glossary_copy_same_course: "Choose a different target course.",
   },
   uk: {
+    recordingLive: "Триває запис",
+    recordingReconnecting: "Повторне підключення",
+    translation_recovering: "Переклад підключається знову. Запис продовжує зберігатися.",
+    translation_ready: "Переклад підключено",
     courseDescriptionOptional: "Опис курсу (необов’язково)",
     lessonDetails: "Дані та дії заняття",
     lessonDetailsPlayback: "Відтворення та дії заняття",
